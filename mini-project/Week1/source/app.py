@@ -28,4 +28,14 @@ def print_list():
 
 # start app
 main_menu_opts()
-start_point_input = int(input())
+first_input = int(input())
+if first_input == 1:
+    print_list
+elif first_input == 2:
+    add_product
+# elif first_input == 3:
+# elif first_input == 4:
+elif first_input == 0:
+    print("You have decided to leave the app, till next time")
+else: 
+    print("Thats not a valid option")
