@@ -1,6 +1,6 @@
 # Print main menu options
 def main_menu_opts():
-    print("welcome to the main menu, what would you like to do, 1: View all products, 2: Add new products, 3: Update existing product, 4: Delete a product, 0: Exit app")
+    print("welcome to the main menu, what would you like to do: \n 1: View all products, \n 2: Add new products, \n 3: Update existing product, \n 4: Delete a product, \n 0: Exit app")
 
 
 # create the empty product list for viewing purposes
@@ -12,7 +12,7 @@ def add_product():
     new_product = input("what is the new product you would like to add? ")
     product_list.append(f"{new_product}")
 
-# function for returning list of products from txt file to a list variable here
+# function for returning list of products from txt file to a list variable here. Not needed in V1 due to no external data source.
 """def return_frm_txt():
     def nested_return_frm_txt():
         with open("/Users/brendon/Documents/Data Engineering/brendon-portfolio/mini-project/Week1/data/products.txt", "r") as products:
@@ -70,7 +70,7 @@ def mm_return_func():
 def logic_function():
     #return_frm_txt()  #return_frm_txt() # Commented out from V1 as data persistance is not possible from what I know without an external data storage file.
     main_menu_opts()
-    first_input = int(input())
+    first_input = int(input("Input the number corresponding with your desired option > "))
     while first_input <= 4: # tested in test enviroment without this while loop and code look's like it works as normal so this is actually not necessery.
         if first_input == 1:
             print_list()
