@@ -31,7 +31,7 @@ def prod_update():
         product_list[prod_update_input - 1] = (new_update_val)
     else:
         print("That's not a valid option please try again")
-        prod_del()
+        prod_update()
 
 # function to delete product
 
@@ -68,16 +68,16 @@ def mm_return_func():
 
 # Base logic func
 def logic_function():
-    #return_frm_txt()  # Commented out from V1 as it is now redundant to update product list at the top of the loop as here the product list is not external from the .py file.
+    #return_frm_txt()  #return_frm_txt() # Commented out from V1 as data persistance is not possible from what I know without an external data storage file.
     main_menu_opts()
     first_input = int(input())
-    while first_input <= 4: 
+    while first_input <= 4: # tested in test enviroment without this while loop and code look's like it works as normal so this is actually not necessery.
         if first_input == 1:
             print_list()
             mm_return_func()
         elif first_input == 2:
             add_product()
-            #return_frm_txt() # Commented out from V1 as it is now redundant to update product list after added a product as here the product list is not external from the .py file as this is done automatically.
+            #return_frm_txt() # Commented out from V1 as data persistance is not possible from what I know without an external data storage file.
             mm_return_func()
         elif first_input == 3:
             prod_update()

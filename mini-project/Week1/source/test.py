@@ -21,7 +21,7 @@ def testfunc():
 
 testfunc()"""
 
-# Print main menu options
+"""# Print main menu options
 def main_menu_opts():
     print("welcome to the main menu, what would you like to do, 1: View all products, 2: Add new products, 3: Update existing product, 4: Delete a product, 0: Exit app")
 
@@ -36,14 +36,14 @@ def add_product():
     product_list.append(f"{new_product}")
 
 # function for returning list of products from txt file to a list variable here
-"""def return_frm_txt():
+def return_frm_txt():
     def nested_return_frm_txt():
         with open("/Users/brendon/Documents/Data Engineering/brendon-portfolio/mini-project/Week1/data/products.txt", "r") as products:
             return products.read().split(",")
     global product_list
     product_list = nested_return_frm_txt()"""
 
-# function for updating existing product
+"""# function for updating existing product
 def prod_update():
     for prod in product_list:
         prodnum = product_list.index(prod) + 1
@@ -114,4 +114,35 @@ def logic_function():
         logic_function()
 
 # app instantiation func 
-logic_function()
+logic_function()"""
+
+
+"""product_list = ['mocha','cheese','sandwhich','tea']
+
+str_var = str(product_list)
+#str_var.strip()
+str_var.replace("[", " ")
+#str_var.replace("[", "")
+#str_var.replace("]", "")
+#str_var.replace("'", "")
+
+new_var = ""
+for x in product_list:
+    new_var = new_var + f'{x},'
+
+new_var = new_var.title()
+
+print(new_var)"""
+
+product_list = []
+
+def return_frm_txt():
+    def nested_return_frm_txt():
+        with open("/Users/brendon/Documents/Data Engineering/brendon-portfolio/mini-project/Week1/data/test.txt", "r") as products:
+            return products.read().split(",")
+    global product_list
+    product_list = nested_return_frm_txt()
+    #product_list.pop(-1)
+
+return_frm_txt()
+print(product_list)

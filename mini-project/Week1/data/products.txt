@@ -1,1 +1,1 @@
-Mocha,tea,coffee,earl grey,Roiboos Tea,creamora,Yorkshire Tea,
+tea,mocha,bread,drink,chips,chicken,
