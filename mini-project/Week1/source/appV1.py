@@ -111,14 +111,54 @@ def update_order_status():
 
 def update_order(): 
     global orders
+    dict_key_directory = ['customer_name', 'customer_address', 'customer_phone', 'status', 'item(s)_ordered']
     for order in orders:
         num = 1
         for order_num, order_detail in order.items(): 
             print(f'{num}.{order_num}: customer name: {order_detail['customer_name']} status: {order_detail['status']} items ordered: {order_detail['item(s)_ordered']} ')
             num += 1
     print('\n')
-    #change_selection1 = int(input('Which order would like to update? input the number for the associated order > '))
+    change_selection1 = int(input('Which order would like to update? input the number for the associated order > '))
+    change_selection2 = int(input('what would you like to change about the order. 1. customer name\n 2. customer address\n 3. customer phone number\n 4. order status\n 5. items ordered > '))
+    if change_selection2 == 1:
+        for key in orders[change_selection1].keys():
+            order_key = key
+        change_selection3 = input(f'what would you like to change the customer name of {order_num} to? > ')
+        orders[change_selection1][order_key][dict_key_directory[change_selection2 - 1]] = change_selection3
+    elif change_selection2 == 2:
+        for key in orders[change_selection1].keys():
+            order_key = key
+        change_selection4 = input(f'what would you like to change the customer address of {order_num} to? *remember the "street, city" format> ')
+        orders[change_selection1][order_key][dict_key_directory[change_selection2 - 1]] = change_selection4
+    elif change_selection2 == 3:
+        for key in orders[change_selection1].keys():
+            order_key = key
+            change_selection5 = int(input(f'what would you like to change the customer number of {order_num} to? > '))
+            orders[change_selection1][order_key][dict_key_directory[change_selection2 - 1]] = change_selection5
+    elif change_selection2 == 4:
+        update_order_status()
+    elif change_selection2 == 5:
+        order_update_input = int(input(f'What would you like to do?\n1. Add new item to {order_num}\n2. remove item(s) from {order_num}'))
+        if order_update_input == 1:
+            selected_items = []
+            def add_item():
+                itemorderedinput = int(input('Please select the item(s) the customer would like to add to the order - (input the number corresponding with the desired item, if order more than one item, enter the first one and wait to be prompted for subsequent item selections > '))
+                itemorderedinput -= 1
+                confirmation_input = int(input(f'you have selected {product_list[itemorderedinput]}, How would you like to proceed - \n 1 - add {product_list[itemorderedinput]} to order and confirm item\'s selection \n 2 - add {product_list[itemorderedinput]} to order and add another item \n 3 - don\'t add {product_list[itemorderedinput]} and return to the orders menu > '))
+                if confirmation_input == 1:
+                    selected_items.append(product_list[itemorderedinput])
+                    print(f'Confirmed, the following items have been added to the order {str(selected_items)}')
+                elif confirmation_input == 2:
+                    selected_items.append(product_list[itemorderedinput])
+                    add_item()
+                elif confirmation_input == 3:
+                    orders_menu_opts
+                else:
+                    print('Thats an invalid response, please try again')
+                    add_item()
+        #elif order_update_input == 2:
 
+        add_item()
 
 # function for returning list of products from txt file to a list variable here. Not needed in V1 due to no external data source.
 """def return_frm_txt():
@@ -225,7 +265,7 @@ def logic_function():
         logic_function()
 
 # app instantiation func 
-logic_function()
+#logic_function()
 
 
 
