@@ -1,3 +1,6 @@
+import random
+import numbers
+
 # Print main menu options
 def main_menu_opts():
     print("welcome to the main menu, what would you like to do: \n 1: Print Products Menu, \n 2: Print Orders Menu, \n 0: Exit app")
@@ -37,12 +40,85 @@ orders = [{'order1': {
     "item(s)_ordered": ["Americano", "Cold Brew", "Blueberry Muffin"]
     }}]
 
-
 # function for add new products to the products data file
 def add_product():
     global product_list
     new_product = input("what is the new product you would like to add? ")
     product_list.append(f"{new_product}")
+
+# function for creating a new order
+
+def new_order_func():
+    global orders
+    global product_list
+    ordernum = random.randint(0,100)
+    customername = input('please enter the customers name > ')
+    customeraddress = input('please enter the street and city of the customer > ')
+    customerphone = int(input('Please enter the customers phone number > '))
+    num = 1
+    for x in product_list:
+        print(f'{num}.{x}\n')
+        num += 1
+    selected_items = []
+    def item_selection():
+        itemorderedinput = int(input('Please select the item(s) the customer would like to order - (input the number corresponding with the desired item, if order more than one item, enter the first one and wait to be prompted for subsequent item selections > '))
+        itemorderedinput -= 1
+        confirmation_input = int(input(f'you have selected {product_list[itemorderedinput]}, How would you like to proceed - \n 1 - add {product_list[itemorderedinput]} to order and confirm item\'s selection \n 2 - add {product_list[itemorderedinput]} to order and add another item \n 3 - don\'t add {product_list[itemorderedinput]} and return to the orders menu > '))
+        if confirmation_input == 1:
+            selected_items.append(product_list[itemorderedinput])
+            print(f'Confirmed, the following items have been added to the order {str(selected_items)}')
+        elif confirmation_input == 2:
+            selected_items.append(product_list[itemorderedinput])
+            item_selection()
+        elif confirmation_input == 3:
+            orders_menu_opts
+        else:
+            print('Thats an invalid response, please try again')
+            item_selection()
+    item_selection()
+    new_order = {f'order{ordernum}': {'customer_name': customername, 'customer_address': customeraddress, 'customer_phone':customerphone, 'status': 'preparing', 'item(s)_ordered': selected_items}}
+    print(f'\n This is your new order which has now been added to the orders list > {new_order}')
+    orders.append(new_order)
+
+
+# function for updating an existing order status
+
+order_status = ['preparing', 'ready for pick up', 'enroute', 'delivered']
+
+def update_order_status():
+    global orders
+    global order_status
+    for order in orders:
+        num = 1
+        for order_num, order_detail in order.items(): 
+            print(f'{num}.{order_num}: status: {order_detail['status']}')
+            num += 1
+    print('\n')
+    change_selection1 = int(input('Which order would like to update the status for? input the number for the associated order > '))
+    print(f'what would you like to change {orders[change_selection1].keys()} to? below is the available options')
+    for status in order_status:
+        num = 1
+        print(f'{num}. {status}')
+        num += 1
+    change_selection2 = int(input(f'whats the number associated with the status you would like to update {orders[change_selection1].keys()} to?'))
+    for key in orders[change_selection1].keys():
+        order_key = key
+    if change_selection2 == 1: 
+        orders[change_selection1][order_key]['status'] = order_status[change_selection2 - 1]
+    print(orders)
+
+# function for updating existing order
+
+def update_order(): 
+    global orders
+    for order in orders:
+        num = 1
+        for order_num, order_detail in order.items(): 
+            print(f'{num}.{order_num}: customer name: {order_detail['customer_name']} status: {order_detail['status']} items ordered: {order_detail['item(s)_ordered']} ')
+            num += 1
+    print('\n')
+    #change_selection1 = int(input('Which order would like to update? input the number for the associated order > '))
+
 
 # function for returning list of products from txt file to a list variable here. Not needed in V1 due to no external data source.
 """def return_frm_txt():
@@ -113,12 +189,16 @@ def logic_function():
         prod_menu_input1 = int(input('Select the number associated with your desired option'))
         if prod_menu_input1 == 1:
             print_prod_list()
+            mm_return_func()
         elif prod_menu_input1 == 2:
             add_product()
+            mm_return_func()
         elif prod_menu_input1 == 3:
             prod_update()
+            mm_return_func()
         elif prod_menu_input1 == 4:
             prod_del()
+            mm_return_func()
         elif prod_menu_input1 == 0:
             logic_function
     elif first_input == 2:
@@ -126,12 +206,26 @@ def logic_function():
         order_menu_input1 = int(input('\n Select the number associated with your desired option \n'))
         if order_menu_input1 == 1:
             print_orders()
+            mm_return_func()
+        elif order_menu_input1 == 2:
+            new_order_func()
+            mm_return_func()
+        elif order_menu_input1 == 3:
+            update_order_status()
+            mm_return_func()
+        elif order_menu_input1 == 4:
+            update_order()
+            mm_return_func()
+        elif order_menu_input1 == 0: 
+            logic_function()
     elif first_input == 0:
         print("you have decided to leave the app, goodbye")
     else: 
         print("Thats not a valid option, try again")
         logic_function()
 
-
 # app instantiation func 
 logic_function()
+
+
+
