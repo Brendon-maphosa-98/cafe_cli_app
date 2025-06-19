@@ -1,0 +1,130 @@
+## Exercise 1: Navigating Through the File System
+
+1. Open your terminal.
+
+2. Use the `pwd` command to find out where you are. What is the full path of your current directory? Next type in `cd ~`, then again `pwd`, where did this take you?
+
+3. Run the `ls` command. What do you see?
+
+3. Try `ls -l`. How is the output different?
+
+4. Use the `whoami` command. Who are you logged in as?
+
+5. Run the `date` command. What date and time does your system show?
+
+6. Try `date +"%Y-%m-%d"`. What changed?
+
+7. Use `hostname` to find the name of the machine you are working on.
+
+8. Run `echo "Hello, world!"`. What happens? Try changing what is in the quotation marks. 
+
+9. Try to navigate from your home directory to your `books/` folder. Use `pwd`, `ls` and `cd` to help you! 
+
+10. Once in your `books/` directoyry, run `ls`. What do you see?
+
+11. Use `cd fiction` to enter the fiction folder inside books.
+
+12. Run `pwd` to check where you are.
+
+13. Go back to the books folder using `cd ...`
+
+14. Check your location again with `pwd`.
+
+15. Change directory into the 'fiction' folder. Use `cat` to view the contents of one of the files. 
+
+16. Use `cd ..` to go back to your 'books/` directory, type in `cat fiction/story.txt`. Replace story.txt with the name of a story in the fiction section. What does this command do?
+
+17. Take some time navigating through the files and practicing the commands... Have fun! 
+
+## Exercise 2: Working with Files
+
+1. Navigate to your books directory (or any working directory). confirm your location with `pwd`.
+
+2. Create a new directory called `practice`.
+
+3. Move into the `practice` directory.
+
+4. Create an empty file named `notes.txt` using `touch`.
+
+5. Run `ls` to verify that the file was created.
+
+6. Rename `notes.txt` to `summary.txt`
+
+7. Create another file called `draft.txt`
+
+8. Move `draft.txt` into a new directory called `backup`.
+
+9. Check that `draft.txt` is inside backup by listing its contents
+
+10. Copy `summary.txt` into the `backup` folder.
+
+11. Move into the `backup` directory and confirm both files are there.
+
+12. Copy `summary.txt` and rename it to `summary_copy.txt` in the same directory.
+
+13. Verify that `summary_copy.txt` exists using ls
+
+14. Remove `summary_copy.txt`
+
+15. Go back to the practice directory. (use `cd ..`)
+
+16. Try to remove the `backup` directory. What happens? You will need to empty the directory in ord to delete it. 
+
+17. Remove the backup directory and all its contents using `rm -r backup`
+
+18. Verify that backup is gone using `ls`.
+
+19. Type in `clear` to clear your terminal. 
+
+If finished, take some time practicing the commands learned in your own way. The best way to learn is through practice! 
+
+## Exercise 3: Searching
+
+1. Open the books folder.
+
+2. Use less to view the contents of a file in the fiction directory. something like this: 
+
+```bash
+less fiction/story.txt
+```
+
+Replace story.txt with the story you would like to read. Press `q` to quit. 
+
+3. View the first 10 lines of a file in the books directory. Navigate to a folder and type something like this: 
+```bash
+head story.txt
+```
+You could also try: 
+```bash
+head -n 5 story.txt
+```
+This shows the first 5 lines of the file. Adjust the number as needed!
+
+4. Use tail to view the last 10 lines of the same file.Write something like this: 
+
+```bash
+tail story.txt
+```
+
+Try and also adjust the number of lines displayed with tail!
+
+5. Navigate back to your books directory. Search for the word "Lizzy" inside the fiction directory:
+
+```bash
+grep "Lizzy" fiction/*
+```
+
+Try searching for different words to see what comes up from the different stories!
+
+6. Search case-insensitively for "dark" inside the fiction directory. Change the word as needed to search through the stories.
+
+```bash
+grep -i "dark" fiction/*
+```
+
+7. Find all .txt files in the fiction folder
+```bash
+find books -name "*.txt"
+```
+
+Take some time to review these commands and research about some of their use cases or options to combine them with. Good luck!

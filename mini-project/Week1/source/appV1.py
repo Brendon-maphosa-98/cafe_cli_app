@@ -11,7 +11,7 @@ def products_menu_opts():
 
 # Print main menu options
 def orders_menu_opts():
-    print("welcome to the Orders, what would you like to do: \n 1: Display Orders, \n 2: Create new Order, \n 3: Update Order status, \n 4: Update Existing Order, \n 0: return to main menu")
+    print("welcome to the Orders, what would you like to do:\n1: Display Orders,\n2: Create new Order,\n3: Update Order status,\n4: Update Existing Order,\n5: delete an order\n0: return to main menu")
 
 
 # create the empty product list for viewing purposes
@@ -111,15 +111,14 @@ def update_order_status():
 
 def update_order(): 
     global orders
+    global product_list
     dict_key_directory = ['customer_name', 'customer_address', 'customer_phone', 'status', 'item(s)_ordered']
     for order in orders:
-        num = 1
-        for order_num, order_detail in order.items(): 
-            print(f'{num}.{order_num}: customer name: {order_detail['customer_name']} status: {order_detail['status']} items ordered: {order_detail['item(s)_ordered']} ')
-            num += 1
+            for order_num, order_detail in order.items():
+                print(f'{orders.index(order) + 1}.{order_num}: customer name: {order_detail['customer_name']} status: {order_detail['status']} items ordered: {order_detail['item(s)_ordered']} ')
     print('\n')
     change_selection1 = int(input('Which order would like to update? input the number for the associated order > '))
-    change_selection2 = int(input('what would you like to change about the order. 1. customer name\n 2. customer address\n 3. customer phone number\n 4. order status\n 5. items ordered > '))
+    change_selection2 = int(input('what would you like to change about the order.\n1. customer name\n 2. customer address\n 3. customer phone number\n 4. order status\n 5. items ordered > '))
     if change_selection2 == 1:
         for key in orders[change_selection1].keys():
             order_key = key
@@ -142,12 +141,19 @@ def update_order():
         if order_update_input == 1:
             selected_items = []
             def add_item():
+                num = 1
+                for prod in product_list:
+                    print(f'{num}.{prod}\n')
+                num += 1
+                for key in orders[change_selection1].keys():
+                    order_key = key
                 itemorderedinput = int(input('Please select the item(s) the customer would like to add to the order - (input the number corresponding with the desired item, if order more than one item, enter the first one and wait to be prompted for subsequent item selections > '))
                 itemorderedinput -= 1
                 confirmation_input = int(input(f'you have selected {product_list[itemorderedinput]}, How would you like to proceed - \n 1 - add {product_list[itemorderedinput]} to order and confirm item\'s selection \n 2 - add {product_list[itemorderedinput]} to order and add another item \n 3 - don\'t add {product_list[itemorderedinput]} and return to the orders menu > '))
                 if confirmation_input == 1:
                     selected_items.append(product_list[itemorderedinput])
-                    print(f'Confirmed, the following items have been added to the order {str(selected_items)}')
+                    print(f'Confirmed, the following items have been added to the order: {str(selected_items)}')
+                    orders[change_selection1][order_key][dict_key_directory[change_selection2 - 1]].append(selected_items)
                 elif confirmation_input == 2:
                     selected_items.append(product_list[itemorderedinput])
                     add_item()
@@ -156,9 +162,31 @@ def update_order():
                 else:
                     print('Thats an invalid response, please try again')
                     add_item()
-        #elif order_update_input == 2:
+            add_item()
+        elif order_update_input == 2:
+            def rmv_order_item():
+                order_temp_items = orders[change_selection1][order_key][dict_key_directory[change_selection2 - 1]]
+                num = 1
+                for order in order_temp_items:
+                    print(f'Below are the items that {order_num} currently has\n')
+                    print(f'{num}.{order}\n')
+                    num += 1
+                for key in orders[change_selection1].keys():
+                    order_key = key
+                itemorderedinput = int(input('Please select the item(s) the customer would like to remove from the order - (input the number corresponding with the desired item, if order more than one item, enter the first one and wait to be prompted for subsequent item selections > '))
+                itemorderedinput -= 1
+                confirmation_input = int(input(f'you have selected {product_list[itemorderedinput]}, How would you like to proceed - \n 1 - remove {product_list[itemorderedinput]} from order and confirm item\'s remove \n 2 - add {product_list[itemorderedinput]} to order and remove another item \n 3 - don\'t remove {product_list[itemorderedinput]} and return to the orders menu > '))
+                if confirmation_input == 1: 
+                    orders[change_selection1][order_key][dict_key_directory[change_selection2 - 1]].pop(itemorderedinput)
+                if confirmation_input == 2:
+                    orders[change_selection1][order_key][dict_key_directory[change_selection2 - 1]].pop(itemorderedinput)
+                    rmv_order_item()
+                if confirmation_input == 3:
+                    orders_menu_opts()
+                else:
+                    print('Thats an invalid response, please try again')
+                    rmv_order_item()
 
-        add_item()
 
 # function for returning list of products from txt file to a list variable here. Not needed in V1 due to no external data source.
 """def return_frm_txt():
@@ -195,6 +223,32 @@ def prod_del():
     else:
         print("That's not a valid option please try again")
         prod_del()
+
+# function for deleting an order
+
+def delete_order():
+    for order in orders:
+            for order_num, order_detail in order.items():
+                print(f'{orders.index(order) + 1}.{order_num}: customer name: {order_detail['customer_name']} status: {order_detail['status']} items ordered: {order_detail['item(s)_ordered']} ')
+    print('\n')
+    del_order_input = int(input('Which order would you like to delete, input the number with the corresponding order\n'))
+    print('\n')
+    if del_order_input <= len(orders):
+        order_detail = list(orders[del_order_input - 1].keys())
+        confirmation = input(f"are you sure you want to delete {order_detail[0]}\ninput Y for Yes or N for no and to return to the order menu\n")
+        if confirmation == 'Y':
+            del_order_input - 1
+            orders.pop(orders[del_order_input])
+            print('confirmed, that order has been deleted, returning you to the the order menu')
+            orders_menu_opts()
+        elif confirmation == 'N':
+            print('request cancelled, returning you to the order menu')
+            orders_menu_opts()
+    else: 
+        ('That is an invalid response, please try again')
+        delete_order()
+    
+    
 
 # function for printing out the up to date list of products
 def print_prod_list():
@@ -256,6 +310,9 @@ def logic_function():
         elif order_menu_input1 == 4:
             update_order()
             mm_return_func()
+        elif order_menu_input1 == 5:
+            delete_order()
+            mm_return_func()
         elif order_menu_input1 == 0: 
             logic_function()
     elif first_input == 0:
@@ -265,7 +322,7 @@ def logic_function():
         logic_function()
 
 # app instantiation func 
-#logic_function()
+logic_function()
 
 
 
