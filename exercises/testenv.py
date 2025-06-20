@@ -18,5 +18,7 @@ orders = [{'order1': {
     "item(s)_ordered": ["Americano", "Cold Brew", "Blueberry Muffin"]
     }}]
 
-x = list(orders[1].keys())
-print(x)
+
+num = '07345678901'
+
+print(len(num) > 10)

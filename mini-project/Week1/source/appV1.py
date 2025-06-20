@@ -132,8 +132,12 @@ def update_order():
     elif change_selection2 == 3:
         for key in orders[change_selection1].keys():
             order_key = key
-            change_selection5 = int(input(f'what would you like to change the customer number of {order_num} to? > '))
-            orders[change_selection1][order_key][dict_key_directory[change_selection2 - 1]] = change_selection5
+            change_selection5 = (input(f'what would you like to change the customer number of {order_num} to? NOTE: number must begin with 0 > '))
+            if '0' in change_selection5[0] and len(change_selection5) == 11:
+                orders[change_selection1][order_key][dict_key_directory[change_selection2 - 1]] = change_selection5
+            else:
+                print('\nThats not a valid number please try again')
+                update_order()
     elif change_selection2 == 4:
         update_order_status()
     elif change_selection2 == 5:
@@ -235,15 +239,10 @@ def delete_order():
     print('\n')
     if del_order_input <= len(orders):
         order_detail = list(orders[del_order_input - 1].keys())
-        confirmation = input(f"are you sure you want to delete {order_detail[0]}\ninput Y for Yes or N for no and to return to the order menu\n")
-        if confirmation == 'Y':
-            del_order_input - 1
-            orders.pop(orders[del_order_input])
-            print('confirmed, that order has been deleted, returning you to the the order menu')
-            orders_menu_opts()
-        elif confirmation == 'N':
-            print('request cancelled, returning you to the order menu')
-            orders_menu_opts()
+        del_order_input - 1
+        orders.pop(orders.index(orders[del_order_input - 1]))
+        print('confirmed, that order has been deleted, returning you to the the order menu')
+        orders_menu_opts()
     else: 
         ('That is an invalid response, please try again')
         delete_order()
