@@ -19,11 +19,11 @@ menu_choice = "\nHow would you like to proceed, select from one of the below opt
 
 created_product = "\nwhat is the name of the product you would like to add to the list?\n\nNew product name: "
 
-replaced_product = "\nwhich of the following products would you like to replace?\n\nInput corresponding number here: "
+replaced_product = "\nwhich of the above products would you like to replace?\n\nInput corresponding number here: "
 
 replacement_product = "\n what is the name of the product you would like to add in place of the old one?\n\nNew product name: "
 
-remove_product = "\n what is the name of the product you would like to remove from the list?\n\nproduct name: "
+remove_product = "\nwhich of the above products would you like to remove from the list?\n\nInput corresponding number here: "
 
 # Variables for the main menu options
 
@@ -75,7 +75,7 @@ def new_product(input):
     return input
 
 
-# function for updating an existing item and returning the new value
+# function for updating an existing item and returning the new value in the product list
 
 
 def update_item(rmv_product, new_product, list_output, list):
@@ -86,8 +86,16 @@ def update_item(rmv_product, new_product, list_output, list):
     return list
 
 
-products = update_item(
-    replaced_product, replacement_product, list_output(PRODUCTS), PRODUCTS
-)
+# function for deleting an item and return an updated list
+
+
+def del_item(rmv_str_input, list_output, list):
+    item_to_remove = int(input(rmv_str_input))
+    print(list_output)
+    list.pop(item_to_remove - 1)
+    return list
+
+
+PRODUCTS = del_item(remove_product, list_output(PRODUCTS), PRODUCTS)
 
 print(PRODUCTS)
