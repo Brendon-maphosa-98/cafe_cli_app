@@ -18,7 +18,3 @@ orders = [{'order1': {
     "item(s)_ordered": ["Americano", "Cold Brew", "Blueberry Muffin"]
     }}]
 
-
-num = '07345678901'
-
-print(len(num) > 10)
