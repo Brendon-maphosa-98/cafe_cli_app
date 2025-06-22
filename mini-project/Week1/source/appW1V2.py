@@ -68,14 +68,26 @@ def input_function(*input_str):
     return returned_input
 
 
-# function for creating and adding a new product to the list
+# function for creating and returning a new product, to be used for adding a new product to the list
 
 
-def add_product(input):
+def new_product(input):
     return input
 
 
-PRODUCTS.append(add_product(input_function(created_product)))
+# function for updating an existing item and returning the new value
 
-print(PRODUCTS)
+
+def update_item(rmv_product, new_product, list_output, list):
+    product_to_remove = int(input(rmv_product))
+    print(list_output)
+    product_to_add = input(new_product)
+    list[product_to_remove - 1] = product_to_add
+    return list
+
+
+products = update_item(
+    replaced_product, replacement_product, list_output(PRODUCTS), PRODUCTS
+)
+
 print(PRODUCTS)
