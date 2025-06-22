@@ -13,19 +13,17 @@ PRODUCTS = [
     "Blueberry Muffin",
 ]
 
-# input variables to be reused across the script as and when needed
-"""
-menu_choice = int(input('\nHow would you like to proceed, select from one of the below options\n'))
+# string variables to be reused across the script as and when needed
 
-created_product = input('\n what is the name of the product you would like to add to the list?\n\nNew product name: ')
+menu_choice = "\nHow would you like to proceed, select from one of the below options\n"
 
-replaced_product = input('\nwhich of the following products would you like to replace?\n\nInput corresponding number here: ')
+created_product = "\nwhat is the name of the product you would like to add to the list?\n\nNew product name: "
 
-replacement_product = input('\n what is the name of the product you would like to add in place of the old one?\n\nNew product name: ')
+replaced_product = "\nwhich of the following products would you like to replace?\n\nInput corresponding number here: "
 
-remove_product = input('\n what is the name of the product you would like to remove from the list?\n\nproduct name: ')
+replacement_product = "\n what is the name of the product you would like to add in place of the old one?\n\nNew product name: "
 
-"""
+remove_product = "\n what is the name of the product you would like to remove from the list?\n\nproduct name: "
 
 # Variables for the main menu options
 
@@ -51,4 +49,25 @@ def options_output(*options_output):
         index_num += 1
 
 
-options_output(view_option, create_option, update_option, remove_option)
+# function for printing out product list with index
+
+
+def list_output(product_list):
+    index_num = 1
+    for product in product_list:
+        print(f"\n{index_num}. {product}")
+        index_num += 1
+
+
+# function for taking and returning inputs
+
+
+def input_function(*input_str):
+    for choice in input_str:
+        returned_input = input(choice)
+    return returned_input
+
+
+new_input = int(input_function(replacement_product))
+
+print(type(new_input))
