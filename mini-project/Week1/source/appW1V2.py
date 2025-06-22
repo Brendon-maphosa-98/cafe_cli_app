@@ -68,6 +68,14 @@ def input_function(*input_str):
     return returned_input
 
 
-new_input = int(input_function(replacement_product))
+# function for creating and adding a new product to the list
 
-print(type(new_input))
+
+def add_product(input):
+    return input
+
+
+PRODUCTS.append(add_product(input_function(created_product)))
+
+print(PRODUCTS)
+print(PRODUCTS)
