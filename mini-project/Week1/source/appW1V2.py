@@ -94,8 +94,3 @@ def del_item(rmv_str_input, list_output, list):
     print(list_output)
     list.pop(item_to_remove - 1)
     return list
-
-
-PRODUCTS = del_item(remove_product, list_output(PRODUCTS), PRODUCTS)
-
-print(PRODUCTS)
