@@ -321,15 +321,6 @@ def update_order():
                     rmv_order_item()
 
 
-# function for returning list of products from txt file to a list variable here. Not needed in V1 due to no external data source.
-"""def return_frm_txt():
-    def nested_return_frm_txt():
-        with open("/Users/brendon/Documents/Data Engineering/brendon-portfolio/mini-project/Week1/data/products.txt", "r") as products:
-            return products.read().split(",")
-    global product_list
-    product_list = nested_return_frm_txt()"""
-
-
 # function for updating existing product
 def prod_update():
     for prod in product_list:
@@ -414,11 +405,6 @@ def print_prod_list():
 # function for printing out the up to date orders
 def print_orders():
     print(orders)
-
-
-# function for input prompt
-def input_prompt():
-    first_input = int(input())
 
 
 # main menu return prompt func
