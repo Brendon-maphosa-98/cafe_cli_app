@@ -154,7 +154,7 @@ def update_order_status():
         )
     )
     print(
-        f"what would you like to change {orders[change_selection1].keys()} to? below is the available options"
+        f"what would you like to change {orders[change_selection1 -1].keys()} to? below is the available options"
     )
     for status in order_status:
         num = 1
@@ -162,16 +162,16 @@ def update_order_status():
         num += 1
     change_selection2 = int(
         input(
-            f"whats the number associated with the status you would like to update {orders[change_selection1].keys()} to?"
+            f"whats the number associated with the status you would like to update {orders[change_selection1 -1].keys()} to?"
         )
     )
-    for key in orders[change_selection1].keys():
-        order_key = key
-    if change_selection2 == 1:
-        orders[change_selection1][order_key]["status"] = order_status[
-            change_selection2 - 1
-        ]
-    print(orders)
+
+    if change_selection2 <= 4:
+        for order_key in orders[change_selection1 - 1].keys():
+            orders[change_selection1 - 1][order_key]["status"] = order_status[
+                change_selection2 - 1
+            ]
+        print(orders)
 
 
 # function for updating existing order
@@ -204,31 +204,31 @@ def update_order():
         )
     )
     if change_selection2 == 1:
-        for key in orders[change_selection1].keys():
+        for key in orders[change_selection1 - 1].keys():
             order_key = key
         change_selection3 = input(
             f"what would you like to change the customer name of {order_num} to? > "
         )
-        orders[change_selection1][order_key][
+        orders[change_selection1 - 1][order_key][
             dict_key_directory[change_selection2 - 1]
         ] = change_selection3
     elif change_selection2 == 2:
-        for key in orders[change_selection1].keys():
+        for key in orders[change_selection1 - 1].keys():
             order_key = key
         change_selection4 = input(
             f'what would you like to change the customer address of {order_num} to? *remember the "street, city" format> '
         )
-        orders[change_selection1][order_key][
+        orders[change_selection1 - 1][order_key][
             dict_key_directory[change_selection2 - 1]
         ] = change_selection4
     elif change_selection2 == 3:
-        for key in orders[change_selection1].keys():
+        for key in orders[change_selection1 - 1].keys():
             order_key = key
             change_selection5 = input(
                 f"what would you like to change the customer number of {order_num} to? NOTE: number must begin with 0 > "
             )
             if "0" in change_selection5[0] and len(change_selection5) == 11:
-                orders[change_selection1][order_key][
+                orders[change_selection1 - 1][order_key][
                     dict_key_directory[change_selection2 - 1]
                 ] = change_selection5
             else:
@@ -250,7 +250,7 @@ def update_order():
                 for prod in product_list:
                     print(f"{num}.{prod}\n")
                 num += 1
-                for key in orders[change_selection1].keys():
+                for key in orders[change_selection1 - 1].keys():
                     order_key = key
                 itemorderedinput = int(
                     input(
@@ -268,7 +268,7 @@ def update_order():
                     print(
                         f"Confirmed, the following items have been added to the order: {str(selected_items)}"
                     )
-                    orders[change_selection1][order_key][
+                    orders[change_selection1 - 1][order_key][
                         dict_key_directory[change_selection2 - 1]
                     ].append(selected_items)
                 elif confirmation_input == 2:
@@ -284,7 +284,7 @@ def update_order():
         elif order_update_input == 2:
 
             def rmv_order_item():
-                order_temp_items = orders[change_selection1][order_key][
+                order_temp_items = orders[change_selection1 - 1][order_key][
                     dict_key_directory[change_selection2 - 1]
                 ]
                 num = 1
@@ -292,7 +292,7 @@ def update_order():
                     print(f"Below are the items that {order_num} currently has\n")
                     print(f"{num}.{order}\n")
                     num += 1
-                for key in orders[change_selection1].keys():
+                for key in orders[change_selection1 - 1].keys():
                     order_key = key
                 itemorderedinput = int(
                     input(
@@ -306,11 +306,11 @@ def update_order():
                     )
                 )
                 if confirmation_input == 1:
-                    orders[change_selection1][order_key][
+                    orders[change_selection1 - 1][order_key][
                         dict_key_directory[change_selection2 - 1]
                     ].pop(itemorderedinput)
                 if confirmation_input == 2:
-                    orders[change_selection1][order_key][
+                    orders[change_selection1 - 1][order_key][
                         dict_key_directory[change_selection2 - 1]
                     ].pop(itemorderedinput)
                     rmv_order_item()

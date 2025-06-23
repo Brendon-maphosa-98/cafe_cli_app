@@ -15,11 +15,14 @@
 # 1. Move the second function so that it is above the first function
 # 2. Then swap the return statements so iGoDown returns "down" and iGoUp returns "up"
 
+
 def iGoUp():
-    print ("Better hope I end up at the top!")
+    print("Better hope I end up at the top!")
     return "up"
+
+
 def iGoDown():
-    print ("Better hope I end up at the bottom!")
+    print("Better hope I end up at the bottom!")
     return "down"
 
 
@@ -27,31 +30,35 @@ def iGoDown():
 # Place your cursor on a line. Use one of the above shortcuts. It moves left or right
 # Fix the indentation in this set of nested ifs
 
-if (True):
-    print ("how did I get here?")
+if True:
+    print("how did I get here?")
 else:
-    print ("This was entirely expected")
-if (True):
+    print("This was entirely expected")
+if True:
     print("I did expect this")
 
 # Create a selection that spans multiple lines. Use the previous shortcut. The whole set of lines moves.
 # Indent the whole for-loop one level to the right
 
+
 def maybeLoop(doALoop):
-    if(doALoop):
-        for i in range(0,10):
+    if doALoop:
+        for i in range(0, 10):
             print("Look at me loop " + i)
+
 
 # Ctrl+Shift+K (⇧⌘K)
 # The above shortcut deletes the line your cursor is on
 # Delete all the comments in the following code
 
+
 # Look at my horse
 def horse():
     amazing = True
     flavour = lick()
-    if (flavour == "raisins"):
+    if flavour == "raisins":
         print("yum")
+
 
 # Create a selection that spans multiple lines. Use the previous shortcut. The whole set of lines is deleted.
 # There is an infinite loop in this function. Delete it in a single stroke
@@ -86,7 +93,7 @@ transition:         all 1100ms linear;
 
 # Alter the following code to read [1, 2, 3, 4] with the fewest key strokes possible
 
-[ 1, 2, 3, 4]
+[1, 2, 3, 4]
 
 # Add an exclamation mark to the end of all of these strings
 # (hint: remember Home and End)
@@ -138,23 +145,20 @@ whose worth's unknown, although his height be taken.
 # Keep pressing it and you can select many occurrences
 # Delete the comments in this code by pressing Ctrl+Shift+K only once
 
+
 # Look at my horse
 def horse():
     # My horse is amazing
     amazing = True
     # Give it a lick
     flavour = lick()
-    if (flavour == "raisins"):
+    if flavour == "raisins":
         # It tastes just like raisins
         print("yum")
 
+
 # Make nato1 look exactly like nato2 using multiple cursors
 
-const nato1 = { a: "alpha", b: "bravo", c: "charlie", d: "echo" }
+# const nato1 = { a: "alpha", b: "bravo", c: "charlie", d: "echo" }
 
-nato2 = {
-    a: "alpha",
-    b: "bravo",
-    c: "charlie",
-    d: "echo"
-}
+nato2 = {a: "alpha", b: "bravo", c: "charlie", d: "echo"}
