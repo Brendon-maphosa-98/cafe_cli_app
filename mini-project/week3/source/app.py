@@ -22,6 +22,24 @@ def orders_menu_opts():
     )
 
 
+products_data = []
+
+orders_data = []
+
+with open("mini-project/week3/data/products.txt", "r") as temp_products_data:
+    for text in temp_products_data.read().split(","):
+        products_data.append(text)
+
+with open("mini-project/week3/data/orders.txt", "r") as temp_orders_data:
+    for line in temp_orders_data.readlines():
+        new_line = line[1:-1]
+        orders_data.append(new_line)
+
+print(orders_data)
+
+# print(orders_data)
+
+
 # function for add new products to the products data file
 def add_product():
     global product_list
@@ -428,4 +446,4 @@ def logic_function():
 
 
 # app instantiation func
-logic_function()
+# logic_function()
