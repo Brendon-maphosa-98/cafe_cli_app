@@ -4,38 +4,81 @@ import random
 # Print main menu options
 def main_menu_opts():
     print(
-        "welcome to the main menu, what would you like to do: \n 1: Print Products Menu, \n 2: Print Orders Menu, \n 0: Exit app"
+        "welcome to the main menu, what would you like to do:\n1: Print Products Menu,\n2: Print Orders Menu,\n3: Print Couriers Menu\n0: Exit app"
     )
 
 
-# Print main menu options
+# Print product menu options
 def products_menu_opts():
     print(
         "welcome to the products, what would you like to do: \n 1: View all products, \n 2: Add new products, \n 3: Update existing product, \n 4: Delete a product, \n 0: return to main menu"
     )
 
 
-# Print main menu options
+# Print orders menu options
 def orders_menu_opts():
     print(
         "welcome to the Orders, what would you like to do:\n1: Display Orders,\n2: Create new Order,\n3: Update Order status,\n4: Update Existing Order,\n5: delete an order\n0: return to main menu"
     )
 
 
+# Print couriers menu options
+
+
+def couriers_menu_options():
+    print(
+        "welcome to the couriers, what would you like to do: \n 1: View all couriers\n2: Add new couriers\n3: Update existing courier\n4: Delete a courier\n 0: return to main menu"
+    )
+
+
+# creating initial orders list containing dictionary of orders
+
+orders = [
+    {
+        "order1": {
+            "customer_name": "Alice Smith",
+            "customer_address": "High Road, MANCHESTER",
+            "customer_phone": "07123456789",
+            "status": "ready for pickup",
+            "item(s)_ordered": ["Latte", "Blueberry Muffin"],
+        }
+    },
+    {
+        "order2": {
+            "customer_name": "James Carter",
+            "customer_address": "Oak Street, LIVERPOOL",
+            "customer_phone": "07234567890",
+            "status": "preparing",
+            "item(s)_ordered": ["Flat White", "Croissant"],
+        }
+    },
+    {
+        "order3": {
+            "customer_name": "Laura Green",
+            "customer_address": "Maple Avenue, SHEFFIELD",
+            "customer_phone": "07345678901",
+            "status": "delivered",
+            "item(s)_ordered": ["Americano", "Cold Brew", "Blueberry Muffin"],
+        }
+    },
+]
+
 # empty variables to hold the imported data from the txt files locally in python
 products_data = []
 
-orders_data = []
+couriers_data = []
 
 # open() functions to import and read to empty variables the data from the txt files
 with open("mini-project/week3/data/products.txt", "r") as temp_products_data:
     for text in temp_products_data.read().split(","):
         products_data.append(text)
+    del products_data[-1]
 
-with open("mini-project/week3/data/orders.txt", "r") as temp_orders_data:
-    for line in temp_orders_data.readlines():
-        new_line = line[1:-1]
-        orders_data.append(new_line)
+
+with open("mini-project/week3/data/couriers.txt", "r") as temp_couriers_data:
+    for line in temp_couriers_data.read().split(","):
+        couriers_data.append(line)
+    del couriers_data[-1]
 
 
 # function for add new products to the products data file
@@ -45,11 +88,39 @@ def add_product():
     products_data.append(f"{new_product}")
 
 
-# function for creating a new order
+# data persistance elements for couriers and products
 
 
-def new_order_func():
-    global orders_data
+def products_persistance():
+    with open(
+        "mini-project/week3/data/products.txt", "w"
+    ) as temp_updated_products_data:
+        for prod in products_data:
+            temp_updated_products_data.write(f"{prod},")
+
+
+def couriers_persistance():
+    with open(
+        "mini-project/week3/data/couriers.txt", "w"
+    ) as temp_updated_couriers_data:
+        for courier in couriers_data:
+            temp_updated_couriers_data.write(f"{courier},")
+
+
+# function for creating a new courier
+
+
+def add_courier():
+    global couriers_data
+    new_courier = input("what is the new courier you would like to add? ")
+    couriers_data.append(f"{new_courier}")
+
+
+# function for adding a new order
+
+
+def add_order_func():
+    global orders
     global products_data
     ordernum = random.randint(0, 100)
     customername = input("please enter the customers name > ")
@@ -100,7 +171,7 @@ def new_order_func():
     print(
         f"\n This is your new order which has now been added to the orders list > {new_order}"
     )
-    orders_data.append(new_order)
+    orders.append(new_order)
 
 
 # function for updating an existing order status
@@ -109,9 +180,9 @@ order_status = ["preparing", "ready for pick up", "enroute", "delivered"]
 
 
 def update_order_status():
-    global orders_data
+    global orders
     global order_status
-    for order in orders_data:
+    for order in orders:
         num = 1
         for order_num, order_detail in order.items():
             print(f"{num}.{order_num}: status: {order_detail['status']}")
@@ -123,7 +194,7 @@ def update_order_status():
         )
     )
     print(
-        f"what would you like to change {orders_data[change_selection1 -1].keys()} to? below is the available options"
+        f"what would you like to change {orders[change_selection1 -1].keys()} to? below is the available options"
     )
     for status in order_status:
         num = 1
@@ -131,23 +202,23 @@ def update_order_status():
         num += 1
     change_selection2 = int(
         input(
-            f"whats the number associated with the status you would like to update {orders_data[change_selection1 -1].keys()} to?"
+            f"whats the number associated with the status you would like to update {orders[change_selection1 -1].keys()} to?"
         )
     )
 
     if change_selection2 <= 4:
-        for order_key in orders_data[change_selection1 - 1].keys():
-            orders_data[change_selection1 - 1][order_key]["status"] = order_status[
+        for order_key in orders[change_selection1 - 1].keys():
+            orders[change_selection1 - 1][order_key]["status"] = order_status[
                 change_selection2 - 1
             ]
-        print(orders_data)
+        print(orders)
 
 
 # function for updating existing order
 
 
 def update_order():
-    global orders_data
+    global orders
     global products_data
     dict_key_directory = [
         "customer_name",
@@ -156,10 +227,10 @@ def update_order():
         "status",
         "item(s)_ordered",
     ]
-    for order in orders_data:
+    for order in orders:
         for order_num, order_detail in order.items():
             print(
-                f"{orders_data.index(order) + 1}.{order_num}: customer name: {order_detail['customer_name']} status: {order_detail['status']} items ordered: {order_detail['item(s)_ordered']} "
+                f"{orders.index(order) + 1}.{order_num}: customer name: {order_detail['customer_name']} status: {order_detail['status']} items ordered: {order_detail['item(s)_ordered']} "
             )
     print("\n")
     change_selection1 = int(
@@ -173,31 +244,31 @@ def update_order():
         )
     )
     if change_selection2 == 1:
-        for key in orders_data[change_selection1 - 1].keys():
+        for key in orders[change_selection1 - 1].keys():
             order_key = key
         change_selection3 = input(
             f"what would you like to change the customer name of {order_num} to? > "
         )
-        orders_data[change_selection1 - 1][order_key][
+        orders[change_selection1 - 1][order_key][
             dict_key_directory[change_selection2 - 1]
         ] = change_selection3
     elif change_selection2 == 2:
-        for key in orders_data[change_selection1 - 1].keys():
+        for key in orders[change_selection1 - 1].keys():
             order_key = key
         change_selection4 = input(
             f'what would you like to change the customer address of {order_num} to? *remember the "street, city" format> '
         )
-        orders_data[change_selection1 - 1][order_key][
+        orders[change_selection1 - 1][order_key][
             dict_key_directory[change_selection2 - 1]
         ] = change_selection4
     elif change_selection2 == 3:
-        for key in orders_data[change_selection1 - 1].keys():
+        for key in orders[change_selection1 - 1].keys():
             order_key = key
             change_selection5 = input(
                 f"what would you like to change the customer number of {order_num} to? NOTE: number must begin with 0 > "
             )
             if "0" in change_selection5[0] and len(change_selection5) == 11:
-                orders_data[change_selection1 - 1][order_key][
+                orders[change_selection1 - 1][order_key][
                     dict_key_directory[change_selection2 - 1]
                 ] = change_selection5
             else:
@@ -219,7 +290,7 @@ def update_order():
                 for prod in products_data:
                     print(f"{num}.{prod}\n")
                 num += 1
-                for key in orders_data[change_selection1 - 1].keys():
+                for key in orders[change_selection1 - 1].keys():
                     order_key = key
                 itemorderedinput = int(
                     input(
@@ -237,7 +308,7 @@ def update_order():
                     print(
                         f"Confirmed, the following items have been added to the order: {str(selected_items)}"
                     )
-                    orders_data[change_selection1 - 1][order_key][
+                    orders[change_selection1 - 1][order_key][
                         dict_key_directory[change_selection2 - 1]
                     ].append(selected_items)
                 elif confirmation_input == 2:
@@ -253,7 +324,7 @@ def update_order():
         elif order_update_input == 2:
 
             def rmv_order_item():
-                order_temp_items = orders_data[change_selection1 - 1][order_key][
+                order_temp_items = orders[change_selection1 - 1][order_key][
                     dict_key_directory[change_selection2 - 1]
                 ]
                 num = 1
@@ -261,7 +332,7 @@ def update_order():
                     print(f"Below are the items that {order_num} currently has\n")
                     print(f"{num}.{order}\n")
                     num += 1
-                for key in orders_data[change_selection1 - 1].keys():
+                for key in orders[change_selection1 - 1].keys():
                     order_key = key
                 itemorderedinput = int(
                     input(
@@ -275,11 +346,11 @@ def update_order():
                     )
                 )
                 if confirmation_input == 1:
-                    orders_data[change_selection1 - 1][order_key][
+                    orders[change_selection1 - 1][order_key][
                         dict_key_directory[change_selection2 - 1]
                     ].pop(itemorderedinput)
                 if confirmation_input == 2:
-                    orders_data[change_selection1 - 1][order_key][
+                    orders[change_selection1 - 1][order_key][
                         dict_key_directory[change_selection2 - 1]
                     ].pop(itemorderedinput)
                     rmv_order_item()
@@ -294,7 +365,7 @@ def update_order():
 def prod_update():
     for prod in products_data:
         prodnum = products_data.index(prod) + 1
-        print(f"{prodnum} {prod}")
+        print(f"{prodnum}. {prod}")
     prod_update_input = int(
         input(
             "What is the product you would like to update? please give the number associated with the product "
@@ -310,6 +381,30 @@ def prod_update():
     else:
         print("That's not a valid option please try again")
         prod_update()
+
+
+# function for updating courier information
+
+
+def courier_update():
+    for courier in couriers_data:
+        cournum = couriers_data.index(courier) + 1
+        print(f"{cournum}. {courier}")
+    cour_update_input = int(
+        input(
+            "What is the courier you would like to update? please give the number associated with the product "
+        )
+    )
+    if cour_update_input <= len(couriers_data):
+        new_update_val = input(
+            (
+                f"You selected {couriers_data[cour_update_input - 1]}, what would you like to update it to? "
+            )
+        )
+        couriers_data[cour_update_input - 1] = new_update_val
+    else:
+        print("That's not a valid option please try again")
+        courier_update()
 
 
 # function to delete product
@@ -341,10 +436,10 @@ def prod_del():
 
 
 def delete_order():
-    for order in orders_data:
+    for order in orders:
         for order_num, order_detail in order.items():
             print(
-                f"{orders_data.index(order) + 1}.{order_num}: customer name: {order_detail['customer_name']} status: {order_detail['status']} items ordered: {order_detail['item(s)_ordered']} "
+                f"{orders.index(order) + 1}.{order_num}: customer name: {order_detail['customer_name']} status: {order_detail['status']} items ordered: {order_detail['item(s)_ordered']} "
             )
     print("\n")
     del_order_input = int(
@@ -353,10 +448,10 @@ def delete_order():
         )
     )
     print("\n")
-    if del_order_input <= len(orders_data):
-        order_detail = list(orders_data[del_order_input - 1].keys())
+    if del_order_input <= len(orders):
+        order_detail = list(orders[del_order_input - 1].keys())
         del_order_input - 1
-        orders_data.pop(orders_data.index(orders_data[del_order_input - 1]))
+        orders.pop(orders.index(orders[del_order_input - 1]))
         print(
             "confirmed, that order has been deleted, returning you to the the order menu"
         )
@@ -366,14 +461,42 @@ def delete_order():
         delete_order()
 
 
-# function for printing out the up to date list of products
+# function to delete a courier
+
+
+def courier_del():
+    for courier in couriers_data:
+        cournum = couriers_data.index(courier) + 1
+        print(f"{cournum}. {courier}")
+    courier_del_input = int(
+        input(
+            "What is the courier you would like to delete? please give the number associated with the product "
+        )
+    )
+    if courier_del_input <= len(couriers_data):
+        del_courier_val = courier_del_input - 1
+        print(
+            (
+                f"You selected {couriers_data[courier_del_input - 1]}, This will now be removed from the list"
+            )
+        )
+        couriers_data.pop(del_courier_val)
+    else:
+        print("That's not a valid option please try again")
+        prod_del()
+
+
+# function for printing out the up to date lists
 def print_prod_list():
     print(products_data)
 
 
-# function for printing out the up to date orders
 def print_orders():
-    print(orders_data)
+    print(orders)
+
+
+def print_couriers():
+    print(couriers_data)
 
 
 # main menu return prompt func
@@ -405,12 +528,15 @@ def logic_function():
             mm_return_func()
         elif prod_menu_input1 == 2:
             add_product()
+            products_persistance()
             mm_return_func()
         elif prod_menu_input1 == 3:
             prod_update()
+            products_persistance()
             mm_return_func()
         elif prod_menu_input1 == 4:
             prod_del()
+            products_persistance()
             mm_return_func()
         elif prod_menu_input1 == 0:
             logic_function
@@ -423,7 +549,7 @@ def logic_function():
             print_orders()
             mm_return_func()
         elif order_menu_input1 == 2:
-            new_order_func()
+            add_order_func()
             mm_return_func()
         elif order_menu_input1 == 3:
             update_order_status()
@@ -436,6 +562,28 @@ def logic_function():
             mm_return_func()
         elif order_menu_input1 == 0:
             logic_function()
+    elif first_input == 3:
+        couriers_menu_options()
+        courier_menu_input1 = int(
+            input("\n Select the number associated with your desired option \n")
+        )
+        if courier_menu_input1 == 1:
+            print_couriers()
+            mm_return_func()
+        elif courier_menu_input1 == 2:
+            add_courier()
+            couriers_persistance()
+            mm_return_func()
+        elif courier_menu_input1 == 3:
+            courier_update()
+            couriers_persistance()
+            mm_return_func()
+        elif courier_menu_input1 == 4:
+            courier_del()
+            couriers_persistance()
+            mm_return_func()
+        elif courier_menu_input1 == 0:
+            logic_function()
     elif first_input == 0:
         print("you have decided to leave the app, goodbye")
     else:
@@ -444,4 +592,4 @@ def logic_function():
 
 
 # app instantiation func
-# logic_function()
+logic_function()
