@@ -55,9 +55,9 @@ def maybeLoop(doALoop):
 # Look at my horse
 def horse():
     amazing = True
-    flavour = lick()
-    if flavour == "raisins":
-        print("yum")
+    # flavour = lick()
+    # if flavour == "raisins":
+    # print("yum")
 
 
 # Create a selection that spans multiple lines. Use the previous shortcut. The whole set of lines is deleted.
@@ -109,11 +109,11 @@ transition:         all 1100ms linear;
 # Fix all lines at the same time with multiple cursors
 # (hint, use Copy and Paste (Ctrl+C, Ctrl+V))
 
-list[0] = getStart(0) + "alpha" + getEnd(0)
-list[1] = getStart(1) + "beta" + getEnd(1)
-list[2] = getStart(2) + "gamma" + getEnd(2)
-list[3] = getStart(3) + "delta" + getEnd(3)
-list[4] = getStart(4) + "epsilon" + getEnd(4)
+# list[0] = getStart(0) + "alpha" + getEnd(0)
+# list[1] = getStart(1) + "beta" + getEnd(1)
+# list[2] = getStart(2) + "gamma" + getEnd(2)
+# list[3] = getStart(3) + "delta" + getEnd(3)
+# list[4] = getStart(4) + "epsilon" + getEnd(4)
 
 # Each of these lines should be once sentence. They have got messed up somehow. Fix it
 # (hint, ctrl+shift+right selects a whole word)
@@ -151,14 +151,14 @@ def horse():
     # My horse is amazing
     amazing = True
     # Give it a lick
-    flavour = lick()
-    if flavour == "raisins":
-        # It tastes just like raisins
-        print("yum")
+    # flavour = lick()
+    # if flavour == "raisins":
+    # It tastes just like raisins
+    #    print("yum")
 
 
 # Make nato1 look exactly like nato2 using multiple cursors
 
 # const nato1 = { a: "alpha", b: "bravo", c: "charlie", d: "echo" }
 
-nato2 = {a: "alpha", b: "bravo", c: "charlie", d: "echo"}
+# nato2 = {a: "alpha", b: "bravo", c: "charlie", d: "echo"}
