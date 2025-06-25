@@ -42,7 +42,7 @@ change_selection2 = int(
     )
 )
 """
-
+"""
 orders = [
     {
         "order1": {
@@ -72,3 +72,28 @@ orders = [
         }
     },
 ]
+"""
+
+product_menu = "Go to the products menu\n"
+
+
+def input_function(*input_str):
+    index_num = 1
+    for choice in input_str:
+        print(f"{index_num}. {choice}")
+    returned_input = int(
+        input("\nWhich of the above options would you like to select?\n")
+    )
+    return returned_input
+
+
+def rtrn_opt():
+    rtrn = int(input("\nInput 0 to return to the previous menu\n\n"))
+    if rtrn == 0:
+        return rtrn
+    else:
+        print("\nThats an invalid option, please try again\n")
+        rtrn_opt()
+
+
+print(rtrn_opt())

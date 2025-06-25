@@ -27,7 +27,11 @@ remove_product = "\nwhich of the above products would you like to remove from th
 
 # Variables for the main menu options
 
+Main_menu = "Go to the main menu\n"
+
 product_menu = "Go to the products menu\n"
+
+exit_app = "Exit app\n"
 
 # Variables for the product menu options
 
@@ -63,16 +67,23 @@ def list_output(product_list):
 
 
 def input_function(*input_str):
+    index_num = 0
     for choice in input_str:
-        returned_input = input(choice)
+        print(f"{index_num}. {choice}")
+        index_num += 1
+    returned_input = int(
+        input("\nWhich of the above options would you like to select?\n")
+    )
     return returned_input
 
 
 # function for creating and returning a new product, to be used for adding a new product to the list
 
 
-def new_product(input):
-    return input
+def new_product(messege, products_list):
+    temp_prod_list = products_list
+    temp_prod_list.append(input(messege))
+    return temp_prod_list
 
 
 # function for updating an existing item and returning the new value in the product list
@@ -96,10 +107,68 @@ def del_item(rmv_str_input, list_output, list):
     return list
 
 
-# app master logic function
+# function holding messege for returning to the previous menu
+def rtrn_opt():
+    rtrn = int(input("-----------------\n\nInput 0 to return to the previous menu\n\n"))
+    if rtrn == 0:
+        return rtrn
+    else:
+        print("\nThats an invalid option, please try again\n")
+        rtrn_opt()
 
 
-def master_logic_function():
-    print("Hello and welcome to Brendon's coffee shop")
+# app loop functions
+def product_loop(products_list):
+    input = input_function(
+        Main_menu, view_option, create_option, update_option, remove_option
+    )
+    if input == 1:
+        list_output(products_list)
+        return_choice = rtrn_opt()
+        while return_choice == 0:
+            product_loop(products_list)
+            return_choice += 1
+    elif input == 2:
+        products_list = new_product(created_product, products_list)
+        return_choice = rtrn_opt()
+        while return_choice == 0:
+            product_loop(products_list)
+            return_choice += 1
+    elif input == 3:
+        products_list = update_item(
+            remove_product,
+            replacement_product,
+            list_output(products_list),
+            products_list,
+        )
+        return_choice = rtrn_opt()
+        while return_choice == 0:
+            product_loop(products_list)
+            return_choice += 1
+    elif input == 4:
+        products_list = del_item(
+            remove_product, list_output(products_list), products_list
+        )
+        return_choice = rtrn_opt()
+        while return_choice == 0:
+            product_loop(products_list)
+            return_choice += 1
+    elif input == 0:
+        master_logic_function(products_list)
+    else:
+        print("\nInvalid input, try again\n")
+        product_loop(products_list)
+
+
+def master_logic_function(products_list):
+    print("\n\nHello and welcome to Brendon's coffee shop")
     print(menu_choice)
-    options_output(product_menu)
+    input = input_function(exit_app, product_menu)
+    if input == 1:
+        product_loop(products_list)
+    elif input == 0:
+        print("\nUntil next time, Bye!\n")
+        exit
+
+
+master_logic_function(PRODUCTS)
