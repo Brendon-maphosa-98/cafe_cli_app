@@ -43,16 +43,6 @@ update_option = "Update an existing product\n"
 
 remove_option = "Remove an existing product\n"
 
-# function for outputing options to the terminal
-
-
-def options_output(*options_output):
-    index_num = 1
-    for option in options_output:
-        print(f"{index_num}. {option}")
-        index_num += 1
-
-
 # function for printing out product list with index
 
 
@@ -119,22 +109,22 @@ def rtrn_opt():
 
 # app loop functions
 def product_loop(products_list):
-    input = input_function(
+    Menu_choice = input_function(
         Main_menu, view_option, create_option, update_option, remove_option
     )
-    if input == 1:
+    if Menu_choice == 1:
         list_output(products_list)
         return_choice = rtrn_opt()
         while return_choice == 0:
             product_loop(products_list)
             return_choice += 1
-    elif input == 2:
+    elif Menu_choice == 2:
         products_list = new_product(created_product, products_list)
         return_choice = rtrn_opt()
         while return_choice == 0:
             product_loop(products_list)
             return_choice += 1
-    elif input == 3:
+    elif Menu_choice == 3:
         products_list = update_item(
             remove_product,
             replacement_product,
@@ -145,7 +135,7 @@ def product_loop(products_list):
         while return_choice == 0:
             product_loop(products_list)
             return_choice += 1
-    elif input == 4:
+    elif Menu_choice == 4:
         products_list = del_item(
             remove_product, list_output(products_list), products_list
         )
@@ -153,7 +143,7 @@ def product_loop(products_list):
         while return_choice == 0:
             product_loop(products_list)
             return_choice += 1
-    elif input == 0:
+    elif Menu_choice == 0:
         master_logic_function(products_list)
     else:
         print("\nInvalid input, try again\n")
@@ -163,10 +153,10 @@ def product_loop(products_list):
 def master_logic_function(products_list):
     print("\n\nHello and welcome to Brendon's coffee shop")
     print(menu_choice)
-    input = input_function(exit_app, product_menu)
-    if input == 1:
+    menu_choice = input_function(exit_app, product_menu)
+    if menu_choice == 1:
         product_loop(products_list)
-    elif input == 0:
+    elif menu_choice == 0:
         print("\nUntil next time, Bye!\n")
         exit
 
