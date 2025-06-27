@@ -13,6 +13,8 @@ PRODUCTS = [
     "Blueberry Muffin",
 ]
 
+## String variables
+
 # string variables to be reused across the script as and when needed
 
 menu_choice = "\nHow would you like to proceed, select from one of the below options\n"
@@ -67,6 +69,8 @@ def input_function(*input_str):
     return returned_input
 
 
+## Product menu action functions
+
 # function for creating and returning a new product, to be used for adding a new product to the list
 
 
@@ -107,7 +111,11 @@ def rtrn_opt():
         rtrn_opt()
 
 
-# app loop functions
+## app loop functions
+
+# product loop function
+
+
 def product_loop(products_list):
     Menu_choice = input_function(
         Main_menu, view_option, create_option, update_option, remove_option
@@ -144,13 +152,14 @@ def product_loop(products_list):
             product_loop(products_list)
             return_choice += 1
     elif Menu_choice == 0:
-        master_logic_function(products_list)
+        master_loop_function(products_list)
     else:
         print("\nInvalid input, try again\n")
         product_loop(products_list)
 
 
-def master_logic_function(products_list):
+# master loop function
+def master_loop_function(products_list):
     print("\n\nHello and welcome to Brendon's coffee shop")
     print(menu_choice)
     menu_choice = input_function(exit_app, product_menu)
@@ -161,4 +170,4 @@ def master_logic_function(products_list):
         exit
 
 
-master_logic_function(PRODUCTS)
+master_loop_function(PRODUCTS)
