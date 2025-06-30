@@ -182,10 +182,10 @@ order_status = ["preparing", "ready for pick up", "enroute", "delivered"]
 def update_order_status():
     global orders
     global order_status
+    num = 1
     for order in orders:
-        num = 1
         for order_num, order_detail in order.items():
-            print(f"{num}.{order_num}: status: {order_detail['status']}")
+            print(f"{num}. {order_num}: status: {order_detail['status']}")
             num += 1
     print("\n")
     change_selection1 = int(
@@ -196,8 +196,8 @@ def update_order_status():
     print(
         f"what would you like to change {orders[change_selection1 -1].keys()} to? below is the available options"
     )
+    num = 1
     for status in order_status:
-        num = 1
         print(f"{num}. {status}")
         num += 1
     change_selection2 = int(
@@ -211,7 +211,7 @@ def update_order_status():
             orders[change_selection1 - 1][order_key]["status"] = order_status[
                 change_selection2 - 1
             ]
-        print(orders)
+        print_orders()
 
 
 # function for updating existing order
@@ -488,15 +488,24 @@ def courier_del():
 
 # function for printing out the up to date lists
 def print_prod_list():
-    print(products_data)
+    index = 1
+    for prod in products_data:
+        print(f"{index}. {prod}")
+        index += 1
 
 
 def print_orders():
-    print(orders)
+    index = 1
+    for order in orders:
+        print(f"{index}. {order}\n")
+        index += 1
 
 
 def print_couriers():
-    print(couriers_data)
+    index = 1
+    for courier in couriers_data:
+        print(f"{index}. {courier}\n")
+        index += 1
 
 
 # main menu return prompt func
