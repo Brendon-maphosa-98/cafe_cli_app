@@ -1,4 +1,5 @@
 import random
+import csv
 
 
 # Print main menu options
@@ -64,21 +65,23 @@ orders = [
 ]
 
 # empty variables to hold the imported data from the txt files locally in python
-products_data = []
+products_data = {}
 
-couriers_data = []
+couriers_data = {}
 
 # open() functions to import and read to empty variables the data from the txt files
-with open("mini-project/week3/data/products.txt", "r") as temp_products_data:
-    for text in temp_products_data.read().split(","):
-        products_data.append(text)
-    del products_data[-1]
+with open("mini-project/week4/data/products.csv") as temp_products_data:
+    reader = csv.DictReader(temp_products_data)
+    for row in reader:
+        products_data[row["Index"]] = row["Product"]
+    # del products_data[-1]
 
+print(products_data)
 
-with open("mini-project/week3/data/couriers.txt", "r") as temp_couriers_data:
-    for line in temp_couriers_data.read().split(","):
-        couriers_data.append(line)
-    del couriers_data[-1]
+# with open("mini-project/week3/data/couriers.csv", newline=",") as temp_couriers_data:
+#    for line in temp_couriers_data.read().split(","):
+#        couriers_data.update(line)
+#    del couriers_data[-1]
 
 
 # function for add new products to the products data file
@@ -592,4 +595,4 @@ def logic_function():
 
 
 # app instantiation func
-logic_function()
+# logic_function()

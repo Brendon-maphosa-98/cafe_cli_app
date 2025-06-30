@@ -73,7 +73,7 @@ orders = [
     },
 ]
 """
-
+"""
 product_menu = "Go to the products menu\n"
 
 
@@ -97,3 +97,10 @@ def rtrn_opt():
 
 
 print(rtrn_opt())
+"""
+
+products_data = {}
+
+products_data.update("hello", "hi")
+
+print(products_data)
