@@ -74,14 +74,11 @@ with open("mini-project/week4/data/products.csv") as temp_products_data:
     reader = csv.DictReader(temp_products_data)
     for row in reader:
         products_data[row["Index"]] = row["Product"]
-    # del products_data[-1]
 
-print(products_data)
-
-# with open("mini-project/week3/data/couriers.csv", newline=",") as temp_couriers_data:
-#    for line in temp_couriers_data.read().split(","):
-#        couriers_data.update(line)
-#    del couriers_data[-1]
+with open("mini-project/week4/data/couriers.csv") as temp_couriers_data:
+    reader = csv.DictReader(temp_couriers_data)
+    for row in reader:
+        couriers_data[row["Index"]] = row["Courier"]
 
 
 # function for add new products to the products data file
