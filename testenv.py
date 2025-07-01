@@ -99,8 +99,7 @@ def rtrn_opt():
 print(rtrn_opt())
 """
 
-products_data = {}
+products_data = {1: "Hellow", 2: "Bye"}
 
-products_data.update("hello", "hi")
 
-print(products_data)
+print(len(products_data))

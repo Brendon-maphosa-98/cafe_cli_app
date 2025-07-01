@@ -84,8 +84,8 @@ with open("mini-project/week4/data/couriers.csv") as temp_couriers_data:
 # function for add new products to the products data file
 def add_product():
     global products_data
-    new_product = input("what is the new product you would like to add? ")
-    products_data.append(f"{new_product}")
+    new_product = input("what is the new product you would like to add?\n")
+    products_data.update({len(products_data) + 1: f"{new_product}"})
 
 
 # data persistance elements for couriers and products
@@ -598,4 +598,4 @@ def logic_function():
 
 
 # app instantiation func
-# logic_function()
+logic_function()
