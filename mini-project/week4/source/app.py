@@ -102,16 +102,15 @@ def products_persistance():
             writer.writerow({"Index": key, "Product": value})
 
 
-print(products_data)
-products_persistance()
-
-
 def couriers_persistance():
     with open(
-        "mini-project/week3/data/couriers.txt", "w"
+        "mini-project/week4/data/couriers.csv", "w"
     ) as temp_updated_couriers_data:
-        for courier in couriers_data:
-            temp_updated_couriers_data.write(f"{courier},")
+        fieldnames = ["Index", "Courier"]
+        writer = csv.DictWriter(temp_updated_couriers_data, fieldnames=fieldnames)
+        writer.writeheader()
+        for key, value in couriers_data.items():
+            writer.writerow({"Index": key, "Courier": value})
 
 
 # function for creating a new courier
