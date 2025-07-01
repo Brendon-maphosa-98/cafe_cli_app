@@ -32,58 +32,28 @@ def couriers_menu_options():
     )
 
 
-# creating initial orders list containing dictionary of orders
-
-orders = [
-    {
-        "order1": {
-            "customer_name": "Alice Smith",
-            "customer_address": "High Road, MANCHESTER",
-            "customer_phone": "07123456789",
-            "status": "ready for pickup",
-            "item(s)_ordered": ["Latte", "Blueberry Muffin"],
-            "Courier": "Just Eat",
-        }
-    },
-    {
-        "order2": {
-            "customer_name": "James Carter",
-            "customer_address": "Oak Street, LIVERPOOL",
-            "customer_phone": "07234567890",
-            "status": "preparing",
-            "item(s)_ordered": ["Flat White", "Croissant"],
-            "Courier": "Deliveroo",
-        }
-    },
-    {
-        "order3": {
-            "customer_name": "Laura Green",
-            "customer_address": "Maple Avenue, SHEFFIELD",
-            "customer_phone": "07345678901",
-            "status": "delivered",
-            "item(s)_ordered": ["Americano", "Cold Brew", "Blueberry Muffin"],
-            "Courier": "Uber",
-        }
-    },
-]
-
 # empty variables to hold the imported data from the txt files locally in python
-products_data = {}
+products_data = []
 
-couriers_data = {}
+couriers_data = []
 
 orders = []
 
 # open() functions to import and read to empty variables the data from the csv files
 with open("mini-project/week4/data/products.csv") as temp_products_data:
     reader = csv.DictReader(temp_products_data)
+    temp_dict = {}
     for row in reader:
-        products_data[int(row["Index"])] = row["Product"]
+        temp_dict = dict(Product=row["Product"], Price=row["price"])
+        products_data.append({int(row["Index"]): temp_dict})
 
 with open("mini-project/week4/data/couriers.csv") as temp_couriers_data:
     reader = csv.DictReader(temp_couriers_data)
+    temp_dict = {}
     for row in reader:
-        couriers_data[int(row["Index"])] = row["Name"]
+        temp_dict = dict(Name=row["Name"], Phone=row["Phone"])
+        couriers_data.append({int(row["Index"]): temp_dict})
+
 
 with open("mini-project/week4/data/orders.csv") as temp_orders_data:
     reader = csv.DictReader(temp_orders_data)
