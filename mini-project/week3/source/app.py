@@ -122,6 +122,7 @@ def add_courier():
 def add_order_func():
     global orders
     global products_data
+    global couriers_data
     ordernum = random.randint(0, 100)
     customername = input("please enter the customers name > ")
     customeraddress = input("please enter the street and city of the customer > ")
@@ -159,6 +160,18 @@ def add_order_func():
             item_selection()
 
     item_selection()
+
+    num = 1
+    for courier in couriers_data:
+        print(f"{num}. {courier}")
+        num += 1
+    courier_choice = int(
+        input(
+            "\nFrom the list above, please select the courier you would like to assign to the order"
+        )
+    )
+    courier_selection = couriers_data[courier_choice - 1]
+
     new_order = {
         f"order{ordernum}": {
             "customer_name": customername,
@@ -166,6 +179,7 @@ def add_order_func():
             "customer_phone": customerphone,
             "status": "preparing",
             "item(s)_ordered": selected_items,
+            "Courier": courier_selection,
         }
     }
     print(
