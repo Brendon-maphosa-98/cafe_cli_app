@@ -1,4 +1,10 @@
-Index,Courier
-1,Just Eat
-2,Deliveroo
-3,Uber
+Index,Name,Phone
+1,Just Eat,"02079460011"
+2,Deliveroo,"02079460022"
+3,Uber,"02079460033"
+4,Getir,"02079460044"
+5,Gopuff,"02079460055"
+6,Zapp,"02079460066"
+7,Amazon Fresh,"02079460077"
+8,Ocado,"02079460088"
+9,Morrisons Daily,"02079460099"
