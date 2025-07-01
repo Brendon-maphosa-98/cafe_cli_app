@@ -93,10 +93,13 @@ def add_product():
 
 def products_persistance():
     with open(
-        "mini-project/week3/data/products.txt", "w"
+        "mini-project/week4/data/products.csv", "w"
     ) as temp_updated_products_data:
-        for prod in products_data:
-            temp_updated_products_data.write(f"{prod},")
+        writer = csv.DictWriter(temp_updated_products_data, fieldnames=None)
+        writer.writerows(products_data)
+
+
+products_persistance()
 
 
 def couriers_persistance():
