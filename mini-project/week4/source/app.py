@@ -90,22 +90,35 @@ def products_persistance():
     with open(
         "mini-project/week4/data/products.csv", "w"
     ) as temp_updated_products_data:
-        fieldnames = ["Index", "Product"]
+        fieldnames = ["Index", "Product", "price"]
         writer = csv.DictWriter(temp_updated_products_data, fieldnames=fieldnames)
         writer.writeheader()
-        for key, value in products_data.items():
-            writer.writerow({"Index": key, "Product": value})
+        for item in products_data:
+            for key, value in item.items():
+                writer.writerow(
+                    {
+                        "Index": key,
+                        "Product": value["Product"],
+                        "price": value["Price"],
+                    }
+                )
 
 
 def couriers_persistance():
     with open(
         "mini-project/week4/data/couriers.csv", "w"
     ) as temp_updated_couriers_data:
-        fieldnames = ["Index", "Courier"]
+        fieldnames = ["Index", "Name", "Phone"]
         writer = csv.DictWriter(temp_updated_couriers_data, fieldnames=fieldnames)
         writer.writeheader()
-        for key, value in couriers_data.items():
-            writer.writerow({"Index": key, "Courier": value})
+        for item in couriers_data:
+            for key, value in item.items():
+                writer.writerow(
+                    {"Index": key, "Name": value["Name"], "Phone": value["Phone"]}
+                )
+
+
+couriers_persistance()
 
 
 def orders_persistance():
