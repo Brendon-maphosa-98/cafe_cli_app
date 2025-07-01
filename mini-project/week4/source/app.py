@@ -95,11 +95,9 @@ with open("mini-project/week4/data/orders.csv") as temp_orders_data:
             customer_phone=row["customer_phone"],
             courier=int(row["courier"]),
             status=row["status"],
-            item=row["items"].split(";"),
+            items=row["items"],
         )
         orders.append({int(row["order_num"]): temp_dict})
-
-print(orders)
 
 
 # function for add new products to the products data file
@@ -134,6 +132,35 @@ def couriers_persistance():
             writer.writerow({"Index": key, "Courier": value})
 
 
+def orders_persistance():
+    with open("mini-project/week4/data/orders.csv", "w") as temp_updated_orders_data:
+        fieldnames = [
+            "order_num",
+            "customer_name",
+            "customer_address",
+            "customer_phone",
+            "courier",
+            "status",
+            "items",
+        ]
+        writer = csv.DictWriter(temp_updated_orders_data, fieldnames=fieldnames)
+        writer.writeheader()
+        for order in orders:
+            for key, value in order.items():
+                writer.writerow(
+                    {
+                        "order_num": int(key),
+                        "customer_name": value["customer_name"],
+                        "customer_address": value["customer_address"],
+                        "customer_phone": value["customer_phone"],
+                        "courier": value["courier"],
+                        "status": value["status"],
+                        "items": value["items"],
+                    }
+                )
+
+
+orders_persistance()
 # function for creating a new courier
 
 

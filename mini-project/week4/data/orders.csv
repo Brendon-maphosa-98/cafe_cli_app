@@ -1,4 +1,4 @@
 order_num,customer_name,customer_address,customer_phone,courier,status,items
-1,Alice Smith,"High Road, MANCHESTER","07123456789",1,ready for pickup,5;8;10
-2,James Carter,"Oak Street, LIVERPOOL","07234567890",2,preparing,8;13;12
-3,Laura Green,"Maple Avenue, SHEFFIELD","07345678901",3,delivered,1;2;3
+1,Alice Smith,"High Road, MANCHESTER",07123456789,1,ready for pickup,"5,8,10"
+2,James Carter,"Oak Street, LIVERPOOL",07234567890,2,preparing,"8,13,12"
+3,Laura Green,"Maple Avenue, SHEFFIELD",07345678901,3,delivered,"1,2,3"
