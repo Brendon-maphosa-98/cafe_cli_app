@@ -426,9 +426,8 @@ def prod_update():
 
 
 def courier_update():
-    for courier in couriers_data:
-        cournum = couriers_data.index(courier) + 1
-        print(f"{cournum}. {courier}")
+    for index, value in couriers_data.items():
+        print(f"{index}. {value}")
     cour_update_input = int(
         input(
             "What is the courier you would like to update? please give the number associated with the product "
@@ -437,10 +436,10 @@ def courier_update():
     if cour_update_input <= len(couriers_data):
         new_update_val = input(
             (
-                f"You selected {couriers_data[cour_update_input - 1]}, what would you like to update it to? "
+                f"You selected {couriers_data[cour_update_input]}, what would you like to update it to? "
             )
         )
-        couriers_data[cour_update_input - 1] = new_update_val
+        couriers_data[cour_update_input] = new_update_val
     else:
         print("That's not a valid option please try again")
         courier_update()
