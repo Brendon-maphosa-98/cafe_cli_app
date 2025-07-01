@@ -160,7 +160,6 @@ def orders_persistance():
                 )
 
 
-orders_persistance()
 # function for creating a new courier
 
 
@@ -626,18 +625,23 @@ def logic_function():
         )
         if order_menu_input1 == 1:
             print_orders()
+            orders_persistance()
             mm_return_func()
         elif order_menu_input1 == 2:
             add_order_func()
+            orders_persistance()
             mm_return_func()
         elif order_menu_input1 == 3:
             update_order_status()
+            orders_persistance()
             mm_return_func()
         elif order_menu_input1 == 4:
             update_order()
+            orders_persistance()
             mm_return_func()
         elif order_menu_input1 == 5:
             delete_order()
+            orders_persistance()
             mm_return_func()
         elif order_menu_input1 == 0:
             logic_function()
