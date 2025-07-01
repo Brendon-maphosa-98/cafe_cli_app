@@ -449,22 +449,21 @@ def courier_update():
 
 
 def prod_del():
-    for prod in products_data:
-        prodnum = products_data.index(prod) + 1
-        print(f"{prodnum} {prod}")
+    for index, value in products_data.items():
+        print(f"{index}. {value}")
     prod_del_input = int(
         input(
             "What is the product you would like to delete? please give the number associated with the product "
         )
     )
-    if prod_del_input <= len(products_data):
-        del_prod_val = prod_del_input - 1
+    if prod_del_input <= len(products_data) and prod_del_input > 0:
+        # del_prod_val = prod_del_input - 1
         print(
             (
-                f"You selected {products_data[prod_del_input - 1]}, This will now be removed from the list"
+                f"You selected {products_data[prod_del_input]}, This will now be removed from the list"
             )
         )
-        products_data.pop(del_prod_val)
+        del products_data[prod_del_input]
     else:
         print("That's not a valid option please try again")
         prod_del()
