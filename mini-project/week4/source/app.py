@@ -131,12 +131,15 @@ def add_courier():
 def add_order_func():
     global orders
     global products_data
+    global couriers_data
     ordernum = random.randint(0, 100)
     customername = input("please enter the customers name > ")
     customeraddress = input("please enter the street and city of the customer > ")
     customerphone = int(input("Please enter the customers phone number > "))
-    for index, value in products_data.items():
-        print(f"{index}. {value}")
+    num = 1
+    for x in products_data:
+        print(f"{num}.{x}\n")
+        num += 1
     selected_items = []
 
     def item_selection():
@@ -145,6 +148,7 @@ def add_order_func():
                 "Please select the item(s) the customer would like to order - (input the number corresponding with the desired item, if order more than one item, enter the first one and wait to be prompted for subsequent item selections > "
             )
         )
+        itemorderedinput -= 1
         confirmation_input = int(
             input(
                 f"you have selected {products_data[itemorderedinput]}, How would you like to proceed - \n 1 - add {products_data[itemorderedinput]} to order and confirm item's selection \n 2 - add {products_data[itemorderedinput]} to order and add another item \n 3 - don't add {products_data[itemorderedinput]} and return to the orders menu > "
@@ -165,6 +169,18 @@ def add_order_func():
             item_selection()
 
     item_selection()
+
+    num = 1
+    for courier in couriers_data:
+        print(f"{num}. {courier}")
+        num += 1
+    courier_choice = int(
+        input(
+            "\nFrom the list above, please select the courier you would like to assign to the order"
+        )
+    )
+    courier_selection = couriers_data[courier_choice - 1]
+
     new_order = {
         f"order{ordernum}": {
             "customer_name": customername,
@@ -172,6 +188,7 @@ def add_order_func():
             "customer_phone": customerphone,
             "status": "preparing",
             "item(s)_ordered": selected_items,
+            "Courier": courier_selection,
         }
     }
     print(
