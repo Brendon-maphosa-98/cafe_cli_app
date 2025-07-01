@@ -42,6 +42,7 @@ orders = [
             "customer_phone": "07123456789",
             "status": "ready for pickup",
             "item(s)_ordered": ["Latte", "Blueberry Muffin"],
+            "Courier": "Just Eat",
         }
     },
     {
@@ -51,6 +52,7 @@ orders = [
             "customer_phone": "07234567890",
             "status": "preparing",
             "item(s)_ordered": ["Flat White", "Croissant"],
+            "Courier": "Deliveroo",
         }
     },
     {
@@ -60,6 +62,7 @@ orders = [
             "customer_phone": "07345678901",
             "status": "delivered",
             "item(s)_ordered": ["Americano", "Cold Brew", "Blueberry Muffin"],
+            "Courier": "Uber",
         }
     },
 ]
@@ -229,11 +232,12 @@ def update_order():
         "customer_phone",
         "status",
         "item(s)_ordered",
+        "Courier",
     ]
     for order in orders:
         for order_num, order_detail in order.items():
             print(
-                f"{orders.index(order) + 1}.{order_num}: customer name: {order_detail['customer_name']} status: {order_detail['status']} items ordered: {order_detail['item(s)_ordered']} "
+                f"{orders.index(order) + 1}.{order_num}: customer name: {order_detail['customer_name']} status: {order_detail['status']} items ordered: {order_detail['item(s)_ordered']} Courier: {order_detail['Courier']} "
             )
     print("\n")
     change_selection1 = int(
@@ -243,7 +247,7 @@ def update_order():
     )
     change_selection2 = int(
         input(
-            "what would you like to change about the order.\n1. customer name\n 2. customer address\n 3. customer phone number\n 4. order status\n 5. items ordered > "
+            "what would you like to change about the order.\n1. customer name\n2. customer address\n3. customer phone number\n4. order status\n5. items ordered\n6. Courier\n> "
         )
     )
     if change_selection2 == 1:
@@ -362,6 +366,22 @@ def update_order():
                 else:
                     print("Thats an invalid response, please try again")
                     rmv_order_item()
+
+    elif change_selection2 == 6:
+        num = 1
+        for courier in couriers_data:
+            print(f"{num}. {courier}")
+            num += 1
+        for key in orders[change_selection1 - 1].keys():
+            order_key = key
+        change_selection3 = int(
+            input(
+                f"which courier from the ones listed above would you like to change the courier of order {order_num} to?, input the number of the courier below\n> "
+            )
+        )
+        orders[change_selection1 - 1][order_key][
+            dict_key_directory[change_selection2 - 1]
+        ] = couriers_data[change_selection3 - 1]
 
 
 # function for updating existing product
