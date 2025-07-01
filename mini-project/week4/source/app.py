@@ -95,10 +95,14 @@ def products_persistance():
     with open(
         "mini-project/week4/data/products.csv", "w"
     ) as temp_updated_products_data:
-        writer = csv.DictWriter(temp_updated_products_data, fieldnames=None)
-        writer.writerows(products_data)
+        fieldnames = ["Index", "Product"]
+        writer = csv.DictWriter(temp_updated_products_data, fieldnames=fieldnames)
+        writer.writeheader()
+        for key, value in products_data.items():
+            writer.writerow({"Index": key, "Product": value})
 
 
+print(products_data)
 products_persistance()
 
 
