@@ -75,12 +75,10 @@ with open("mini-project/week4/data/products.csv") as temp_products_data:
     for row in reader:
         products_data[int(row["Index"])] = row["Product"]
 
-print(products_data)
-
 with open("mini-project/week4/data/couriers.csv") as temp_couriers_data:
     reader = csv.DictReader(temp_couriers_data)
     for row in reader:
-        couriers_data[row["Index"]] = row["Courier"]
+        couriers_data[int(row["Index"])] = row["Courier"]
 
 
 # function for add new products to the products data file
@@ -134,10 +132,8 @@ def add_order_func():
     customername = input("please enter the customers name > ")
     customeraddress = input("please enter the street and city of the customer > ")
     customerphone = int(input("Please enter the customers phone number > "))
-    num = 1
-    for x in products_data:
-        print(f"{num}.{x}\n")
-        num += 1
+    for index, value in products_data.items():
+        print(f"{index}. {value}")
     selected_items = []
 
     def item_selection():
@@ -146,7 +142,6 @@ def add_order_func():
                 "Please select the item(s) the customer would like to order - (input the number corresponding with the desired item, if order more than one item, enter the first one and wait to be prompted for subsequent item selections > "
             )
         )
-        itemorderedinput -= 1
         confirmation_input = int(
             input(
                 f"you have selected {products_data[itemorderedinput]}, How would you like to proceed - \n 1 - add {products_data[itemorderedinput]} to order and confirm item's selection \n 2 - add {products_data[itemorderedinput]} to order and add another item \n 3 - don't add {products_data[itemorderedinput]} and return to the orders menu > "
@@ -375,18 +370,18 @@ def prod_update():
         print(f"{index}. {value}")
     prod_update_input = int(
         input(
-            "What is the product you would like to update? please give the number associated with the product "
+            "What is the product you would like to update? please give the number associated with the product\n"
         )
     )
     if prod_update_input <= len(products_data):
         new_update_val = input(
             (
-                f"You selected {products_data[prod_update_input - 1]}, what would you like to update it to? "
+                f"You selected {products_data[prod_update_input]}, what would you like to update it to?\n"
             )
         )
-        products_data[prod_update_input - 1] = new_update_val
+        products_data[prod_update_input] = new_update_val
     else:
-        print("That's not a valid option please try again")
+        print("That's not a valid option please try again\n")
         prod_update()
 
 
@@ -599,4 +594,4 @@ def logic_function():
 
 
 # app instantiation func
-# logic_function()
+logic_function()
