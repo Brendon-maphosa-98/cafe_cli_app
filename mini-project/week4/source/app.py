@@ -73,7 +73,9 @@ couriers_data = {}
 with open("mini-project/week4/data/products.csv") as temp_products_data:
     reader = csv.DictReader(temp_products_data)
     for row in reader:
-        products_data[row["Index"]] = row["Product"]
+        products_data[int(row["Index"])] = row["Product"]
+
+print(products_data)
 
 with open("mini-project/week4/data/couriers.csv") as temp_couriers_data:
     reader = csv.DictReader(temp_couriers_data)
@@ -118,8 +120,8 @@ def couriers_persistance():
 
 def add_courier():
     global couriers_data
-    new_courier = input("what is the new courier you would like to add? ")
-    couriers_data.append(f"{new_courier}")
+    new_courier = input("what is the new courier you would like to add?\n")
+    couriers_data.update({len(couriers_data) + 1: f"{new_courier}"})
 
 
 # function for adding a new order
@@ -369,9 +371,8 @@ def update_order():
 
 # function for updating existing product
 def prod_update():
-    for prod in products_data:
-        prodnum = products_data.index(prod) + 1
-        print(f"{prodnum}. {prod}")
+    for index, value in products_data.items():
+        print(f"{index}. {value}")
     prod_update_input = int(
         input(
             "What is the product you would like to update? please give the number associated with the product "
@@ -598,4 +599,4 @@ def logic_function():
 
 
 # app instantiation func
-logic_function()
+# logic_function()

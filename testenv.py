@@ -101,5 +101,6 @@ print(rtrn_opt())
 
 products_data = {1: "Hellow", 2: "Bye"}
 
+input = int(input("select item number "))
 
-print(len(products_data))
+print((products_data[input - 1]))
