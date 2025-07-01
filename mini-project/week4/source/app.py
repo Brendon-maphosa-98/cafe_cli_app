@@ -72,7 +72,9 @@ products_data = {}
 
 couriers_data = {}
 
-# open() functions to import and read to empty variables the data from the txt files
+orders = []
+
+# open() functions to import and read to empty variables the data from the csv files
 with open("mini-project/week4/data/products.csv") as temp_products_data:
     reader = csv.DictReader(temp_products_data)
     for row in reader:
@@ -81,7 +83,23 @@ with open("mini-project/week4/data/products.csv") as temp_products_data:
 with open("mini-project/week4/data/couriers.csv") as temp_couriers_data:
     reader = csv.DictReader(temp_couriers_data)
     for row in reader:
-        couriers_data[int(row["Index"])] = row["Courier"]
+        couriers_data[int(row["Index"])] = row["Name"]
+
+with open("mini-project/week4/data/orders.csv") as temp_orders_data:
+    reader = csv.DictReader(temp_orders_data)
+    temp_dict = {}
+    for row in reader:
+        temp_dict = dict(
+            customer_name=row["customer_name"],
+            customer_address=row["customer_address"],
+            customer_phone=row["customer_phone"],
+            courier=int(row["courier"]),
+            status=row["status"],
+            item=row["items"].split(";"),
+        )
+        orders.append({int(row["order_num"]): temp_dict})
+
+print(orders)
 
 
 # function for add new products to the products data file
@@ -626,4 +644,4 @@ def logic_function():
 
 
 # app instantiation func
-logic_function()
+# logic_function()
