@@ -118,9 +118,6 @@ def couriers_persistance():
                 )
 
 
-couriers_persistance()
-
-
 def orders_persistance():
     with open("mini-project/week4/data/orders.csv", "w") as temp_updated_orders_data:
         fieldnames = [
@@ -155,7 +152,11 @@ def orders_persistance():
 def add_courier():
     global couriers_data
     new_courier = input("what is the new courier you would like to add?\n")
-    couriers_data.update({len(couriers_data) + 1: f"{new_courier}"})
+    courier_phone = input(
+        f"what is the phone number of {new_courier}? Remember the number must begin with a 0\n>"
+    )
+    temp_dict = dict(Name=new_courier, Phone=courier_phone)
+    couriers_data.append({len(couriers_data) + 1: temp_dict})
 
 
 # function for adding a new order
