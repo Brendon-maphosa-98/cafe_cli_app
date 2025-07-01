@@ -74,7 +74,13 @@ with open("mini-project/week4/data/orders.csv") as temp_orders_data:
 def add_product():
     global products_data
     new_product = input("what is the new product you would like to add?\n")
-    products_data.update({len(products_data) + 1: f"{new_product}"})
+    new_prod_price = float(
+        input(
+            f"what is the price you would like to charge for {new_product}?\ninsert price here (don't forget the decimal point)"
+        )
+    )
+    temp_prod_dict = dict(Product={new_product}, Price={new_prod_price})
+    products_data.append({len(products_data) + 1: temp_prod_dict})
 
 
 # data persistance elements for couriers and products
