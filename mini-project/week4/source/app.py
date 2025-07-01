@@ -457,7 +457,6 @@ def prod_del():
         )
     )
     if prod_del_input <= len(products_data) and prod_del_input > 0:
-        # del_prod_val = prod_del_input - 1
         print(
             (
                 f"You selected {products_data[prod_del_input]}, This will now be removed from the list"
@@ -502,22 +501,20 @@ def delete_order():
 
 
 def courier_del():
-    for courier in couriers_data:
-        cournum = couriers_data.index(courier) + 1
-        print(f"{cournum}. {courier}")
+    for index, value in couriers_data.items():
+        print(f"{index}. {value}")
     courier_del_input = int(
         input(
             "What is the courier you would like to delete? please give the number associated with the product "
         )
     )
-    if courier_del_input <= len(couriers_data):
-        del_courier_val = courier_del_input - 1
+    if courier_del_input <= len(couriers_data) and courier_del_input > 0:
         print(
             (
-                f"You selected {couriers_data[courier_del_input - 1]}, This will now be removed from the list"
+                f"You selected {couriers_data[courier_del_input]}, This will now be removed from the list"
             )
         )
-        couriers_data.pop(del_courier_val)
+        del couriers_data[courier_del_input]
     else:
         print("That's not a valid option please try again")
         prod_del()
