@@ -5,7 +5,7 @@ import csv
 # Print main menu options
 def main_menu_opts():
     print(
-        "welcome to the main menu, what would you like to do:\n1: Print Products Menu,\n2: Print Orders Menu,\n3: Print Couriers Menu\n0: Exit app"
+        "welcome to the main menu, what would you like to do:\n1: Print products Menu,\n2: Print couriers Menu,\n3: Print orders Menu\n0: Exit app"
     )
 
 
@@ -79,7 +79,7 @@ def add_product():
             f"what is the price you would like to charge for {new_product}?\ninsert price here (don't forget the decimal point)"
         )
     )
-    temp_prod_dict = dict(Product={new_product}, Price={new_prod_price})
+    temp_prod_dict = dict(Product=new_product, Price=new_prod_price)
     products_data.append({len(products_data) + 1: temp_prod_dict})
 
 
@@ -95,9 +95,10 @@ def products_persistance():
         writer.writeheader()
         for item in products_data:
             for key, value in item.items():
+                index = products_data.index(item) + 1
                 writer.writerow(
                     {
-                        "Index": key,
+                        "Index": index,
                         "Product": value["Product"],
                         "price": value["Price"],
                     }
@@ -113,8 +114,9 @@ def couriers_persistance():
         writer.writeheader()
         for item in couriers_data:
             for key, value in item.items():
+                index = couriers_data.index(item) + 1
                 writer.writerow(
-                    {"Index": key, "Name": value["Name"], "Phone": value["Phone"]}
+                    {"Index": index, "Name": value["Name"], "Phone": value["Phone"]}
                 )
 
 
@@ -133,9 +135,10 @@ def orders_persistance():
         writer.writeheader()
         for order in orders:
             for key, value in order.items():
+                index = orders.index(order) + 1
                 writer.writerow(
                     {
-                        "order_num": int(key),
+                        "order_num": int(index),
                         "customer_name": value["customer_name"],
                         "customer_address": value["customer_address"],
                         "customer_phone": str(value["customer_phone"]),
@@ -153,10 +156,17 @@ def add_courier():
     global couriers_data
     new_courier = input("what is the new courier you would like to add?\n")
     courier_phone = input(
-        f"what is the phone number of {new_courier}? Remember the number must begin with a 0\n>"
+        f"Enter the number you would like to give to {new_courier}\nEnter new number here (remember the number must start 020 and be 11 digits long) > "
     )
-    temp_dict = dict(Name=new_courier, Phone=courier_phone)
-    couriers_data.append({len(couriers_data) + 1: temp_dict})
+    if courier_phone[0] == "0" and len(courier_phone) == 11:
+        print(
+            f"\nThe new courier will be named {new_courier} and it's number will be {courier_phone}. Confirmed\n"
+        )
+        temp_dict = dict(Name=new_courier, Phone=courier_phone)
+        couriers_data.append({len(couriers_data) + 1: temp_dict})
+    else:
+        print("Thats and invalid number, please try again")
+        add_courier()
 
 
 # function for adding a new order
@@ -668,7 +678,9 @@ def courier_del():
 
 # function for printing out the up to date lists
 def print_prod_list():
-    print(products_data)
+    for prod in products_data:
+        for key, value in prod.items():
+            print(f"Product {key}: {value['Product']} - £{value['Price']}")
 
 
 def print_orders():
@@ -676,7 +688,9 @@ def print_orders():
 
 
 def print_couriers():
-    print(couriers_data)
+    for courier in couriers_data:
+        for key, value in courier.items():
+            print(f"Courier {key}: {value['Name']} - {value['Phone']}")
 
 
 # main menu return prompt func
@@ -719,8 +733,8 @@ def logic_function():
             products_persistance()
             mm_return_func()
         elif prod_menu_input1 == 0:
-            logic_function
-    elif first_input == 2:
+            logic_function()
+    elif first_input == 3:
         orders_menu_opts()
         order_menu_input1 = int(
             input("\n Select the number associated with your desired option \n")
@@ -747,7 +761,7 @@ def logic_function():
             mm_return_func()
         elif order_menu_input1 == 0:
             logic_function()
-    elif first_input == 3:
+    elif first_input == 2:
         couriers_menu_options()
         courier_menu_input1 = int(
             input("\n Select the number associated with your desired option \n")
@@ -771,6 +785,9 @@ def logic_function():
             logic_function()
     elif first_input == 0:
         print("you have decided to leave the app, goodbye")
+        products_persistance()
+        couriers_persistance()
+        orders_persistance()
     else:
         print("Thats not a valid option, try again")
         logic_function()
