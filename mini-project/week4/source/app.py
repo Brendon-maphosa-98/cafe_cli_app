@@ -271,8 +271,10 @@ def update_order_status():
     global orders
     global order_status
     for order in orders:
-        for order_num, order_detail in order.items():
-            print(f"{order_num}: status: {order_detail['status']}")
+        for key, value in order.items():
+            print(
+                f"Order {key}: {value['customer_name']}, Items Order: {value['items']}, Status: {value['status']}"
+            )
     print("\n")
     change_selection1 = int(
         input(
@@ -288,7 +290,7 @@ def update_order_status():
         num += 1
     change_selection2 = int(
         input(
-            f"whats the number associated with the status you would like to update {orders[change_selection1 -1].keys()} to?"
+            f"whats the number associated with the status you would like to update order {change_selection1} to?"
         )
     )
 
@@ -297,7 +299,11 @@ def update_order_status():
             orders[change_selection1 - 1][order_key]["status"] = order_status[
                 change_selection2 - 1
             ]
-        print(orders)
+    for order in orders:
+        for key, value in order.items():
+            print(
+                f"Order {key}: {value['customer_name']}, Items Order: {value['items']}, Status: {value['status']}"
+            )
 
 
 # function for updating existing order
@@ -684,7 +690,11 @@ def print_prod_list():
 
 
 def print_orders():
-    print(orders)
+    for order in orders:
+        for key, value in order.items():
+            print(
+                f"Order {key}: {value['customer_name']}, Items Order: {value['items']}, Status: {value['status']}"
+            )
 
 
 def print_couriers():
