@@ -62,7 +62,7 @@ with open("mini-project/week4/data/orders.csv") as temp_orders_data:
         temp_dict = dict(
             customer_name=row["customer_name"],
             customer_address=row["customer_address"],
-            customer_phone=row["customer_phone"],
+            customer_phone=str(row["customer_phone"]),
             courier=int(row["courier"]),
             status=row["status"],
             items=row["items"],
@@ -138,10 +138,10 @@ def orders_persistance():
                         "order_num": int(key),
                         "customer_name": value["customer_name"],
                         "customer_address": value["customer_address"],
-                        "customer_phone": value["customer_phone"],
+                        "customer_phone": str(value["customer_phone"]),
                         "courier": value["courier"],
                         "status": value["status"],
-                        "items": value["items"],
+                        "items": str(value["items"]),
                     }
                 )
 
@@ -166,15 +166,14 @@ def add_order_func():
     global orders
     global products_data
     global couriers_data
-    ordernum = random.randint(0, 100)
     customername = input("please enter the customers name > ")
     customeraddress = input("please enter the street and city of the customer > ")
-    customerphone = int(input("Please enter the customers phone number > "))
-    num = 1
-    for x in products_data:
-        print(f"{num}.{x}\n")
-        num += 1
+    customerphone = input("Please enter the customers phone number > ")
+    for item in products_data:
+        for key, value in item.items():
+            print(f"{key}.{value["Product"]}\n")
     selected_items = []
+    selected_item_index = []
 
     def item_selection():
         itemorderedinput = int(
@@ -185,16 +184,22 @@ def add_order_func():
         itemorderedinput -= 1
         confirmation_input = int(
             input(
-                f"you have selected {products_data[itemorderedinput]}, How would you like to proceed - \n 1 - add {products_data[itemorderedinput]} to order and confirm item's selection \n 2 - add {products_data[itemorderedinput]} to order and add another item \n 3 - don't add {products_data[itemorderedinput]} and return to the orders menu > "
+                f"you have selected {products_data[itemorderedinput][itemorderedinput + 1]["Product"]}, How would you like to proceed - \n 1 - add {products_data[itemorderedinput][itemorderedinput + 1]["Product"]} to order and confirm item's selection \n 2 - add {products_data[itemorderedinput][itemorderedinput + 1]["Product"]} to order and add another item \n 3 - don't add {products_data[itemorderedinput][itemorderedinput + 1]["Product"]} and return to the orders menu > "
             )
         )
         if confirmation_input == 1:
-            selected_items.append(products_data[itemorderedinput])
+            selected_items.append(
+                {products_data[itemorderedinput][itemorderedinput + 1]["Product"]}
+            )
             print(
                 f"Confirmed, the following items have been added to the order {str(selected_items)}"
             )
+            selected_item_index.append(str(itemorderedinput + 1))
         elif confirmation_input == 2:
-            selected_items.append(products_data[itemorderedinput])
+            selected_items.append(
+                {products_data[itemorderedinput][itemorderedinput + 1]["Product"]}
+            )
+            selected_item_index.append(str(itemorderedinput + 1))
             item_selection()
         elif confirmation_input == 3:
             orders_menu_opts
@@ -205,30 +210,46 @@ def add_order_func():
     item_selection()
 
     num = 1
-    for courier in couriers_data:
-        print(f"{num}. {courier}")
-        num += 1
+    for item in couriers_data:
+        for key, value in item.items():
+            print(f"{key}.{value["Name"]}\n")
+            num += 1
     courier_choice = int(
         input(
             "\nFrom the list above, please select the courier you would like to assign to the order"
         )
     )
-    courier_selection = couriers_data[courier_choice - 1]
+    courier_selection = couriers_data[courier_choice - 1][courier_choice]["Name"]
+    print(
+        f"You have selected {courier_selection} for this order, it will now be assigned"
+    )
 
     new_order = {
-        f"order{ordernum}": {
+        f"{len(orders)+1}": {
             "customer_name": customername,
             "customer_address": customeraddress,
             "customer_phone": customerphone,
-            "status": "preparing",
-            "item(s)_ordered": selected_items,
             "Courier": courier_selection,
+            "status": "preparing",
+            "items": selected_items,
         }
     }
     print(
-        f"\n This is your new order which has now been added to the orders list > {new_order}"
+        f"\n This is your new order which has now been added to the orders list >\n {new_order}"
     )
-    orders.append(new_order)
+    selected_item_index = str(selected_item_index)
+    selected_item_index = selected_item_index.strip("[").strip("]").replace("'", "")
+    formated_order = {
+        f"{len(orders) + 1}": {
+            "customer_name": customername,
+            "customer_address": customeraddress,
+            "customer_phone": customerphone,
+            "courier": courier_choice,
+            "status": "preparing",
+            "items": f"{selected_item_index}",
+        }
+    }
+    orders.append(formated_order)
 
 
 # function for updating an existing order status
@@ -240,10 +261,8 @@ def update_order_status():
     global orders
     global order_status
     for order in orders:
-        num = 1
         for order_num, order_detail in order.items():
-            print(f"{num}.{order_num}: status: {order_detail['status']}")
-            num += 1
+            print(f"{order_num}: status: {order_detail['status']}")
     print("\n")
     change_selection1 = int(
         input(
@@ -251,10 +270,10 @@ def update_order_status():
         )
     )
     print(
-        f"what would you like to change {orders[change_selection1 -1].keys()} to? below is the available options"
+        f"what would you like to change order {change_selection1} to? below is the available options"
     )
+    num = 1
     for status in order_status:
-        num = 1
         print(f"{num}. {status}")
         num += 1
     change_selection2 = int(
@@ -282,13 +301,13 @@ def update_order():
         "customer_address",
         "customer_phone",
         "status",
-        "item(s)_ordered",
+        "items",
         "Courier",
     ]
     for order in orders:
         for order_num, order_detail in order.items():
             print(
-                f"{orders.index(order) + 1}.{order_num}: customer name: {order_detail['customer_name']} status: {order_detail['status']} items ordered: {order_detail['item(s)_ordered']} Courier: {order_detail['Courier']} "
+                f"Order {order_num}: customer name: {order_detail['customer_name']} status: {order_detail['status']} items ordered: {order_detail['items']} Courier: {order_detail['courier']} "
             )
     print("\n")
     change_selection1 = int(
@@ -342,14 +361,12 @@ def update_order():
         )
         if order_update_input == 1:
             selected_items = []
+            selected_item_index = []
 
             def add_item():
-                num = 1
-                for prod in products_data:
-                    print(f"{num}.{prod}\n")
-                num += 1
-                for key in orders[change_selection1 - 1].keys():
-                    order_key = key
+                for item in products_data:
+                    for key, value in item.items():
+                        print(f"{key}.{value["Product"]}\n")
                 itemorderedinput = int(
                     input(
                         "Please select the item(s) the customer would like to add to the order - (input the number corresponding with the desired item, if order more than one item, enter the first one and wait to be prompted for subsequent item selections > "
@@ -358,19 +375,30 @@ def update_order():
                 itemorderedinput -= 1
                 confirmation_input = int(
                     input(
-                        f"you have selected {products_data[itemorderedinput]}, How would you like to proceed - \n 1 - add {products_data[itemorderedinput]} to order and confirm item's selection \n 2 - add {products_data[itemorderedinput]} to order and add another item \n 3 - don't add {products_data[itemorderedinput]} and return to the orders menu > "
+                        f"you have selected {products_data[itemorderedinput][itemorderedinput + 1]["Product"]}, How would you like to proceed - \n 1 - add {products_data[itemorderedinput][itemorderedinput + 1]["Product"]} to order and confirm item's selection \n 2 - add {products_data[itemorderedinput][itemorderedinput + 1]["Product"]} to order and add another item \n 3 - don't add {products_data[itemorderedinput][itemorderedinput + 1]["Product"]} and return to the orders menu > "
                     )
                 )
                 if confirmation_input == 1:
-                    selected_items.append(products_data[itemorderedinput])
+                    selected_items.append(
+                        {
+                            products_data[itemorderedinput][itemorderedinput + 1][
+                                "Product"
+                            ]
+                        }
+                    )
                     print(
                         f"Confirmed, the following items have been added to the order: {str(selected_items)}"
                     )
-                    orders[change_selection1 - 1][order_key][
-                        dict_key_directory[change_selection2 - 1]
-                    ].append(selected_items)
+                    selected_item_index.append(str(itemorderedinput + 1))
                 elif confirmation_input == 2:
-                    selected_items.append(products_data[itemorderedinput])
+                    selected_items.append(
+                        {
+                            products_data[itemorderedinput][itemorderedinput + 1][
+                                "Product"
+                            ]
+                        }
+                    )
+                    selected_item_index.append(str(itemorderedinput + 1))
                     add_item()
                 elif confirmation_input == 3:
                     orders_menu_opts
@@ -379,50 +407,69 @@ def update_order():
                     add_item()
 
             add_item()
+            selected_item_index = str(selected_item_index)
+            selected_item_index = (
+                selected_item_index.strip("[").strip("]").replace("'", "")
+            )
+            orders[change_selection1 - 1][change_selection1][
+                "items"
+            ] += f", {selected_item_index}"
         elif order_update_input == 2:
 
             def rmv_order_item():
-                order_temp_items = orders[change_selection1 - 1][order_key][
-                    dict_key_directory[change_selection2 - 1]
+                order_temp_items = orders[change_selection1 - 1][change_selection1][
+                    "items"
                 ]
-                num = 1
-                for order in order_temp_items:
-                    print(f"Below are the items that {order_num} currently has\n")
-                    print(f"{num}.{order}\n")
-                    num += 1
-                for key in orders[change_selection1 - 1].keys():
-                    order_key = key
-                itemorderedinput = int(
+                print(
+                    f"Below are the items that order {change_selection1} currently has\n"
+                )
+                for key, value in orders[change_selection1 - 1].items():
+                    rmv_ord_items = value["items"].split(",")
+                    for ord_item in rmv_ord_items:
+                        ord_item = int(ord_item)
+                        print(
+                            f'Item {ord_item}: {products_data[ord_item - 1][ord_item]["Product"]}'
+                        )
+
+                itemremoveinput = int(
                     input(
-                        "Please select the item(s) the customer would like to remove from the order - (input the number corresponding with the desired item, if order more than one item, enter the first one and wait to be prompted for subsequent item selections > "
+                        "Please select the item(s) the customer would like to remove from the order - (input the number corresponding with the desired item, if more than one item, enter the first one and wait to be prompted for subsequent item selections > "
                     )
                 )
-                itemorderedinput -= 1
                 confirmation_input = int(
                     input(
-                        f"you have selected {products_data[itemorderedinput]}, How would you like to proceed - \n 1 - remove {products_data[itemorderedinput]} from order and confirm item's remove \n 2 - add {products_data[itemorderedinput]} to order and remove another item \n 3 - don't remove {products_data[itemorderedinput]} and return to the orders menu > "
+                        f"you have selected Item {itemremoveinput}: {products_data[itemremoveinput-1][itemremoveinput]["Product"]}, How would you like to proceed - \n 1 - remove item {itemremoveinput}: {products_data[itemremoveinput-1][itemremoveinput]["Product"]} from order and confirm item's remove \n 2 - remove item {itemremoveinput}: {products_data[itemremoveinput-1][itemremoveinput]["Product"]} from order and remove another item \n 3 - don't remove item {itemremoveinput}: {products_data[itemremoveinput-1][itemremoveinput]["Product"]} and return to the orders menu > "
                     )
                 )
                 if confirmation_input == 1:
+                    items = orders[change_selection1 - 1][change_selection1]["items"]
+                    items = items.split(",")
+                    items.remove(str(itemremoveinput))
+                    items = str(items)
+                    items = (
+                        items.strip("[")
+                        .strip("]")
+                        .replace("'", "")
+                        .strip()
+                        .replace("  ", " ")
+                    )
+                    orders[change_selection1 - 1][change_selection1]["items"] = items
+                elif confirmation_input == 2:
                     orders[change_selection1 - 1][order_key][
                         dict_key_directory[change_selection2 - 1]
-                    ].pop(itemorderedinput)
-                if confirmation_input == 2:
-                    orders[change_selection1 - 1][order_key][
-                        dict_key_directory[change_selection2 - 1]
-                    ].pop(itemorderedinput)
+                    ].pop(itemremoveinput)
                     rmv_order_item()
-                if confirmation_input == 3:
+                elif confirmation_input == 3:
                     orders_menu_opts()
                 else:
                     print("Thats an invalid response, please try again")
                     rmv_order_item()
 
+            rmv_order_item()
     elif change_selection2 == 6:
-        num = 1
         for courier in couriers_data:
-            print(f"{num}. {courier}")
-            num += 1
+            for key, value in courier.items():
+                print(f"{key}. {value["Name"]}")
         for key in orders[change_selection1 - 1].keys():
             order_key = key
         change_selection3 = int(
@@ -430,27 +477,60 @@ def update_order():
                 f"which courier from the ones listed above would you like to change the courier of order {order_num} to?, input the number of the courier below\n> "
             )
         )
-        orders[change_selection1 - 1][order_key][
-            dict_key_directory[change_selection2 - 1]
-        ] = couriers_data[change_selection3 - 1]
+        orders[change_selection1 - 1][change_selection1]["courier"] = change_selection3
 
 
 # function for updating existing product
 def prod_update():
-    for index, value in products_data.items():
-        print(f"{index}. {value}")
+    for prod in products_data:
+        for index, value in prod.items():
+            print(f'{index}. {value["Product"]} - £{value["Price"]}')
     prod_update_input = int(
         input(
             "What is the product you would like to update? please give the number associated with the product\n"
         )
     )
     if prod_update_input <= len(products_data):
-        new_update_val = input(
-            (
-                f"You selected {products_data[prod_update_input]}, what would you like to update it to?\n"
+        update_choice = int(
+            input(
+                (
+                    f"You selected {products_data[prod_update_input-1][prod_update_input][
+            "Product"
+        ]}, what would you like to update about it?\n1. Update Product Name\n2.Update Product Price\n"
+                )
             )
         )
-        products_data[prod_update_input] = new_update_val
+        if update_choice == 1:
+            new_prod_name = input(
+                f'Enter the new name you would like to give to {products_data[prod_update_input-1][prod_update_input][
+            "Product"
+        ]} below\n> '
+            )
+            print(
+                f'The new name for {products_data[prod_update_input-1][prod_update_input][
+            "Product"]} will be {new_prod_name}, confirmed\n'
+            )
+            products_data[prod_update_input - 1][prod_update_input][
+                "Product"
+            ] = new_prod_name
+        elif update_choice == 2:
+            new_prod_price = float(
+                input(
+                    f'Enter the new price you would like to give to {products_data[prod_update_input-1][prod_update_input][
+            "Product"]}?\nThe current price is £{products_data[prod_update_input - 1][prod_update_input][
+            "Price"]}\nEnter new price here (remember the format 0.00) > '
+                )
+            )
+            print(
+                f'The new price for {products_data[prod_update_input-1][prod_update_input][
+            "Price"]} will be £{new_prod_price}, confirmed\n'
+            )
+            products_data[prod_update_input - 1][prod_update_input][
+                "Price"
+            ] = new_prod_price
+        else:
+            print("Thats and invalid input, please try again")
+            prod_update()
     else:
         print("That's not a valid option please try again\n")
         prod_update()
@@ -460,22 +540,54 @@ def prod_update():
 
 
 def courier_update():
-    for index, value in couriers_data.items():
-        print(f"{index}. {value}")
+    for courier in couriers_data:
+        for index, value in courier.items():
+            print(f"{index}. {value["Name"]} - {value["Phone"]}")
     cour_update_input = int(
         input(
             "What is the courier you would like to update? please give the number associated with the product "
         )
     )
-    if cour_update_input <= len(couriers_data):
-        new_update_val = input(
+    update_choice = int(
+        input(
             (
-                f"You selected {couriers_data[cour_update_input]}, what would you like to update it to? "
+                f"You selected {couriers_data[cour_update_input-1][cour_update_input][
+            "Name"
+        ]}, what would you like to update about it?\n1. Update Courier Name\n2.Update Courier Number\n"
             )
         )
-        couriers_data[cour_update_input] = new_update_val
+    )
+    if update_choice == 1:
+        new_courier_name = input(
+            f'Enter the new name you would like to give to {couriers_data[cour_update_input-1][cour_update_input][
+            "Name"]} below\n> '
+        )
+        print(
+            f'The new name for {couriers_data[cour_update_input-1][cour_update_input][
+            "Name"]} will be {new_courier_name}, confirmed\n'
+        )
+        couriers_data[cour_update_input - 1][cour_update_input][
+            "Name"
+        ] = new_courier_name
+    elif update_choice == 2:
+        new_courier_num = input(
+            f'Enter the new number you would like to give to {couriers_data[cour_update_input-1][cour_update_input][
+            "Name"]}\nThe current number is {couriers_data[cour_update_input-1][cour_update_input][
+            "Phone"]}\nEnter new number here (remember the number must start 020 and be 11 digits long) > '
+        )
+        if new_courier_num[0] == "0" and len(new_courier_num) == 11:
+            print(
+                f'The new number for {couriers_data[cour_update_input-1][cour_update_input][
+                "Name"]} will be {new_courier_num}, confirmed\n'
+            )
+            couriers_data[cour_update_input - 1][cour_update_input][
+                "Phone"
+            ] = new_courier_num
+        else:
+            print("Thats and invalid input, please try again")
+            courier_update()
     else:
-        print("That's not a valid option please try again")
+        print("Thats and invalid input, please try again")
         courier_update()
 
 
@@ -483,8 +595,9 @@ def courier_update():
 
 
 def prod_del():
-    for index, value in products_data.items():
-        print(f"{index}. {value}")
+    for prod in products_data:
+        for index, value in prod.items():
+            print(f'{index}. {value["Product"]} - £{value["Price"]}')
     prod_del_input = int(
         input(
             "What is the product you would like to delete? please give the number associated with the product "
@@ -493,10 +606,10 @@ def prod_del():
     if prod_del_input <= len(products_data) and prod_del_input > 0:
         print(
             (
-                f"You selected {products_data[prod_del_input]}, This will now be removed from the list"
+                f"You selected {products_data[prod_del_input - 1][prod_del_input]["Product"]}, This will now be removed from the list"
             )
         )
-        del products_data[prod_del_input]
+        del products_data[prod_del_input - 1]
     else:
         print("That's not a valid option please try again")
         prod_del()
@@ -507,9 +620,9 @@ def prod_del():
 
 def delete_order():
     for order in orders:
-        for order_num, order_detail in order.items():
+        for key, value in order.items():
             print(
-                f"{orders.index(order) + 1}.{order_num}: customer name: {order_detail['customer_name']} status: {order_detail['status']} items ordered: {order_detail['item(s)_ordered']} "
+                f"\nOrder{key}: customer name: {value['customer_name']} status: {value['status']} items ordered: {value['items']} "
             )
     print("\n")
     del_order_input = int(
@@ -518,10 +631,8 @@ def delete_order():
         )
     )
     print("\n")
-    if del_order_input <= len(orders):
-        order_detail = list(orders[del_order_input - 1].keys())
-        del_order_input - 1
-        orders.pop(orders.index(orders[del_order_input - 1]))
+    if del_order_input <= len(orders) and del_order_input > 0:
+        orders.pop(del_order_input - 1)
         print(
             "confirmed, that order has been deleted, returning you to the the order menu"
         )
@@ -665,4 +776,4 @@ def logic_function():
 
 
 # app instantiation func
-# logic_function()
+logic_function()

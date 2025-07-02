@@ -98,9 +98,36 @@ def rtrn_opt():
 
 print(rtrn_opt())
 """
+selected_item_index = []
+list = [
+    {1: {"Product": "Espresso", "Price": "1.50"}},
+    {2: {"Product": "Cappuccino", "Price": "2.50"}},
+    {3: {"Product": "Latte", "Price": "2.75"}},
+    {4: {"Product": "Americano", "Price": "2.00"}},
+    {5: {"Product": "Mocha", "Price": "3.00"}},
+    {6: {"Product": "Iced Coffee", "Price": "2.80"}},
+    {7: {"Product": "Flat White", "Price": "2.60"}},
+    {8: {"Product": "Hot Brew", "Price": "2.20"}},
+    {9: {"Product": "Croissant", "Price": "1.80"}},
+    {10: {"Product": "Blueberry Muffin", "Price": "2.10"}},
+    {11: {"Product": "White Bread", "Price": "1.40"}},
+    {12: {"Product": "Cheese", "Price": "2.30"}},
+    {13: {"Product": "Brown bread", "Price": "1.60"}},
+]
 
-products_data = {1: "Hellow", 2: "Bye"}
-
-input = int(input("select item number "))
-
-print((products_data[input - 1]))
+num = "5, 8, 10, 13"
+print(num)
+num = num.split(",")
+print(num)
+num.remove("5")
+print(num)
+print(type(num))
+num = str(num)
+print(num)
+print(type(num))
+num = num.strip("[").strip("]").replace("'", "").strip()
+num = num.replace("  ", " ")
+print(num)
+print(len(num))
+# for x in num:
+#    print(x)
