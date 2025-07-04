@@ -43,3 +43,11 @@ update_status_option = "Update the status of an order\n"
 update_option = "Update an existing order\n"
 
 remove_option = "Remove an existing order\n"
+
+# variables for new order input strings
+
+customer_name1 = "\nPlease enter the name first name of the customer\n>>> "
+customer_name2 = "\nPlease enter the name second name of the customer\n>>> "
+customer_address1 = "\nPlease enter the name of the street for delivery\n>>> "
+customer_address2 = "\nPlease enter the name of city for delivery\n>>> "
+customer_number = "\nPlease enter the mobile number for the customer\n>>> "
