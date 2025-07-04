@@ -40,3 +40,5 @@ orders = [
         }
     },
 ]
+
+order_status = ["preparing", "ready for pick up", "enroute", "delivered"]
