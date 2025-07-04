@@ -1,4 +1,4 @@
-# function for printing out product list with index
+# function for printing out lists with index
 
 
 def list_output(list):
