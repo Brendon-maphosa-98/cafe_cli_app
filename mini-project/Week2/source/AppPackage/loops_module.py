@@ -66,3 +66,6 @@ def product_loop(products_list):
     else:
         print("\nInvalid input, try again\n")
         product_loop(products_list)
+
+
+# Orders loop function

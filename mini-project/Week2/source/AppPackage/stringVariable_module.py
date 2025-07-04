@@ -18,6 +18,8 @@ Main_menu = "Go to the main menu\n"
 
 product_menu = "Go to the products menu\n"
 
+order_menu = "Go to the orders menu\n"
+
 exit_app = "Exit app\n"
 
 # Variables for the product menu options
@@ -29,3 +31,13 @@ create_option = "Add a new product\n"
 update_option = "Update an existing product\n"
 
 remove_option = "Remove an existing product\n"
+
+# Variables for the orders menu options
+
+view_option = "View the orders list\n"
+
+create_option = "Add a new order\n"
+
+update_option = "Update an existing order\n"
+
+remove_option = "Remove an existing order\n"
