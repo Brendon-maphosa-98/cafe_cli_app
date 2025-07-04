@@ -38,6 +38,8 @@ view_option = "View the orders list\n"
 
 create_option = "Add a new order\n"
 
+update_status_option = "Update the status of an order\n"
+
 update_option = "Update an existing order\n"
 
 remove_option = "Remove an existing order\n"
