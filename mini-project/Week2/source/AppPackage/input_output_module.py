@@ -1,10 +1,10 @@
 # function for printing out product list with index
 
 
-def list_output(product_list):
+def list_output(list):
     index_num = 1
-    for product in product_list:
-        print(f"\n{index_num}. {product}")
+    for item in list:
+        print(f"\n{index_num}. {item}")
         index_num += 1
 
 
