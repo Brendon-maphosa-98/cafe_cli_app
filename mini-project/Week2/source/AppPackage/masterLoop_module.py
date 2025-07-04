@@ -1,20 +1,26 @@
 from input_output_module import input_function
-from loops_module import product_loop
-from stringVariable_module import exit_app
 import stringVariable_module as stng
 from data_module import PRODUCTS
+import loops_module as loop
+
+# import loops_module as loop
 
 
 # master loop function
 def master_loop_function(products_list):
+
     print("\n\nHello and welcome to Brendon's coffee shop")
-    print(menu_choice)
-    menu_choice = input_function(exit_app, stng.product_menu)
-    if menu_choice == 1:
-        product_loop(products_list)
-    elif menu_choice == 0:
+    print(stng.menu_choice)
+    choice = input_function(stng.exit_app, stng.product_menu)
+    if choice == 1:
+        loop.product_loop(products_list)
+    elif choice == 0:
         print("\nUntil next time, Bye!\n")
-        exit
+        exit()
+    else:
+        print("Thats not a valid input, please try again")
+        master_loop_function(products_list)
 
 
 master_loop_function(PRODUCTS)
+# print(dir(loop))
