@@ -28,3 +28,6 @@ def add_order(orderlist, cust_fname, cust_sname, cust_street, cust_city, cust_nu
 
 def update_existing_order():
     io.list_output(data.orders)
+
+
+update_existing_order()

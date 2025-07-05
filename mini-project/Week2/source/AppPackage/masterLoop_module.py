@@ -3,8 +3,6 @@ import stringVariable_module as stng
 from data_module import PRODUCTS
 import loops_module as loop
 
-# import loops_module as loop
-
 
 # master loop function
 def master_loop_function(products_list):
@@ -23,4 +21,3 @@ def master_loop_function(products_list):
 
 
 master_loop_function(PRODUCTS)
-# print(dir(loop))
