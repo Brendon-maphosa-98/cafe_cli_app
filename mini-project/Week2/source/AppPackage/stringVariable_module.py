@@ -12,6 +12,7 @@ replacement_product = "\n what is the name of the product you would like to add 
 
 remove_product = "\nwhich of the above products would you like to remove from the list?\n\nInput corresponding number here: "
 
+
 # Variables for the main menu options
 
 Main_menu = "Go to the main menu\n"

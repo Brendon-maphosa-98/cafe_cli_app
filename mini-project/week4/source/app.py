@@ -1,4 +1,3 @@
-import random
 import csv
 
 
@@ -39,35 +38,41 @@ couriers_data = []
 
 orders = []
 
+
 # open() functions to import and read to empty variables the data from the csv files
-with open("mini-project/week4/data/products.csv") as temp_products_data:
-    reader = csv.DictReader(temp_products_data)
-    temp_dict = {}
-    for row in reader:
-        temp_dict = dict(Product=row["Product"], Price=row["price"])
-        products_data.append({int(row["Index"]): temp_dict})
-
-with open("mini-project/week4/data/couriers.csv") as temp_couriers_data:
-    reader = csv.DictReader(temp_couriers_data)
-    temp_dict = {}
-    for row in reader:
-        temp_dict = dict(Name=row["Name"], Phone=row["Phone"])
-        couriers_data.append({int(row["Index"]): temp_dict})
+def prod_file_open():
+    with open("mini-project/week4/data/products.csv") as temp_products_data:
+        products_data
+        reader = csv.DictReader(temp_products_data)
+        temp_dict = {}
+        for row in reader:
+            temp_dict = dict(Product=row["Product"], Price=row["price"])
+            products_data.append({int(row["Index"]): temp_dict})
 
 
-with open("mini-project/week4/data/orders.csv") as temp_orders_data:
-    reader = csv.DictReader(temp_orders_data)
-    temp_dict = {}
-    for row in reader:
-        temp_dict = dict(
-            customer_name=row["customer_name"],
-            customer_address=row["customer_address"],
-            customer_phone=str(row["customer_phone"]),
-            courier=int(row["courier"]),
-            status=row["status"],
-            items=row["items"],
-        )
-        orders.append({int(row["order_num"]): temp_dict})
+def courier_file_open():
+    with open("mini-project/week4/data/couriers.csv") as temp_couriers_data:
+        reader = csv.DictReader(temp_couriers_data)
+        temp_dict = {}
+        for row in reader:
+            temp_dict = dict(Name=row["Name"], Phone=row["Phone"])
+            couriers_data.append({int(row["Index"]): temp_dict})
+
+
+def order_file_open():
+    with open("mini-project/week4/data/orders.csv") as temp_orders_data:
+        reader = csv.DictReader(temp_orders_data)
+        temp_dict = {}
+        for row in reader:
+            temp_dict = dict(
+                customer_name=row["customer_name"],
+                customer_address=row["customer_address"],
+                customer_phone=str(row["customer_phone"]),
+                courier=int(row["courier"]),
+                status=row["status"],
+                items=row["items"],
+            )
+            orders.append({int(row["order_num"]): temp_dict})
 
 
 # function for add new products to the products data file
@@ -103,6 +108,8 @@ def products_persistance():
                         "price": value["Price"],
                     }
                 )
+    products_data.clear()
+    prod_file_open()
 
 
 def couriers_persistance():
@@ -118,6 +125,8 @@ def couriers_persistance():
                 writer.writerow(
                     {"Index": index, "Name": value["Name"], "Phone": value["Phone"]}
                 )
+    couriers_data.clear()
+    courier_file_open()
 
 
 def orders_persistance():
@@ -147,6 +156,8 @@ def orders_persistance():
                         "items": str(value["items"]),
                     }
                 )
+    orders.clear()
+    order_file_open()
 
 
 # function for creating a new courier
@@ -342,7 +353,7 @@ def update_order():
         change_selection3 = input(
             f"what would you like to change the customer name of {order_num} to? > "
         )
-        orders[change_selection1 - 1][order_key][
+        orders[change_selection1 - 1][change_selection1][
             dict_key_directory[change_selection2 - 1]
         ] = change_selection3
     elif change_selection2 == 2:
@@ -716,13 +727,12 @@ def mm_return_func():
 
 # Base logic func
 def logic_function():
-    # return_frm_txt()  #return_frm_txt() # Commented out from V1 as data persistance is not possible from what I know without an external data storage file.
     main_menu_opts()
     first_input = int(
         input("Input the number corresponding with your desired option > ")
     )
-    # while first_input >= 1 : # tested in test enviroment without this while loop and code look's like it works as normal so this is actually not necessery.
     if first_input == 1:
+        prod_file_open()
         products_menu_opts()
         prod_menu_input1 = int(
             input("Select the number associated with your desired option")
@@ -745,6 +755,7 @@ def logic_function():
         elif prod_menu_input1 == 0:
             logic_function()
     elif first_input == 3:
+        order_file_open()
         orders_menu_opts()
         order_menu_input1 = int(
             input("\n Select the number associated with your desired option \n")
@@ -772,6 +783,7 @@ def logic_function():
         elif order_menu_input1 == 0:
             logic_function()
     elif first_input == 2:
+        courier_file_open()
         couriers_menu_options()
         courier_menu_input1 = int(
             input("\n Select the number associated with your desired option \n")
@@ -795,9 +807,6 @@ def logic_function():
             logic_function()
     elif first_input == 0:
         print("you have decided to leave the app, goodbye")
-        products_persistance()
-        couriers_persistance()
-        orders_persistance()
     else:
         print("Thats not a valid option, try again")
         logic_function()

@@ -1,4 +1,5 @@
 import data_module as data
+import input_output_module as io
 
 # Add new order function
 
@@ -20,3 +21,10 @@ def add_order(orderlist, cust_fname, cust_sname, cust_street, cust_city, cust_nu
     }
     temp_order_list.append(order)
     return temp_order_list
+
+
+# function for updating an existing order
+
+
+def update_existing_order():
+    io.list_output(data.orders)

@@ -114,7 +114,7 @@ list = [
     {12: {"Product": "Cheese", "Price": "2.30"}},
     {13: {"Product": "Brown bread", "Price": "1.60"}},
 ]
-
+"""
 num = "5, 8, 10, 13"
 print(num)
 num = num.split(",")
@@ -131,3 +131,15 @@ print(num)
 print(len(num))
 # for x in num:
 #    print(x)
+"""
+
+
+def master():
+    choice = input("Enter option (0 to exit): ")
+    if choice == "0":
+        exit()
+    else:
+        master()  # ⚠️ calls itself again
+
+
+master()
