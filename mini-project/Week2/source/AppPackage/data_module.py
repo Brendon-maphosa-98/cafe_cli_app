@@ -1,4 +1,4 @@
-PRODUCTS = [
+products = [
     "Espresso",
     "Cappuccino",
     "Latte",
