@@ -90,11 +90,22 @@ def add_order(
     orderslist,
     status_opt_list,
 ):
-
-    customer_name1 = input(cust_fname_str)
-    customer_name2 = input(cust_sname_str)
-    val_loop = 1
-    while val_loop == 1:
+    while loop == 1:
+        customer_name1 = input(cust_fname_str)
+        customer_name2 = input(cust_sname_str)
+        if (
+            bool(re.search("^[a-zA-Z\s\-]+$", customer_name1)) == False
+            or bool(re.search("^[a-zA-Z\s\-]+$", customer_name2)) == False
+        ):
+            print(
+                "The customer first or last name can only contain letters, please try again"
+            )
+            loop == 1
+        else:
+            loop += 1
+            continue
+    loop = 1
+    while loop == 1:
         customer_address1 = input(cust_street_str)
         customer_address2 = input(cust_city_str)
         if (
@@ -104,12 +115,12 @@ def add_order(
             print(
                 "The delivery street name or city cannot contain any numbers please try again"
             )
-            val_loop == 1
+            loop == 1
         else:
-            val_loop += 1
+            loop += 1
             continue
-    val_loop = 1
-    while val_loop == 1:
+    loop = 1
+    while loop == 1:
         customer_number = input(cust_num_str)
         if (
             bool(re.search("[a-zA-Z]", customer_number)) == True
@@ -118,9 +129,9 @@ def add_order(
             print(
                 "The customers phone number cannot contain any letters and must be 11 digits long, please try again"
             )
-            val_loop == 1
+            loop == 1
         else:
-            val_loop += 1
+            loop += 1
             continue
     temp_order_list = orderslist
     order = {
@@ -216,16 +227,27 @@ def update_existing_order(
             )
             loop2 = 1
             if chng_op1 == 0:
-                customer_name1 = input(new_cust_fname_str)
-                customer_name2 = input(new_cust_sname_str)
-                print(
-                    f"The new customer name for {key} is {customer_name1} {customer_name2} confirmed"
-                )
-                temp_orders_list[chng_sel1 - 1][key][
-                    "customer_name"
-                ] = f"{customer_name1.capitalize()} {customer_name2.capitalize()}"
-                loop += 1
-                return temp_orders_list
+                while loop2 == 1:
+                    customer_name1 = input(new_cust_fname_str)
+                    customer_name2 = input(new_cust_sname_str)
+                    if (
+                        bool(re.search("^[a-zA-Z\s\-]+$", customer_name1)) == False
+                        or bool(re.search("^[a-zA-Z\s\-]+$", customer_name2)) == False
+                    ):
+                        print(
+                            "The customer first or last name can only contain letters, please try again"
+                        )
+                        loop2 == 1
+                    else:
+                        loop2 += 1
+                    print(
+                        f"The new customer name for {key} is {customer_name1} {customer_name2} confirmed"
+                    )
+                    temp_orders_list[chng_sel1 - 1][key][
+                        "customer_name"
+                    ] = f"{customer_name1.capitalize()} {customer_name2.capitalize()}"
+                    loop += 1
+                    return temp_orders_list
             elif chng_op1 == 1:
                 while loop2 == 1:
                     customer_address1 = input(new_cust_street_str)
@@ -240,14 +262,14 @@ def update_existing_order(
                         loop2 == 1
                     else:
                         loop2 += 1
-                print(
-                    f"The new address for {key} is {customer_address1} {customer_address2} confirmed"
-                )
-                temp_orders_list[chng_sel1 - 1][key][
-                    "customer_address"
-                ] = f"{customer_address1.title()} {customer_address2.upper()}"
-                loop += 1
-                return temp_orders_list
+                        print(
+                            f"The new address for {key} is {customer_address1} {customer_address2} confirmed"
+                        )
+                        temp_orders_list[chng_sel1 - 1][key][
+                            "customer_address"
+                        ] = f"{customer_address1.title()} {customer_address2.upper()}"
+                        loop += 1
+                        return temp_orders_list
             elif chng_op1 == 2:
                 while loop2 == 1:
                     customer_number = input(new_cust_num_str)
@@ -261,12 +283,14 @@ def update_existing_order(
                         loop2 == 1
                     else:
                         loop2 += 1
-                print(f"The new number for {key} is {customer_number} confirmed")
-                temp_orders_list[chng_sel1 - 1][key][
-                    "customer_phone"
-                ] = f"{customer_number}"
-                loop += 1
-                return temp_orders_list
+                        print(
+                            f"The new number for {key} is {customer_number} confirmed"
+                        )
+                        temp_orders_list[chng_sel1 - 1][key][
+                            "customer_phone"
+                        ] = f"{customer_number}"
+                        loop += 1
+                        return temp_orders_list
             elif chng_op1 == 3:
                 for item in add_item(list_input_func, prodlist, error_func, chng_sel1):
                     temp_orders_list[chng_sel1 - 1][key]["item(s)_ordered"].append(item)
@@ -281,10 +305,8 @@ def update_existing_order(
                 )
                 loop += 1
                 return temp_orders_list
-            else:
-                return temp_orders_list
         else:
-            loop == 1
+            return temp_orders_list
     else:
         return temp_orders_list
 
