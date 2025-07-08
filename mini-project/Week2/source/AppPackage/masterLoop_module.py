@@ -5,11 +5,17 @@ import loops_module as loop
 import error_checking_module as error
 import product_menu_module as prodmod
 import order_menu_module as ordermod
+import os
+
+
+def clear_func():
+    os.system("clear")
+    os.system("clear")
 
 
 # master loop function
 def master_loop_function():
-
+    clear_func()
     print("\n\nHello and welcome to Brendon's coffee shop")
     print(stng.menu_choice)
     choice = io.str_input_function(
@@ -19,6 +25,7 @@ def master_loop_function():
         error_func=error.user_int_check,
     )
     if choice == 1:
+        clear_func()
         loop.product_loop(
             str_input_func=io.str_input_function,
             Main_menu_str=stng.Main_menu,
@@ -36,8 +43,10 @@ def master_loop_function():
             del_item_func=prodmod.del_item,
             master_loop_func=master_loop_function,
             error_func=error.user_int_check,
+            clear_func=clear_func
         )
     elif choice == 2:
+        clear_func()
         loop.Orders_loop(
             Main_menu_str=stng.Main_menu,
             order_view_option_str=stng.order_view_option,
@@ -74,13 +83,15 @@ def master_loop_function():
             list_input_func=io.list_input_function,
             prodlist=data.products,
             remove_order_output_func=io.remove_order_output_function,
+            clear_func=clear_func
         )
     elif choice == 0:
+        clear_func()
         print("\nUntil next time, Bye!\n")
         exit()
     else:
+        clear_func()
         master_loop_function() and exit()
 
 
 master_loop_function()
-

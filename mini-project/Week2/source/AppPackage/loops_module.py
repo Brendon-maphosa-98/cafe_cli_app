@@ -1,7 +1,7 @@
 # function holding messege for returning to the previous menu
 
 
-def rtrn_opt():
+def rtrn_opt(clear_func):
     loop = 1
     while loop == 1:
         try:
@@ -12,11 +12,13 @@ def rtrn_opt():
                 loop += 1
                 return rtrn
             else:
+                clear_func()
                 print(
                     "\nThat is an invalid option, you must enter the number 0, please try again\n"
                 )
                 loop == 1
         except ValueError:
+            clear_func()
             print(
                 f"You entered an invalid input, you must enter the number 0, please try again\n"
             )
@@ -41,10 +43,11 @@ def product_loop(
     del_item_func,
     master_loop_func,
     error_func,
+    clear_func,
 ):
     loop = 1
     while loop == 1:
-
+        clear_func()
         Menu_choice = str_input_func(
             Main_menu_str,
             view_option_str,
@@ -53,44 +56,54 @@ def product_loop(
             remove_option_str,
             error_func=error_func,
         )
+        clear_func()
         if Menu_choice == 1:
+            clear_func()
             list_output_func(prodlist)
-            return_option = rtrn_opt()
+            return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop == 1
+                clear_func()
             else:
                 None
         elif Menu_choice == 2:
-            prodlist = new_product_func(created_product_str, prodlist)
-            return_option = rtrn_opt()
+            clear_func()
+            prodlist = new_product_func(created_product_str, prodlist, clear_func)
+            return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop == 1
+                clear_func()
             else:
                 None
         elif Menu_choice == 3:
+            clear_func()
             prodlist = update_item_func(
                 remove_product_str,
                 replacement_product_str,
                 list_output_func,
                 prodlist,
                 error_func,
+                clear_func,
             )
-            return_option = rtrn_opt()
+            return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop == 1
+                clear_func()
             else:
                 None
         elif Menu_choice == 4:
+            clear_func()
             prodlist = del_item_func(
-                remove_product_str, list_output_func, prodlist, error_func
+                remove_product_str, list_output_func, prodlist, error_func, clear_func
             )
-            return_option = rtrn_opt()
+            return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop == 1
+                clear_func()
             else:
                 None
         elif Menu_choice == 0:
-            print("menu choice option")
+            clear_func()
             master_loop_func()
     else:
         loop == 1
@@ -135,9 +148,11 @@ def Orders_loop(
     list_input_func,
     prodlist,
     remove_order_output_func,
+    clear_func,
 ):
     loop1 = 1
     while loop1 == 1:
+        clear_func()
         Menu_choice = str_input_func(
             Main_menu_str,
             order_view_option_str,
@@ -148,13 +163,16 @@ def Orders_loop(
             error_func=error_func,
         )
         if Menu_choice == 1:
+            clear_func()
             dict_output_func(orderslist)
-            return_option = rtrn_opt()
+            return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop1 == 1
             else:
+                clear_func()
                 None
         elif Menu_choice == 2:
+            clear_func()
             orderslist = add_order_func(
                 cust_fname_str,
                 cust_sname_str,
@@ -163,14 +181,17 @@ def Orders_loop(
                 cust_num_str,
                 orderslist,
                 status_opt_list,
+                clear_func,
             )
             dict_output_func(orderslist)
-            return_option = rtrn_opt()
+            return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop1 == 1
+                clear_func()
             else:
                 None
         elif Menu_choice == 3:
+            clear_func()
             orderslist = update_existing_order_status_func(
                 dict_output_func,
                 orderslist,
@@ -178,14 +199,17 @@ def Orders_loop(
                 error_func,
                 list_input_func,
                 status_opt_list,
+                clear_func,
             )
             dict_output_func(orderslist)
-            return_option = rtrn_opt()
+            return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop1 == 1
+                clear_func()
             else:
                 None
         elif Menu_choice == 4:
+            clear_func()
             orderslist = update_existing_order_func(
                 orderslist,
                 gen_ord_selection_str,
@@ -205,22 +229,28 @@ def Orders_loop(
                 dict_output_func,
                 remove_order_output_func,
                 list_input_func,
+                clear_func,
             )
             dict_output_func(orderslist)
-            return_option = rtrn_opt()
+            return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop1 == 1
+                clear_func()
             else:
                 None
         elif Menu_choice == 5:
-            orderslist = del_order_func(orderslist, dict_output_func, error_func)
+            clear_func()
+            orderslist = del_order_func(
+                orderslist, dict_output_func, error_func, clear_func
+            )
             dict_output_func(orderslist)
-            return_option = rtrn_opt()
+            return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop1 == 1
+                clear_func()
             else:
                 None
         elif Menu_choice == 0:
-            print("menu choice option")
+            clear_func()
             loop1 += 1
             master_loop_func()

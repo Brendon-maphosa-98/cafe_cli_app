@@ -23,7 +23,7 @@ def order_dict_output(dict):
 # functions for taking and returning inputs
 
 
-def list_input_function(list, error_func):
+def list_input_function(list, error_func,clear_func):
     index_num = 0
     print("-------\n-------")
     loop = 1
@@ -32,6 +32,7 @@ def list_input_function(list, error_func):
             print(f"\n{index_num}. {item}")
             index_num += 1
         returned_input = input("\nWhich option above would you like to select?\n>>> ")
+        clear_func()
         penultimate_input = error_func(returned_input, 0, len(list) - 1)
         if penultimate_input:
             final_input = int(returned_input)

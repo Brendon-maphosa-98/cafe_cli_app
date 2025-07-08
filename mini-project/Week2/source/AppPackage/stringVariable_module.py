@@ -24,13 +24,13 @@ update_option = "Update an existing product\n"
 
 remove_option = "Remove an existing product\n"
 
-created_product = "\nwhat is the name of the product you would like to add to the list?\n\nNew product name: "
+created_product = "\nWhat is the name of the product you would like to add to the list?\n\nNew product name: "
 
-replaced_product = "\nwhich of the above products would you like to replace?\n\nInput corresponding number here: "
+replaced_product = "\nWhich of the above products would you like to replace?\n\nInput corresponding number here: "
 
-replacement_product = "\n what is the name of the product you would like to add in place of the old one?\n\nNew product name: "
+replacement_product = "\nWhat is the name of the product you would like to add in place of the old one?\n\nNew product name: "
 
-remove_product = "\nwhich of the above products would you like to remove from the list?\n\nInput corresponding number here: "
+remove_product = "\nWhich of the above products would you like to remove from the list?\n\nInput corresponding number here: "
 
 
 # Variables for the orders menu options
