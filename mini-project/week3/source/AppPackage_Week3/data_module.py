@@ -71,7 +71,7 @@ def persistence_function(prodlist, courlist):
     ) as write_object:
         for line in temp_prod_list[:-1]:
             write_object.write(f"{line}\n")
-        write_object.write(temp_cour_list[-1])
+        write_object.write(temp_prod_list[-1])
     with open(
         "/Users/brendon/Documents/Data-Engineering/brendon-portfolio/mini-project/week3/data/couriers2.txt",
         "w",

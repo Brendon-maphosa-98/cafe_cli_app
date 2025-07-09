@@ -41,7 +41,6 @@ def product_loop(
     remove_product_str,
     replacement_product_str,
     del_item_func,
-    master_loop_func,
     error_func,
     clear_func,
 ):
@@ -105,7 +104,7 @@ def product_loop(
                 None
         elif Menu_choice == 0:
             clear_func()
-            master_loop_func()
+            loop += 1
     else:
         loop == 1
 
@@ -145,7 +144,6 @@ def Orders_loop(
     new_cust_city_str,
     new_cust_num_str,
     del_order_func,
-    master_loop_func,
     list_input_func,
     prodlist,
     remove_order_output_func,
@@ -263,7 +261,6 @@ def Orders_loop(
         elif Menu_choice == 0:
             clear_func()
             loop1 += 1
-            master_loop_func()
 
 
 def courier_loop(
@@ -281,7 +278,6 @@ def courier_loop(
     remove_courier_str,
     replacement_courier_str,
     del_courier_func,
-    master_loop_func,
     error_func,
     clear_func,
 ):
@@ -345,6 +341,6 @@ def courier_loop(
                 None
         elif Menu_choice == 0:
             clear_func()
-            master_loop_func()
+            loop += 1
     else:
         loop == 1
