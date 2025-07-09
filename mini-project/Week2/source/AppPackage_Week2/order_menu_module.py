@@ -161,21 +161,6 @@ def add_order(
             print(f"{cust_name_output}{cust_add_output}{cust_num_output}")
             loop += 1
             continue
-
-        # create a new selected_items list variable that is empty, this will hold the selected items the user selects, outside the add item while block to ensure it doesnt defect by overwriting itself each time the while looo spins back around
-        # insert new loop variable and while block for adding items to the order
-            # clear terminal function here to clear the terminal when first entering loop or when reengering from a failed input validation check
-            # print out "these are the items currently availabe to add to orderx
-            # use the list input function to print out the products list and take an input for the product item selection and validate it for expected input and that it is in range,
-            # instantiate an indented while loop with a new loop variable of a different name to the others in this function, goal is to allow for multiple items to be selected before they are added to the order (this might be redundant)
-            # turn the returned value from the list input function into an integer if the function doesnt do that already
-            # assign the item at the corresponding index of the products list to a new variable called selected item / add the item at the corresponding index position in the products list to the selected items list
-            # run a input func with the you selected x item, would you like to add another item? messege, put it inside the error check function, if so, remeber to chnage the returned value to a string
-            # create an if block to decide the direction of travel depending on the value from the previous input statement
-            # if the value of the error check is the string value returned and not a messege from the except blocks and that value is 1 (for yes) then redo the loop to add another item but assigning loop == 1.
-            # elif the value of the error check is the string value returned and not a messege from the except blocks and that value is 2 (for no), print out "the item(s) that will be added to the new order are {selected items list}", loop +1 then continue
-            # after continue the already exsting code below thats not commented out will executed with the minor change that selected items will replace the [] as the value to the item(s)_ordered key.
-
     temp_order_list = orderslist
     order = {
         f"order{len(orderslist) + 1}": {
