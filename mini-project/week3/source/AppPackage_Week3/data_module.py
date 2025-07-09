@@ -1,15 +1,5 @@
-products = [
-    "Espresso",
-    "Cappuccino",
-    "Latte",
-    "Americano",
-    "Mocha",
-    "Iced Coffee",
-    "Flat White",
-    "Cold Brew",
-    "Croissant",
-    "Blueberry Muffin",
-]
+products = []
+
 
 orders = [
     {
@@ -46,15 +36,8 @@ orders = [
 
 order_status = ["preparing", "ready for pick up", "enroute", "delivered"]
 
-couriers = [
-    "John",
-    "Alice",
-    "Michael",
-    "Sophie",
-    "David",
-    "Emma",
-    "Liam",
-    "Olivia",
-    "Noah",
-    "Chloe",
-]
+couriers = []
+
+## Persistence functions
+
+# ingestion function
