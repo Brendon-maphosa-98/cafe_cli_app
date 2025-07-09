@@ -41,7 +41,9 @@ couriers = []
 ## Persistence functions
 
 # ingestion function
-def ingest_function():
+def ingest_function(prodlist,courlist):
+    temp_prod_list = prodlist
+    temp_cour_list = courlist
     with open("/Users/brendon/Documents/Data-Engineering/brendon-portfolio/mini-project/week3/data/products2.txt", 'r') as read_object:
         pass
     with open("/Users/brendon/Documents/Data-Engineering/brendon-portfolio/mini-project/week3/data/couriers2.txt", 'r') as read_object:
