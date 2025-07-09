@@ -52,9 +52,3 @@ def ingest_function(prodlist,courlist):
         for line in read_object.readlines():
             temp_cour_list.append(line.rstrip('\n'))
         prodlist = temp_cour_list
-
-ingest_function(products,couriers)
-
-print(products)
-print('')
-print(couriers)
