@@ -45,11 +45,11 @@ def ingest_function(prodlist,courlist):
     temp_prod_list = prodlist
     temp_cour_list = courlist
     with open("/Users/brendon/Documents/Data-Engineering/brendon-portfolio/mini-project/week3/data/products2.txt", 'r') as read_object:
-        for line in read_object.readline():
+        for line in read_object.readlines():
             temp_prod_list.append(line)
         prodlist = temp_prod_list
     with open("/Users/brendon/Documents/Data-Engineering/brendon-portfolio/mini-project/week3/data/couriers2.txt", 'r') as read_object:
-        for line in read_object.readline():
+        for line in read_object.readlines():
             temp_cour_list.append(line)
         prodlist = temp_cour_list
 
