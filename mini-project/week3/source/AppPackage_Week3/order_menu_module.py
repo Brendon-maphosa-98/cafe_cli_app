@@ -236,6 +236,8 @@ def update_existing_order(
     remove_order_output_func,
     list_input_func,
     clear_func,
+    update_courier_str,
+    courlist,
 ):
     temp_orders_list = orderslist
     loop = 1
@@ -259,7 +261,9 @@ def update_existing_order(
                 new_number_str,
                 add_item_str,
                 remove_item_str,
+                update_courier_str,
                 error_func=error_func,
+                clear_func = clear_func,
             )
             loop2 = 1
             clear_func()
@@ -366,6 +370,20 @@ def update_existing_order(
                 )
                 loop += 1
                 return temp_orders_list
+            elif chng_op1 == 5:
+                temp_orders_list = orderslist
+                print(f"Below are the couriers available for order{chng_sel1}:")
+                courier_change_selection = list_input_func(
+                    courlist, error_func, clear_func
+                )
+                print(
+                    f"You have selected to add {courlist[courier_change_selection]} as the courier for {key}\n"
+                )
+                temp_orders_list[chng_sel1 - 1][key]["courier"] = courlist[
+                    courier_change_selection
+                ]
+                loop += 1
+                return temp_orders_list
         else:
             loop == 1
     else:
@@ -375,7 +393,7 @@ def update_existing_order(
 # function for deleting an order
 
 
-def del_order(orderslist, dict_output_func, error_func,clear_func):
+def del_order(orderslist, dict_output_func, error_func, clear_func):
     temp_orders_list = orderslist
     loop = 1
     while loop == 1:
