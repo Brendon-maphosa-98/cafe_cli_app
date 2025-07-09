@@ -16,7 +16,7 @@ def order_dict_output(dict):
     for order in dict:
         for key, value in order.items():
             print(
-                f'-------\n{key}:\n\nCustomer Name: {value["customer_name"]}\nCustomer Address: {value["customer_address"]}\nContact Number: {value["customer_phone"]}\nStatus: {value["status"]}\nCourier: {value['courier']}\nItems: {value["item(s)_ordered"]}\n-------'
+                f'-------\n{key}:\n\nCustomer Name: {value["customer_name"]}\nCustomer Address: {value["customer_address"]}\nContact Number: {value["customer_phone"]}\nStatus: {value["status"]}\nCourier: {value["courier"]}\nItems: {value["item(s)_ordered"]}\n-------'
             )
 
 
@@ -62,10 +62,7 @@ def remove_order_output_function(items, error_func):
             index_num = 0
 
 
-def str_input_function(
-    *input_str,
-    error_func,clear_func
-):
+def str_input_function(*input_str, error_func, clear_func):
     index_num = 0
     print("-------\n-------")
     loop = 1

@@ -186,6 +186,10 @@ def Orders_loop(
                 orderslist,
                 status_opt_list,
                 clear_func,
+                list_input_func,
+                prodlist,
+                error_func,
+                courlist,
             )
             dict_output_func(orderslist)
             return_option = rtrn_opt(clear_func)

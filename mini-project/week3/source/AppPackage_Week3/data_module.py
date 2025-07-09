@@ -18,7 +18,7 @@ orders = [
             "customer_address": "High Road, MANCHESTER",
             "customer_phone": "07123456789",
             "status": "ready for pickup",
-            "courier": None,
+            "courier": "John",
             "item(s)_ordered": ["Latte", "Blueberry Muffin"],
         }
     },
@@ -28,7 +28,7 @@ orders = [
             "customer_address": "Oak Street, LIVERPOOL",
             "customer_phone": "07234567890",
             "status": "preparing",
-            "courier": None,
+            "courier": "Alice",
             "item(s)_ordered": ["Flat White", "Croissant"],
         }
     },
@@ -38,7 +38,7 @@ orders = [
             "customer_address": "Maple Avenue, SHEFFIELD",
             "customer_phone": "07345678901",
             "status": "delivered",
-            "courier": None,
+            "courier": "Michael",
             "item(s)_ordered": ["Americano", "Cold Brew", "Blueberry Muffin"],
         }
     },
