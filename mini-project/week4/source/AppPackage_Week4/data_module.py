@@ -50,8 +50,6 @@ def ingest_function(prodlist, courlist, orderslist):
     orderslist = temp_orders_list
 
 
-
-
 # persistence function
 def persistence_function(prodlist, courlist, orderslist):
     temp_prod_list = prodlist
@@ -61,13 +59,14 @@ def persistence_function(prodlist, courlist, orderslist):
         "/Users/brendon/Documents/Data-Engineering/brendon-portfolio/mini-project/week4/data/products3.csv",
         "w",
     ) as write_object:
-        for line in temp_prod_list[:-1]:
-            write_object.write(f"{line}\n")
-        write_object.write(temp_prod_list[-1])
+        fieldnames = ["name", "price"]
+        for order in temp_prod_list:
+            csv.DictWriter()
     with open(
         "/Users/brendon/Documents/Data-Engineering/brendon-portfolio/mini-project/week4/data/couriers3.csv",
         "w",
     ) as write_object:
+        fieldnames = ["name", "phone_number"]
         for line in temp_cour_list[:-1]:
             write_object.write(f"{line}\n")
         write_object.write(temp_cour_list[-1])
@@ -75,4 +74,13 @@ def persistence_function(prodlist, courlist, orderslist):
         "/Users/brendon/Documents/Data-Engineering/brendon-portfolio/mini-project/week4/data/orders3.csv",
         "r",
     ) as write_object:
+        fieldnames = [
+            "order_num",
+            "customer_name",
+            "customer_address",
+            "customer_phone",
+            "courier",
+            "status",
+            "items",
+        ]
         pass
