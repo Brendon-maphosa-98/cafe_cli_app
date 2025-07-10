@@ -129,6 +129,7 @@ def couriers_persistance():
     courier_file_open()
 
 
+
 def orders_persistance():
     with open("mini-project/week4/data/orders.csv", "w") as temp_updated_orders_data:
         fieldnames = [
@@ -813,4 +814,4 @@ def logic_function():
 
 
 # app instantiation func
-logic_function()
+#logic_function()
