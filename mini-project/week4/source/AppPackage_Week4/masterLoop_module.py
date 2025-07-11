@@ -49,8 +49,8 @@ def master_loop_function():
                 del_item_func=prodmod.del_item,
                 error_func=error.user_int_check,
                 clear_func=clear_func,
-                created_product_price_str = stng.created_product_price,
-                replacement_product_price_str = stng.replacement_product_price,
+                created_product_price_str=stng.created_product_price,
+                replacement_product_price_str=stng.replacement_product_price,
             )
             loop1 == 1
         elif choice == 2:
@@ -65,13 +65,15 @@ def master_loop_function():
                 list_output_func=io.list_output,
                 courlist=data.couriers,
                 new_courier_func=couriermod.new_courier,
-                created_courier_str=stng.created_courier_str,
+                created_courier_name_str=stng.created_courier_name_str,
                 update_courier_func=couriermod.update_courier,
                 remove_courier_str=stng.remove_courier_str,
-                replacement_courier_str=stng.replacement_courier_str,
+                replacement_courier_name_str=stng.replacement_courier_name_str,
                 del_courier_func=couriermod.del_courier,
                 error_func=error.user_int_check,
                 clear_func=clear_func,
+                created_courier_number_str=stng.created_courier_number_str,
+                replacement_courier_number_str=stng.replacement_courier_number_str,
             )
             loop1 == 1
         elif choice == 3:

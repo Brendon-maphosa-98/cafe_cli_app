@@ -92,10 +92,11 @@ update_courier_option = "Update an existing courier\n"
 
 remove_courier_option = "Remove an existing courier\n"
 
-created_courier_str = "\nWhat is the name of the courier you would like to add to the list?\n\nNew courier name: "
+created_courier_name_str = "\nWhat is the name of the courier you would like to add to the list?\n\nNew courier name: "
 
+created_courier_number_str = "\nWhat is the mobile number of the courier you would like to add to the list?\n\nNew courier number: "
 replaced_courier_str = "\nWhich of the above couriers would you like to replace?\n\nInput corresponding number here: "
 
-replacement_courier_str = "\nWhat is the name of the courier you would like to add in place of the old one?\n\nNew courier name: "
-
+replacement_courier_name_str = "\nWhat is the name of the courier you would like to add in place of the old one?\n\nNew courier name: "
+replacement_courier_number_str = "\nWhat is the mobile number of the courier you would like to add to the list?\n\nNew courier number: "
 remove_courier_str = "\nWhich of the above couriers would you like to remove from the list?\n\nInput corresponding number here: "

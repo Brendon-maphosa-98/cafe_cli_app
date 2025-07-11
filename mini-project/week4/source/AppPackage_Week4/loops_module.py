@@ -70,7 +70,9 @@ def product_loop(
                 None
         elif Menu_choice == 2:
             clear_func()
-            prodlist = new_product_func(created_product_str, created_product_price_str, prodlist, clear_func)
+            prodlist = new_product_func(
+                created_product_str, created_product_price_str, prodlist, clear_func
+            )
             return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop == 1
@@ -276,13 +278,16 @@ def courier_loop(
     list_output_func,
     courlist,
     new_courier_func,
-    created_courier_str,
+    created_courier_name_str,
     update_courier_func,
     remove_courier_str,
-    replacement_courier_str,
+    replacement_courier_name_str,
     del_courier_func,
     error_func,
     clear_func,
+    created_courier_number_str,
+    replacement_courier_number_str
+
 ):
     loop = 1
     while loop == 1:
@@ -308,7 +313,12 @@ def courier_loop(
                 None
         elif Menu_choice == 2:
             clear_func()
-            courlist = new_courier_func(created_courier_str, courlist, clear_func)
+            courlist = new_courier_func(
+                created_courier_name_str,
+                created_courier_number_str,
+                courlist,
+                clear_func,
+            )
             return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop == 1
@@ -319,7 +329,8 @@ def courier_loop(
             clear_func()
             courlist = update_courier_func(
                 remove_courier_str,
-                replacement_courier_str,
+                replacement_courier_name_str,
+                replacement_courier_number_str,
                 list_output_func,
                 courlist,
                 error_func,

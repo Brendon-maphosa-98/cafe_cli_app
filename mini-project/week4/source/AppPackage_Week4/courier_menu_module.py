@@ -5,25 +5,34 @@ import re
 # function for creating and returning a new product, to be used for adding a new product to the list
 
 
-def new_courier(created_courier_str, courlist, clear_func):
+def new_courier(
+    created_courier_name_str, created_courier_number_str, courlist, clear_func
+):
     loop = 1
     while loop == 1:
         clear_func()
         temp_courier_list = courlist
-        new_courier = input(created_courier_str)
+        new_courier_name = input(created_courier_name_str)
+        new_courier_number = input(created_courier_number_str)
         if (
-            bool(re.search("[0-9]", new_courier)) == True
-            or bool(re.search("[a-zA-Z]", new_courier)) == False
-            or bool(re.search(r"^[a-zA-Z\s\-']+$", new_courier)) == False
-            or bool(re.search("^[\s]+", new_courier)) == True
+            bool(re.search("[0-9]", new_courier_name)) == True
+            or bool(re.search("[a-zA-Z]", new_courier_name)) == False
+            or bool(re.search(r"^[a-zA-Z\s\-']+$", new_courier_name)) == False
+            or bool(re.search("^[\s]+", new_courier_name)) == True
+        ) or (
+            bool(re.search("[a-zA-Z]", new_courier_number)) == True
+            or len(new_courier_number) != 11
+            or bool(re.search("^[\s]+", new_courier_number)) == True
+            or new_courier_number[0] != "0"
         ):
             print(
-                "A courier name must contain letters and cannot contain any numbers or start with a space, please try again"
+                "Invalid inputs for either your courier name or number\nA courier name must contain letters and cannot contain any numbers or start with a space\nA courier mobile number must not have any letter and only numbers and start with 0 and be 11 digits long\nplease try again"
             )
             loop == 1
         else:
+            new_courier = {"name": new_courier_name, "phone_number": new_courier_number}
             loop += 1
-            print(f"\n{new_courier} has been added to the couriers list\n")
+            print(f"\n{new_courier_name} has been added to the couriers list\n")
     temp_courier_list.append(new_courier)
     return temp_courier_list
 
@@ -33,7 +42,8 @@ def new_courier(created_courier_str, courlist, clear_func):
 
 def update_courier(
     remove_courier_str,
-    replacement_courier_str,
+    replacement_courier_name_str,
+    replacement_courier_number_str,
     list_output_func,
     courlist,
     errorfunc,
@@ -47,21 +57,30 @@ def update_courier(
         valid_rmv_input = errorfunc(courier_to_remove, 1, len(temp_courier_list))
         if valid_rmv_input:
             courier_to_remove = int(courier_to_remove)
-            courier_to_add = input(replacement_courier_str)
+            new_courier_name = input(replacement_courier_name_str)
+            new_courier_number = input(replacement_courier_number_str)
             if (
-                bool(re.search("[0-9]", courier_to_add)) == True
-                or bool(re.search("[a-zA-Z]", courier_to_add)) == False
-                or bool(re.search(r"^[a-zA-Z\s\-'\.&]+$", courier_to_add)) == False
+                bool(re.search("[0-9]", new_courier_name)) == True
+                or bool(re.search("[a-zA-Z]", new_courier_name)) == False
+                or bool(re.search(r"^[a-zA-Z\s\-']+$", new_courier_name)) == False
+                or bool(re.search("^[\s]+", new_courier_name)) == True
+            ) or (
+                bool(re.search("[a-zA-Z]", new_courier_number)) == True
+                or len(new_courier_number) != 11
+                or bool(re.search("^[\s]+", new_courier_number)) == True
+                or new_courier_number[0] != "0"
             ):
                 print(
-                    "A courier name must contain letters and cannot contain any numbers or start with a space please try again"
+                    "Invalid inputs for either your courier name or number\nA courier name must contain letters and cannot contain any numbers or start with a space\nA courier mobile number must not have any letter and only numbers and start with 0 and be 11 digits long\nplease try again"
                 )
                 loop == 1
             else:
                 clear_func()
-                print(
-                    f"{courier_to_add} has now replaced {temp_courier_list[courier_to_remove-1]}"
-                )
+                courier_to_add = {
+                    "name": new_courier_name,
+                    "phone_number": new_courier_number,
+                }
+                print(f"\n{new_courier_name} has been added to the couriers list\n")
                 temp_courier_list[courier_to_remove - 1] = courier_to_add
                 list_output_func(temp_courier_list)
                 loop += 1
