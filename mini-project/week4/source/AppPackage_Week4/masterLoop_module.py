@@ -16,7 +16,7 @@ def clear_func():
 
 # master loop function
 def master_loop_function():
-    data.ingest_function(data.products, data.couriers)
+    data.ingest_function(data.products, data.couriers,data.orders)
     loop1 = 1
     while loop1 == 1:
         clear_func()
@@ -47,7 +47,6 @@ def master_loop_function():
                 remove_product_str=stng.replaced_product,
                 replacement_product_str=stng.replacement_product,
                 del_item_func=prodmod.del_item,
-                master_loop_func=master_loop_function,
                 error_func=error.user_int_check,
                 clear_func=clear_func,
             )
@@ -69,7 +68,6 @@ def master_loop_function():
                 remove_courier_str=stng.remove_courier_str,
                 replacement_courier_str=stng.replacement_courier_str,
                 del_courier_func=couriermod.del_courier,
-                master_loop_func=master_loop_function,
                 error_func=error.user_int_check,
                 clear_func=clear_func,
             )
@@ -107,7 +105,6 @@ def master_loop_function():
                 new_cust_city_str=stng.customer_address4,
                 new_cust_num_str=stng.customer_number2,
                 del_order_func=ordermod.del_order,
-                master_loop_func=master_loop_function,
                 dict_output_func=io.order_dict_output,
                 list_input_func=io.list_input_function,
                 prodlist=data.products,
@@ -118,7 +115,7 @@ def master_loop_function():
             )
             loop1 == 1
         elif choice == 0:
-            data.persistence_function(data.products, data.couriers)
+            data.persistence_function(data.products, data.couriers,data.orders)
             clear_func()
             print("\nUntil next time, Bye!\n")
             loop1 += 1

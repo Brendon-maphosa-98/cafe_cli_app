@@ -1,14 +1,23 @@
+import data_module as data
 # function for printing out lists with index
 
 
 def list_output(list):
     index_num = 1
-    print(" ")
-    print("-------\n-------")
-    for item in list:
-        print(f"\n{index_num}. {item}")
-        index_num += 1
-    print("-------\n-------")
+    if list == data.products:
+        print(" ")
+        print("-------\n-------")
+        for item in list:
+            print(f"\n{index_num}. {item.get('name')} - £{item.get('price')}")
+            index_num += 1
+        print("-------\n-------")
+    elif list == data.couriers:
+        print(" ")
+        print("-------\n-------")       
+        for item in list:
+            print(f"\n{index_num}. {item.get('name')} - {item.get('phone_number')}")
+            index_num += 1
+        print("-------\n-------")
 
 
 def order_dict_output(dict):
@@ -16,7 +25,7 @@ def order_dict_output(dict):
     for order in dict:
         for key, value in order.items():
             print(
-                f'-------\n{key}:\n\nCustomer Name: {value["customer_name"]}\nCustomer Address: {value["customer_address"]}\nContact Number: {value["customer_phone"]}\nStatus: {value["status"]}\nCourier: {value["courier"]}\nItems: {value["item(s)_ordered"]}\n-------'
+                f'-------\n{key}:\n\nCustomer Name: {value["customer_name"]}\nCustomer Address: {value["customer_address"]}\nContact Number: {value["customer_phone"]}\nStatus: {value["status"]}\nCourier: {value["courier"]}\nItems: {value["items"]}\n-------'
             )
 
 
