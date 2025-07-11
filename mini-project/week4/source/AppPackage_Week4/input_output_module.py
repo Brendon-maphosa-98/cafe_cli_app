@@ -1,4 +1,5 @@
 import data_module as data
+
 # function for printing out lists with index
 
 
@@ -13,20 +14,26 @@ def list_output(list):
         print("-------\n-------")
     elif list == data.couriers:
         print(" ")
-        print("-------\n-------")       
+        print("-------\n-------")
         for item in list:
             print(f"\n{index_num}. {item.get('name')} - {item.get('phone_number')}")
             index_num += 1
         print("-------\n-------")
-
-
-def order_dict_output(dict):
-    print("")
-    for order in dict:
-        for key, value in order.items():
+    elif list == data.orders:
+        for item in list:
+            inner_dict = next(iter(item.values()))
             print(
-                f'-------\n{key}:\n\nCustomer Name: {value["customer_name"]}\nCustomer Address: {value["customer_address"]}\nContact Number: {value["customer_phone"]}\nStatus: {value["status"]}\nCourier: {value["courier"]}\nItems: {value["items"]}\n-------'
+                f'-------\n{f'Order{index_num}'}:\n\nCustomer Name: {inner_dict['customer_name']}\nCustomer Address: {inner_dict['customer_address']}\nContact Number: {inner_dict['customer_phone']}\nStatus: {inner_dict['status']}\nCourier: {inner_dict['courier']}\nItems: {inner_dict['items']}\n-------'
             )
+            index_num += 1
+
+# def order_dict_output(dict):
+#     print("")
+#     for order in dict:
+#         for key, value in order.items():
+#             print(
+#                 f'-------\n{key}:\n\nCustomer Name: {value["customer_name"]}\nCustomer Address: {value["customer_address"]}\nContact Number: {value["customer_phone"]}\nStatus: {value["status"]}\nCourier: {value["courier"]}\nItems: {value["items"]}\n-------'
+#             )
 
 
 # functions for taking and returning inputs

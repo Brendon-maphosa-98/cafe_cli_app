@@ -39,7 +39,7 @@ def ingest_function(prodlist, courlist, orderslist):
         for row in csv.DictReader(read_object):
             temp_orders_list.append(
                 {
-                    row["order_num"]: {
+                    int(row["order_num"]): {
                         "customer_name": row["customer_name"],
                         "customer_address": row["customer_address"],
                         "customer_phone": row["customer_phone"],
@@ -99,3 +99,6 @@ def persistence_function(prodlist, courlist, orderslist):
                     "items": value["items"],
                 }
                 csv.DictWriter(write_object, fieldnames=fieldnames).writerow(new_row)
+
+
+

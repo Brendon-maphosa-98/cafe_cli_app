@@ -121,7 +121,7 @@ def Orders_loop(
     order_update_option_str,
     order_remove_option_str,
     error_func,
-    dict_output_func,
+    list_output_func,
     orderslist,
     add_order_func,
     cust_fname_str,
@@ -166,7 +166,7 @@ def Orders_loop(
         )
         if Menu_choice == 1:
             clear_func()
-            dict_output_func(orderslist)
+            list_output_func(orderslist)
             return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop1 == 1
@@ -189,7 +189,7 @@ def Orders_loop(
                 error_func,
                 courlist,
             )
-            dict_output_func(orderslist)
+            list_output_func(orderslist)
             return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop1 == 1
@@ -199,7 +199,7 @@ def Orders_loop(
         elif Menu_choice == 3:
             clear_func()
             orderslist = update_existing_order_status_func(
-                dict_output_func,
+                list_output_func,
                 orderslist,
                 gen_ord_selection_str,
                 error_func,
@@ -207,7 +207,7 @@ def Orders_loop(
                 status_opt_list,
                 clear_func,
             )
-            dict_output_func(orderslist)
+            list_output_func(orderslist)
             return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop1 == 1
@@ -232,14 +232,14 @@ def Orders_loop(
                 new_cust_city_str,
                 new_cust_num_str,
                 prodlist,
-                dict_output_func,
+                list_output_func,
                 remove_order_output_func,
                 list_input_func,
                 clear_func,
                 update_courier_str,
                 courlist,
             )
-            dict_output_func(orderslist)
+            list_output_func(orderslist)
             return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop1 == 1
@@ -249,9 +249,9 @@ def Orders_loop(
         elif Menu_choice == 5:
             clear_func()
             orderslist = del_order_func(
-                orderslist, dict_output_func, error_func, clear_func
+                orderslist, list_output_func, error_func, clear_func
             )
-            dict_output_func(orderslist)
+            list_output_func(orderslist)
             return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop1 == 1
