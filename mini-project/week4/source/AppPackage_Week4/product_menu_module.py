@@ -72,7 +72,7 @@ def update_item(
                 loop == 1
             else:
                 clear_func()
-                product_to_add = {"name": product_to_add_name, "price": product_to_add_price}
+                product_to_add = {"name": product_to_add_name, "price": float(product_to_add_price)}
                 print(
                     f"{product_to_add_name} has now been added to the product list with a price of £{product_to_add_price}\n"
                 )
