@@ -5,30 +5,35 @@ import re
 
 def add_item(list_input_func, prodlist, error_func, ordernum, clear_func):
     selected_items = []
+    appending_items = []
+    final_items = ""
     loop = 1
     while loop == 1:
         item_selected = list_input_func(prodlist, error_func, clear_func)
         option2 = input(
-            f"You have selected to add {prodlist[item_selected]} to order{ordernum}\nWould you like to add a another item to the order\n1: Yes\n2: No\n>>> "
+            f"You have selected to add {prodlist[item_selected]['name']} to order{ordernum}\nWould you like to add a another item to the order\n1: Yes\n2: No\n>>> "
         )
         option3 = error_func(option2, 1, 2)
         if option3:
             option2 = int(option2)
             if option2 == 1:
-                selected_items.append(prodlist[item_selected])
+                selected_items.append(prodlist[item_selected]["name"])
+                appending_items.append((prodlist.index(prodlist[item_selected])))
                 loop == 1
             else:
-                selected_items.append(prodlist[item_selected])
+                selected_items.append(prodlist[item_selected]["name"])
+                appending_items.append((prodlist.index(prodlist[item_selected])))
                 print(
                     f"These are the items that have been added to your order ------ {selected_items}"
                 )
                 loop += 1
-                return selected_items
+                for item in appending_items:
+                    final_items += f"{f'{str(item)}, ' if item!=appending_items[-1] else f'{str(item)}'}"
         else:
             print(f"invalid input please try again")
 
     else:
-        return selected_items
+        return final_items
 
 
 # remove item function
@@ -213,7 +218,7 @@ def add_order(
 
 
 def update_existing_order_status(
-    dict_output_func,
+    list_output_func,
     orderslist,
     gen_ord_selection_str,
     error_func,
@@ -224,7 +229,7 @@ def update_existing_order_status(
     loop = 1
     while loop == 1:
         clear_func()
-        dict_output_func(orderslist)
+        list_output_func(orderslist)
         chng_sel1 = input(gen_ord_selection_str)
         chng_sel2 = error_func(
             chng_sel1,
@@ -285,7 +290,7 @@ def update_existing_order(
             1,
             len(temp_orders_list),
         )
-        key = f"order{chng_sel1}"
+        key = chng_sel1
         clear_func()
         if chng_sel2:
             chng_sel1 = int(chng_sel1)
@@ -391,10 +396,9 @@ def update_existing_order(
                         loop += 1
                         return temp_orders_list
             elif chng_op1 == 3:
-                for item in add_item(
+                temp_orders_list[chng_sel1 - 1][chng_sel1]["items"] = add_item(
                     list_input_func, prodlist, error_func, chng_sel1, clear_func
-                ):
-                    temp_orders_list[chng_sel1 - 1][key]["item(s)_ordered"].append(item)
+                )
                 loop += 1
                 return temp_orders_list
             elif chng_op1 == 4:

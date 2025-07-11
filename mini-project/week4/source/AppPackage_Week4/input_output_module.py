@@ -23,9 +23,16 @@ def list_output(list):
         for item in list:
             inner_dict = next(iter(item.values()))
             print(
-                f'-------\n{f'Order{index_num}'}:\n\nCustomer Name: {inner_dict['customer_name']}\nCustomer Address: {inner_dict['customer_address']}\nContact Number: {inner_dict['customer_phone']}\nStatus: {inner_dict['status']}\nCourier: {inner_dict['courier']}\nItems: {inner_dict['items']}\n-------'
+                f"-------\n{f'Order{index_num}'}:\n\nCustomer Name: {inner_dict['customer_name']}\nCustomer Address: {inner_dict['customer_address']}\nContact Number: {inner_dict['customer_phone']}\nStatus: {inner_dict['status']}\nCourier: {inner_dict['courier']}\nItems: {inner_dict['items']}\n-------"
             )
             index_num += 1
+    elif list == data.order_status:
+        print(" ")
+        print("-------\n-------")
+        for item in list:
+            print(f"\n{index_num}. {item}")
+            index_num += 1
+        print("-------\n-------")
 
 
 # functions for taking and returning inputs
@@ -54,7 +61,7 @@ def list_input_function(list, error_func, clear_func):
             for item in list:
                 inner_dict = next(iter(item.values()))
                 print(
-                    f'-------\n{f'Order{index_num}'}:\n\nCustomer Name: {inner_dict['customer_name']}\nCustomer Address: {inner_dict['customer_address']}\nContact Number: {inner_dict['customer_phone']}\nStatus: {inner_dict['status']}\nCourier: {inner_dict['courier']}\nItems: {inner_dict['items']}\n-------'
+                    f"-------\n{f'Order{index_num}'}:\n\nCustomer Name: {inner_dict['customer_name']}\nCustomer Address: {inner_dict['customer_address']}\nContact Number: {inner_dict['customer_phone']}\nStatus: {inner_dict['status']}\nCourier: {inner_dict['courier']}\nItems: {inner_dict['items']}\n-------"
                 )
                 index_num += 1
         returned_input = input("\nWhich option above would you like to select?\n>>> ")
