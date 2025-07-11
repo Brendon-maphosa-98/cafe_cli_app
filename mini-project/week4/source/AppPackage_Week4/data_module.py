@@ -21,7 +21,7 @@ def ingest_function(prodlist, courlist, orderslist):
         "r",
     ) as read_object:
         for row in csv.DictReader(read_object):
-            temp_prod_list.append({"name": row["name"], "price": row["price"]})
+            temp_prod_list.append({"name": row["name"], "price": float(row["price"])})
     prodlist = temp_prod_list
     with open(
         "/Users/brendon/Documents/Data-Engineering/brendon-portfolio/mini-project/week4/data/couriers3.csv",
@@ -99,6 +99,3 @@ def persistence_function(prodlist, courlist, orderslist):
                     "items": value["items"],
                 }
                 csv.DictWriter(write_object, fieldnames=fieldnames).writerow(new_row)
-
-
-
