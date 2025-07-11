@@ -49,7 +49,8 @@ def master_loop_function():
                 del_item_func=prodmod.del_item,
                 error_func=error.user_int_check,
                 clear_func=clear_func,
-                created_product_price_str = stng.created_product_price
+                created_product_price_str = stng.created_product_price,
+                replacement_product_price_str = stng.replacement_product_price,
             )
             loop1 == 1
         elif choice == 2:

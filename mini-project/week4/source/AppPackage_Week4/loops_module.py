@@ -44,6 +44,7 @@ def product_loop(
     error_func,
     clear_func,
     created_product_price_str,
+    replacement_product_price_str,
 ):
     loop = 1
     while loop == 1:
@@ -81,6 +82,7 @@ def product_loop(
             prodlist = update_item_func(
                 remove_product_str,
                 replacement_product_str,
+                replacement_product_price_str,
                 list_output_func,
                 prodlist,
                 error_func,

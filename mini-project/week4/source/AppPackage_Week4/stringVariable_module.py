@@ -32,7 +32,9 @@ created_product_price = "\nWhat is the price of the product you would like to ad
 
 replaced_product = "\nWhich of the above products would you like to replace?\n\nInput corresponding number here: "
 
-replacement_product = "\nWhat is the name of the product you would like to add in place of the old one?\n\nNew product name: "
+replacement_product_name = "\nWhat is the name of the product you would like to add in place of the old one?\n\nNew product name: "
+
+replacement_product_price = "\nWhat is the price of the product you would like to add in place of the old one?\n\nNew product price:£"
 
 remove_product = "\nWhich of the above products would you like to remove from the list?\n\nInput corresponding number here: "
 
