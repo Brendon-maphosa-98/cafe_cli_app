@@ -43,6 +43,7 @@ def product_loop(
     del_item_func,
     error_func,
     clear_func,
+    created_product_price_str,
 ):
     loop = 1
     while loop == 1:
@@ -68,7 +69,7 @@ def product_loop(
                 None
         elif Menu_choice == 2:
             clear_func()
-            prodlist = new_product_func(created_product_str, prodlist, clear_func)
+            prodlist = new_product_func(created_product_str, created_product_price_str, prodlist, clear_func)
             return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop == 1

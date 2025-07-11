@@ -5,25 +5,27 @@ import re
 # function for creating and returning a new product, to be used for adding a new product to the list
 
 
-def new_product(created_product_str, prodlist, clear_func):
+def new_product(created_product_str,created_product_price_str, prodlist, clear_func):
     loop = 1
     while loop == 1:
         clear_func()
         temp_prod_list = prodlist
-        new_prod = input(created_product_str)
+        new_prod_name = input(created_product_str)
+        new_prod_price = (input(created_product_price_str))
         if (
-            bool(re.search("[0-9]", new_prod)) == True
-            or bool(re.search("[a-zA-Z]", new_prod)) == False
-            or bool(re.search(r"^[a-zA-Z\s\-'\.&]+$", new_prod)) == False
-            or bool(re.search("^[\s]+", new_prod)) == True
+            (bool(re.search("[0-9]", new_prod_name)) == True
+            or bool(re.search("[a-zA-Z]", new_prod_name)) == False
+            or bool(re.search(r"^[a-zA-Z\s\-'\.&]+$", new_prod_name)) == False
+            or bool(re.search("^[\s]+", new_prod_name)) == True) or (bool(re.search("[a-zA-Z]", new_prod_price)) == True or bool(re.search("^[\s]+", new_prod_price) == True))
         ):
             print(
-                "A product name must contain letters and cannot contain any numbers or start with a space please try again"
+                "Invalid inputs for either your product name or price\nA product name must contain letters and cannot contain any numbers or start with a space\nA product price must not have any letter and only numbers and an optional decimal point\nplease try again"
             )
             loop == 1
         else:
+            new_prod = {'name':new_prod_name, 'price':float(new_prod_price)}
             loop += 1
-            print(f"\n{new_prod} has been added to the products list\n")
+            print(f"\n{new_prod_name} has been added to the products list with the price of {new_prod_price}\n")
     temp_prod_list.append(new_prod)
     return temp_prod_list
 

@@ -28,6 +28,8 @@ remove_option = "Remove an existing product\n"
 
 created_product = "\nWhat is the name of the product you would like to add to the list?\n\nNew product name: "
 
+created_product_price = "\nWhat is the price of the product you would like to add to the list?\n\nNew product price:£"
+
 replaced_product = "\nWhich of the above products would you like to replace?\n\nInput corresponding number here: "
 
 replacement_product = "\nWhat is the name of the product you would like to add in place of the old one?\n\nNew product name: "
