@@ -111,11 +111,11 @@ def master_loop_function():
                 del_order_func=ordermod.del_order,
                 list_input_func=io.list_input_function,
                 prodlist=data.products,
-                remove_order_output_func=io.remove_order_output_function,
                 clear_func=clear_func,
                 update_courier_str=stng.change_option_courier,
                 courlist=data.couriers,
                 list_output_func=io.list_output,
+                remove_product_str=stng.remove_product,
             )
             loop1 == 1
         elif choice == 0:

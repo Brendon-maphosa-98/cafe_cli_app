@@ -64,6 +64,13 @@ def list_input_function(list, error_func, clear_func):
                     f"-------\n{f'Order{index_num}'}:\n\nCustomer Name: {inner_dict['customer_name']}\nCustomer Address: {inner_dict['customer_address']}\nContact Number: {inner_dict['customer_phone']}\nStatus: {inner_dict['status']}\nCourier: {inner_dict['courier']}\nItems: {inner_dict['items']}\n-------"
                 )
                 index_num += 1
+        elif list == data.order_status:
+            print(" ")
+            print("-------\n-------")
+            for item in list:
+                print(f"\n{index_num}. {item}")
+                index_num += 1
+            print("-------\n-------")
         returned_input = input("\nWhich option above would you like to select?\n>>> ")
         clear_func()
         penultimate_input = error_func(returned_input, 0, len(list) - 1)
@@ -76,16 +83,17 @@ def list_input_function(list, error_func, clear_func):
             index_num = 0
 
 
-def remove_order_output_function(items, error_func):
+def remove_order_output_function(items, products, error_func):
+    items = items.replace(",","").replace(" ","")
     index_num = 0
     print("-------\n-------")
     loop = 1
     while loop == 1:
         for item in items:
-            print(f"\n{index_num}. {item}")
+            print(f"\n{index_num}. {products[int(item) -1]['name']}")
             index_num += 1
         returned_input = input("\nWhich item above would you like to remove?\n>>> ")
-        penultimate_input = error_func(returned_input, 0, len(items) - 1)
+        penultimate_input = error_func(returned_input, 0, len(products) - 1)
         if penultimate_input:
             final_input = int(returned_input)
             loop += 1

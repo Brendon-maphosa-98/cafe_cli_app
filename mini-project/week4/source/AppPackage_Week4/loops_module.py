@@ -151,10 +151,10 @@ def Orders_loop(
     del_order_func,
     list_input_func,
     prodlist,
-    remove_order_output_func,
     clear_func,
     update_courier_str,
     courlist,
+    remove_product_str,
 ):
     loop1 = 1
     while loop1 == 1:
@@ -238,11 +238,11 @@ def Orders_loop(
                 new_cust_num_str,
                 prodlist,
                 list_output_func,
-                remove_order_output_func,
                 list_input_func,
                 clear_func,
                 update_courier_str,
                 courlist,
+                remove_product_str,
             )
             list_output_func(orderslist)
             return_option = rtrn_opt(clear_func)
@@ -286,8 +286,7 @@ def courier_loop(
     error_func,
     clear_func,
     created_courier_number_str,
-    replacement_courier_number_str
-
+    replacement_courier_number_str,
 ):
     loop = 1
     while loop == 1:
