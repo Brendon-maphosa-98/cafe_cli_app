@@ -17,14 +17,14 @@ def ingest_function(prodlist, courlist, orderslist):
     temp_cour_list = courlist
     temp_orders_list = orderslist
     with open(
-        "/Users/brendon/Documents/Data-Engineering/brendon-portfolio/mini-project/week4/data/products3.csv",
+        "mini-project/week4/data/products3.csv",
         "r",
     ) as read_object:
         for row in csv.DictReader(read_object):
             temp_prod_list.append({"name": row["name"], "price": float(row["price"])})
     prodlist = temp_prod_list
     with open(
-        "/Users/brendon/Documents/Data-Engineering/brendon-portfolio/mini-project/week4/data/couriers3.csv",
+        "mini-project/week4/data/couriers3.csv",
         "r",
     ) as read_object:
         for row in csv.DictReader(read_object):
@@ -33,7 +33,7 @@ def ingest_function(prodlist, courlist, orderslist):
             )
     courlist = temp_cour_list
     with open(
-        "/Users/brendon/Documents/Data-Engineering/brendon-portfolio/mini-project/week4/data/orders3.csv",
+        "mini-project/week4/data/orders3.csv",
         "r",
     ) as read_object:
         for row in csv.DictReader(read_object):
@@ -58,7 +58,7 @@ def persistence_function(prodlist, courlist, orderslist):
     temp_cour_list = courlist
     temp_orders_list = orderslist
     with open(
-        "/Users/brendon/Documents/Data-Engineering/brendon-portfolio/mini-project/week4/data/products3.csv",
+        "mini-project/week4/data/products3.csv",
         "w",
     ) as write_object:
         fieldnames = ["name", "price"]
@@ -66,7 +66,7 @@ def persistence_function(prodlist, courlist, orderslist):
         for product in temp_prod_list:
             csv.DictWriter(write_object, fieldnames=fieldnames).writerow(product)
     with open(
-        "/Users/brendon/Documents/Data-Engineering/brendon-portfolio/mini-project/week4/data/couriers3.csv",
+        "mini-project/week4/data/couriers3.csv",
         "w",
     ) as write_object:
         fieldnames = ["name", "phone_number"]
@@ -74,7 +74,7 @@ def persistence_function(prodlist, courlist, orderslist):
         for courier in temp_cour_list:
             csv.DictWriter(write_object, fieldnames=fieldnames).writerow(courier)
     with open(
-        "/Users/brendon/Documents/Data-Engineering/brendon-portfolio/mini-project/week4/data/orders3.csv",
+        "mini-project/week4/data/orders3.csv",
         "w",
     ) as write_object:
         fieldnames = [
