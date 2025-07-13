@@ -43,6 +43,10 @@ remove_product = "\nWhich of the above products would you like to remove from th
 
 order_view_option = "View the orders list\n"
 
+order_view_option_courier = "view the orders list by assigned courier\n"
+
+order_view_option_status = "view the orders list by status\n"
+
 order_create_option = "Add a new order\n"
 
 update_status_option = "Update the status of an order\n"

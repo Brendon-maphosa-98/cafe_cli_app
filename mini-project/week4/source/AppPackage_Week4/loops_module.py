@@ -155,6 +155,9 @@ def Orders_loop(
     update_courier_str,
     courlist,
     remove_product_str,
+    order_view_option_courier_str,
+    order_view_option_status_str,
+    order_custom_output_function,
 ):
     loop1 = 1
     while loop1 == 1:
@@ -162,6 +165,8 @@ def Orders_loop(
         Menu_choice = str_input_func(
             Main_menu_str,
             order_view_option_str,
+            order_view_option_courier_str,
+            order_view_option_status_str,
             order_create_option_str,
             update_status_option_str,
             order_update_option_str,
@@ -179,6 +184,22 @@ def Orders_loop(
                 clear_func()
                 None
         elif Menu_choice == 2:
+            order_custom_output_function(orderslist,2,prodlist,courlist)
+            return_option = rtrn_opt(clear_func)
+            if return_option == 0:
+                loop1 == 1
+                clear_func()
+            else:
+                None
+        elif Menu_choice == 3:
+            order_custom_output_function(orderslist,1,prodlist,courlist)
+            return_option = rtrn_opt(clear_func)
+            if return_option == 0:
+                loop1 == 1
+                clear_func()
+            else:
+                None         
+        elif Menu_choice == 4:
             clear_func()
             orderslist = add_order_func(
                 cust_fname_str,
@@ -201,7 +222,7 @@ def Orders_loop(
                 clear_func()
             else:
                 None
-        elif Menu_choice == 3:
+        elif Menu_choice == 5:
             clear_func()
             orderslist = update_existing_order_status_func(
                 list_output_func,
@@ -219,7 +240,7 @@ def Orders_loop(
                 clear_func()
             else:
                 None
-        elif Menu_choice == 4:
+        elif Menu_choice == 6:
             clear_func()
             orderslist = update_existing_order_func(
                 orderslist,
@@ -251,7 +272,7 @@ def Orders_loop(
                 clear_func()
             else:
                 None
-        elif Menu_choice == 5:
+        elif Menu_choice == 7:
             clear_func()
             orderslist = del_order_func(
                 orderslist, list_output_func, error_func, clear_func

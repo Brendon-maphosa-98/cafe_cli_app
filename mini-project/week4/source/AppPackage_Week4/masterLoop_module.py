@@ -116,6 +116,9 @@ def master_loop_function():
                 courlist=data.couriers,
                 list_output_func=io.list_output,
                 remove_product_str=stng.remove_product,
+                order_view_option_courier_str = stng.order_view_option_courier,
+                order_view_option_status_str = stng.order_view_option_status,
+                order_custom_output_function = io.order_custom_output_function,
             )
             loop1 == 1
         elif choice == 0:
