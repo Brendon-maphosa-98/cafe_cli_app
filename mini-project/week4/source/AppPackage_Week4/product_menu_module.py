@@ -19,17 +19,20 @@ def new_product(created_product_str, created_product_price_str, prodlist, clear_
             or bool(re.search("^[\s]+", new_prod_name)) == True
         ) or (
             bool(re.search("[a-zA-Z]", new_prod_price)) == True
-            or bool(re.search("^[\s]+", new_prod_price) == True)
+            or bool(
+                re.search("^[\s]+", new_prod_price) == True
+                or bool(re.search(r"^[a-zA-Z\s\-\'\&]+$", new_prod_price)) == True
+            )
         ):
             print(
                 "Invalid inputs for either your product name or price\nA product name must contain letters and cannot contain any numbers or start with a space\nA product price must not have any letter and only numbers and an optional decimal point\nplease try again"
             )
             loop == 1
         else:
-            new_prod = {"name": new_prod_name, "price": float(new_prod_price)}
+            new_prod = {"name": new_prod_name.title(), "price": float(new_prod_price)}
             loop += 1
             print(
-                f"\n{new_prod_name} has been added to the products list with the price of £{new_prod_price}\n"
+                f"\n{new_prod_name.title()} has been added to the products list with the price of £{new_prod_price}\n"
             )
     temp_prod_list.append(new_prod)
     return temp_prod_list
@@ -50,6 +53,7 @@ def update_item(
     temp_prod_list = prodlist
     loop = 1
     while loop == 1:
+        clear_func()
         list_output_func(temp_prod_list)
         product_to_remove = input(remove_product_str)
         valid_rmv_input = errorfunc(product_to_remove, 1, len(temp_prod_list))
@@ -64,7 +68,11 @@ def update_item(
                 or bool(re.search("^[\s]+", product_to_add_name)) == True
             ) or (
                 bool(re.search("[a-zA-Z]", product_to_add_price)) == True
-                or bool(re.search("^[\s]+", product_to_add_price) == True)
+                or bool(
+                    re.search("^[\s]+", product_to_add_price) == True
+                    or bool(re.search(r"^[a-zA-Z\s\-\'\&]+$", product_to_add_price))
+                    == True
+                )
             ):
                 print(
                     "Invalid inputs for either your product name or price\nA product name must contain letters and cannot contain any numbers or start with a space\nA product price must not have any letter and only numbers and an optional decimal point\nplease try again"
@@ -72,9 +80,12 @@ def update_item(
                 loop == 1
             else:
                 clear_func()
-                product_to_add = {"name": product_to_add_name, "price": float(product_to_add_price)}
+                product_to_add = {
+                    "name": product_to_add_name.title(),
+                    "price": float(product_to_add_price),
+                }
                 print(
-                    f"{product_to_add_name} has now been added to the product list with a price of £{product_to_add_price}\n"
+                    f"{product_to_add_name.title()} has now been added to the product list with a price of £{product_to_add_price}\n"
                 )
                 temp_prod_list[product_to_remove - 1] = product_to_add
                 list_output_func(temp_prod_list)

@@ -301,7 +301,7 @@ def courier_loop(
     new_courier_func,
     created_courier_name_str,
     update_courier_func,
-    remove_courier_str,
+    remove_courier_str,  
     replacement_courier_name_str,
     del_courier_func,
     error_func,
@@ -348,7 +348,6 @@ def courier_loop(
         elif Menu_choice == 3:
             clear_func()
             courlist = update_courier_func(
-                remove_courier_str,
                 replacement_courier_name_str,
                 replacement_courier_number_str,
                 list_output_func,

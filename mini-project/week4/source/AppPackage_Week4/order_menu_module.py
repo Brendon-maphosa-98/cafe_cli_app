@@ -3,10 +3,17 @@ import re
 # Add item function
 
 
-def add_item(list_input_func, prodlist, error_func, ordernum, clear_func,orderslist):
+def add_item(list_input_func, prodlist, error_func, ordernum, clear_func, orderslist):
     temp_orders_list = orderslist
     temp_prods_list = prodlist
-    current_items = [item for item in (temp_orders_list[ordernum - 1][ordernum]["items"].replace(",", "").replace(" ", ""))]
+    current_items = [
+        item
+        for item in (
+            temp_orders_list[ordernum - 1][ordernum]["items"]
+            .replace(",", "")
+            .replace(" ", "")
+        )
+    ]
     selected_items = []
     final_items = ""
     loop = 1
@@ -20,18 +27,24 @@ def add_item(list_input_func, prodlist, error_func, ordernum, clear_func,ordersl
             option2 = int(option2)
             if option2 == 1:
                 selected_items.append(temp_prods_list[item_selected]["name"])
-                current_items.append((temp_prods_list.index(temp_prods_list[item_selected])))
+                current_items.append(
+                    (temp_prods_list.index(temp_prods_list[item_selected]))
+                )
                 loop == 1
             else:
                 selected_items.append(temp_prods_list[item_selected]["name"])
-                current_items.append((temp_prods_list.index(temp_prods_list[item_selected])))
+                current_items.append(
+                    (temp_prods_list.index(temp_prods_list[item_selected]))
+                )
                 print(
                     f"These are the items that have been added to order{ordernum} ------ {selected_items}"
                 )
                 for item in current_items:
-                    final_items =+ f"{f'{str(item)}, ' if item!=current_items[-1] else f'{str(item)}'}"
+                    final_items = (
+                        +f"{f'{str(item)}, ' if item!=current_items[-1] else f'{str(item)}'}"
+                    )
                 loop += 1
-                return final_items       
+                return final_items
         else:
             print(f"invalid input please try again")
 
@@ -42,10 +55,16 @@ def add_item(list_input_func, prodlist, error_func, ordernum, clear_func,ordersl
 # remove item function
 
 
-def remove_item(orderslist, ordernum, remove_product_str, prodlist, error_func,clear_func):
+def remove_item(
+    orderslist, ordernum, remove_product_str, prodlist, error_func, clear_func
+):
     temp_order_list = orderslist
     temp_prod_list = prodlist
-    items = temp_order_list[ordernum - 1][ordernum]["items"].replace(",", "").replace(" ", "")
+    items = (
+        temp_order_list[ordernum - 1][ordernum]["items"]
+        .replace(",", "")
+        .replace(" ", "")
+    )
     itemslist = [item for item in items]
     loop1 = True
     while loop1:
@@ -58,18 +77,20 @@ def remove_item(orderslist, ordernum, remove_product_str, prodlist, error_func,c
             remove_item = input(
                 f"You have selected to remove {temp_prod_list[int(removing_item)]['name']} from order{ordernum}, removal confirmed.\nWould you like to remove another item?\n1.Yes\n2.No\n>>> "
             )
-            remove_more = error_func(remove_item,1,2)
+            remove_more = error_func(remove_item, 1, 2)
             if remove_more == True and remove_item == str(1):
                 clear_func()
                 loop1 = True
             elif remove_more == True and remove_item == str(2):
                 for item in itemslist:
-                    itemslist =+ f'{str(item)}, ' if item != itemslist[-1] else f'{item}'
-                temp_order_list[ordernum-1][ordernum]['items'] = itemslist
+                    itemslist = (
+                        +f"{str(item)}, " if item != itemslist[-1] else f"{item}"
+                    )
+                temp_order_list[ordernum - 1][ordernum]["items"] = itemslist
                 loop1 = False
-                return temp_order_list                
+                return temp_order_list
             else:
-                print('Please try again')
+                print("Please try again")
 
         else:
             clear_func()
@@ -102,8 +123,8 @@ def add_order(
         if (
             bool(re.search("^[a-zA-Z\s\-]+$", customer_name1)) == False
             or bool(re.search("^[a-zA-Z\s\-]+$", customer_name2)) == False
-            or bool(re.search("^[\s]+", customer_name1)) == True
-            or bool(re.search("^[\s]+", customer_name2)) == True
+            or bool(re.search("^[-\s\&]+", customer_name1)) == True
+            or bool(re.search("^[-\s\&]+", customer_name2)) == True
         ):
             clear_func()
             print(
@@ -123,8 +144,8 @@ def add_order(
         if (
             bool(re.search("[0-9]", customer_address1)) == True
             or bool(re.search("[0-9]", customer_address2)) == True
-            or bool(re.search("^[\s]+", customer_address1)) == True
-            or bool(re.search("^[\s]+", customer_address2)) == True
+            or bool(re.search("^[-\s\&]+", customer_address1)) == True
+            or bool(re.search("^[-\s\&]+", customer_address2)) == True
             or bool(re.search(r"[!@#$%^*()=+{}\[\]\\|;:\"<>,?~`]", customer_address1))
             == True
             or bool(re.search(r"[!@#$%^*()=+{}\[\]\\|;:\"<>,?~`]", customer_address2))
@@ -308,7 +329,6 @@ def update_existing_order(
             1,
             len(temp_orders_list),
         )
-        key = chng_sel1
         clear_func()
         if chng_sel2:
             chng_sel1 = int(chng_sel1)
@@ -342,7 +362,7 @@ def update_existing_order(
                     else:
                         clear_func()
                         print(
-                            f"The new customer name for {key} is {customer_name1.capitalize().strip()} {customer_name2.capitalize().strip()}\n"
+                            f"The new customer name for order{chng_sel1} is {customer_name1.capitalize().strip()} {customer_name2.capitalize().strip()}\n"
                         )
                         temp_orders_list[chng_sel1 - 1][chng_sel1][
                             "customer_name"
@@ -380,7 +400,7 @@ def update_existing_order(
                     else:
                         clear_func()
                         print(
-                            f"The new address for {key} is {customer_address1.title().strip()}, {customer_address2.upper().strip()} confirmed"
+                            f"The new address for order{chng_sel1} is {customer_address1.title().strip()}, {customer_address2.upper().strip()} confirmed"
                         )
                         temp_orders_list[chng_sel1 - 1][chng_sel1][
                             "customer_address"
@@ -405,7 +425,7 @@ def update_existing_order(
                     else:
                         clear_func()
                         print(
-                            f"The new number for {key} is {customer_number.strip()} confirmed"
+                            f"The new number for order{chng_sel1} is {customer_number.strip()} confirmed"
                         )
                         temp_orders_list[chng_sel1 - 1][chng_sel1][
                             "customer_phone"
@@ -415,12 +435,23 @@ def update_existing_order(
                         return temp_orders_list
             elif chng_op1 == 3:
                 temp_orders_list[chng_sel1 - 1][chng_sel1]["items"] = add_item(
-                    list_input_func, prodlist, error_func, chng_sel1, clear_func,orderslist
+                    list_input_func,
+                    prodlist,
+                    error_func,
+                    chng_sel1,
+                    clear_func,
+                    orderslist,
                 )
                 loop += 1
                 return temp_orders_list
             elif chng_op1 == 4:
-                temp_orders_list = remove_item(orderslist, int(chng_sel1), remove_product_str, prodlist, error_func,clear_func
+                temp_orders_list = remove_item(
+                    orderslist,
+                    int(chng_sel1),
+                    remove_product_str,
+                    prodlist,
+                    error_func,
+                    clear_func,
                 )
                 loop += 1
                 return temp_orders_list
@@ -431,11 +462,9 @@ def update_existing_order(
                     courlist, error_func, clear_func
                 )
                 print(
-                    f"You have selected to add {courlist[courier_change_selection]} as the courier for {key}\n"
+                    f"You have selected to add {courlist[courier_change_selection]['name']} as the courier for order{chng_sel1}\n"
                 )
-                temp_orders_list[chng_sel1 - 1][key]["courier"] = courlist[
-                    courier_change_selection
-                ]
+                temp_orders_list[chng_sel1 - 1][chng_sel1]["courier"] = (courier_change_selection)
                 loop += 1
                 return temp_orders_list
         else:

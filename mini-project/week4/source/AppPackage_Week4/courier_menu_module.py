@@ -30,9 +30,9 @@ def new_courier(
             )
             loop == 1
         else:
-            new_courier = {"name": new_courier_name, "phone_number": new_courier_number}
+            new_courier = {"name": new_courier_name.title(), "phone_number": new_courier_number}
             loop += 1
-            print(f"\n{new_courier_name} has been added to the couriers list\n")
+            print(f"\n{new_courier_name.title()} has been added to the couriers list\n")
     temp_courier_list.append(new_courier)
     return temp_courier_list
 
@@ -41,7 +41,6 @@ def new_courier(
 
 
 def update_courier(
-    remove_courier_str,
     replacement_courier_name_str,
     replacement_courier_number_str,
     list_output_func,
@@ -53,7 +52,7 @@ def update_courier(
     loop = 1
     while loop == 1:
         list_output_func(temp_courier_list)
-        courier_to_remove = input(remove_courier_str)
+        courier_to_remove = input('Which of the above couriers would you like to update?\n>>> ')
         valid_rmv_input = errorfunc(courier_to_remove, 1, len(temp_courier_list))
         if valid_rmv_input:
             courier_to_remove = int(courier_to_remove)
@@ -77,10 +76,10 @@ def update_courier(
             else:
                 clear_func()
                 courier_to_add = {
-                    "name": new_courier_name,
+                    "name": new_courier_name.title(),
                     "phone_number": new_courier_number,
                 }
-                print(f"\n{new_courier_name} has been added to the couriers list\n")
+                print(f"\n{new_courier_name.title()} has been added to the couriers list\n")
                 temp_courier_list[courier_to_remove - 1] = courier_to_add
                 list_output_func(temp_courier_list)
                 loop += 1
