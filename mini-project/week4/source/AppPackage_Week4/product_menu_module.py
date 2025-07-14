@@ -1,17 +1,22 @@
 import re
 
+
 ## Product menu action functions
 
 # function for creating and returning a new product, to be used for adding a new product to the list
 
 
-def new_product(created_product_str, created_product_price_str, prodlist, clear_func):
+def new_product(prodlist, clear_func):
     loop = 1
     while loop == 1:
         clear_func()
         temp_prod_list = prodlist
-        new_prod_name = input(created_product_str)
-        new_prod_price = input(created_product_price_str)
+        new_prod_name = input(
+            "\nWhat is the name of the product you would like to add to the list?\n\nNew product name: "
+        )
+        new_prod_price = input(
+            "\nWhat is the price of the product you would like to add to the list?\n\nNew product price:£"
+        )
         if (
             bool(re.search("[0-9]", new_prod_name)) == True
             or bool(re.search("[a-zA-Z]", new_prod_name)) == False
@@ -42,9 +47,6 @@ def new_product(created_product_str, created_product_price_str, prodlist, clear_
 
 
 def update_item(
-    remove_product_str,
-    replacement_product_str,
-    replacement_product_price_str,
     list_output_func,
     prodlist,
     errorfunc,
@@ -55,12 +57,18 @@ def update_item(
     while loop == 1:
         clear_func()
         list_output_func(temp_prod_list)
-        product_to_remove = input(remove_product_str)
+        product_to_remove = input(
+            "\nWhich of the above products would you like to remove from the list?\n\nInput corresponding number here: "
+        )
         valid_rmv_input = errorfunc(product_to_remove, 1, len(temp_prod_list))
         if valid_rmv_input:
             product_to_remove = int(product_to_remove)
-            product_to_add_name = input(replacement_product_str)
-            product_to_add_price = input(replacement_product_price_str)
+            product_to_add_name = input(
+                "\nWhat is the name of the product you would like to add in place of the old one?\n\nNew product name: "
+            )
+            product_to_add_price = input(
+                "\nWhat is the price of the product you would like to add in place of the old one?\n\nNew product price:£"
+            )
             if (
                 bool(re.search("[0-9]", product_to_add_name)) == True
                 or bool(re.search("[a-zA-Z]", product_to_add_name)) == False
@@ -99,12 +107,14 @@ def update_item(
 # function for deleting an item and return an updated list
 
 
-def del_item(remove_product_str, list_output_func, prodlist, error_func, clear_func):
+def del_item(list_output_func, prodlist, error_func, clear_func):
     loop = 1
     temp_prod_list = prodlist
     while loop == 1:
         list_output_func(temp_prod_list)
-        item_to_remove = input(remove_product_str)
+        item_to_remove = input(
+            "\nWhich of the above products would you like to remove from the list?\n\nInput corresponding number here: "
+        )
         valid_rmv_input = error_func(item_to_remove, 1, len(temp_prod_list))
         if valid_rmv_input:
             clear_func()

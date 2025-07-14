@@ -5,15 +5,17 @@ import re
 # function for creating and returning a new product, to be used for adding a new product to the list
 
 
-def new_courier(
-    created_courier_name_str, created_courier_number_str, courlist, clear_func
-):
+def new_courier(courlist, clear_func):
     loop = 1
     while loop == 1:
         clear_func()
         temp_courier_list = courlist
-        new_courier_name = input(created_courier_name_str)
-        new_courier_number = input(created_courier_number_str)
+        new_courier_name = input(
+            "\nWhat is the name of the courier you would like to add to the list?\n\nNew courier name: "
+        )
+        new_courier_number = input(
+            "\nWhat is the mobile number of the courier you would like to add to the list?\n\nNew courier number: "
+        )
         if (
             bool(re.search("[0-9]", new_courier_name)) == True
             or bool(re.search("[a-zA-Z]", new_courier_name)) == False
@@ -30,7 +32,10 @@ def new_courier(
             )
             loop == 1
         else:
-            new_courier = {"name": new_courier_name.title(), "phone_number": new_courier_number}
+            new_courier = {
+                "name": new_courier_name.title(),
+                "phone_number": new_courier_number,
+            }
             loop += 1
             print(f"\n{new_courier_name.title()} has been added to the couriers list\n")
     temp_courier_list.append(new_courier)
@@ -41,8 +46,6 @@ def new_courier(
 
 
 def update_courier(
-    replacement_courier_name_str,
-    replacement_courier_number_str,
     list_output_func,
     courlist,
     errorfunc,
@@ -52,12 +55,18 @@ def update_courier(
     loop = 1
     while loop == 1:
         list_output_func(temp_courier_list)
-        courier_to_remove = input('Which of the above couriers would you like to update?\n>>> ')
+        courier_to_remove = input(
+            "Which of the above couriers would you like to update?\n>>> "
+        )
         valid_rmv_input = errorfunc(courier_to_remove, 1, len(temp_courier_list))
         if valid_rmv_input:
             courier_to_remove = int(courier_to_remove)
-            new_courier_name = input(replacement_courier_name_str)
-            new_courier_number = input(replacement_courier_number_str)
+            new_courier_name = input(
+                "\nWhat is the name of the courier you would like to add in place of the old one?\n\nNew courier name: "
+            )
+            new_courier_number = input(
+                "\nWhat is the mobile number of the courier you would like to add to the list?\n\nNew courier number: "
+            )
             if (
                 bool(re.search("[0-9]", new_courier_name)) == True
                 or bool(re.search("[a-zA-Z]", new_courier_name)) == False
@@ -79,7 +88,9 @@ def update_courier(
                     "name": new_courier_name.title(),
                     "phone_number": new_courier_number,
                 }
-                print(f"\n{new_courier_name.title()} has been added to the couriers list\n")
+                print(
+                    f"\n{new_courier_name.title()} has been added to the couriers list\n"
+                )
                 temp_courier_list[courier_to_remove - 1] = courier_to_add
                 list_output_func(temp_courier_list)
                 loop += 1
@@ -92,12 +103,14 @@ def update_courier(
 # function for deleting an item and return an updated list
 
 
-def del_courier(remove_courier_str, list_output_func, courlist, error_func, clear_func):
+def del_courier(list_output_func, courlist, error_func, clear_func):
     loop = 1
     temp_courier_list = courlist
     while loop == 1:
         list_output_func(temp_courier_list)
-        courier_to_remove = input(remove_courier_str)
+        courier_to_remove = input(
+            "\nWhich of the above couriers would you like to remove from the list?\n\nInput corresponding number here: "
+        )
         valid_rmv_input = error_func(courier_to_remove, 1, len(temp_courier_list))
         if valid_rmv_input:
             clear_func()

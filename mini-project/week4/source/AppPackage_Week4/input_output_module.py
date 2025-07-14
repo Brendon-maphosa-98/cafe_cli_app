@@ -1,5 +1,6 @@
 import data_module as data
 
+
 # function for printing out lists with index
 
 
@@ -129,7 +130,7 @@ def str_input_function(*input_str, error_func, clear_func):
         returned_input = input(
             "\nWhich of the above options would you like to select?\n>>> "
         )
-        clear_func()
+        clear_func
         penultimate_input = error_func(returned_input, 0, len(input_str) - 1)
         if penultimate_input:
             final_input = int(returned_input)
@@ -140,7 +141,7 @@ def str_input_function(*input_str, error_func, clear_func):
             index_num = 0
 
 
-def order_custom_output_function(orderslist, view_option, prodlist, courierlist):
+def order_custom_output_function(orderslist, view_option, prodlist):
     index_num = 1
     loop = True
     items_w_names = ""

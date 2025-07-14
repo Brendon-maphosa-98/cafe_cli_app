@@ -56,7 +56,7 @@ def add_item(list_input_func, prodlist, error_func, ordernum, clear_func, orders
 
 
 def remove_item(
-    orderslist, ordernum, remove_product_str, prodlist, error_func, clear_func
+    orderslist, ordernum,prodlist, error_func, clear_func
 ):
     temp_order_list = orderslist
     temp_prod_list = prodlist
@@ -70,7 +70,9 @@ def remove_item(
     while loop1:
         for item in itemslist:
             print(f"{int(item)}. {temp_prod_list[int(item)]['name']}")
-        removing_item = input(remove_product_str)
+        removing_item = input(
+            "\nWhich of the above products would you like to remove from the list?\n\nInput corresponding number here: "
+        )
         rmv_item_validation = error_func(removing_item, 0, len(temp_prod_list))
         if rmv_item_validation == True and removing_item in itemslist:
             itemslist.remove(removing_item)
@@ -102,11 +104,6 @@ def remove_item(
 
 
 def add_order(
-    cust_fname_str,
-    cust_sname_str,
-    cust_street_str,
-    cust_city_str,
-    cust_num_str,
     orderslist,
     status_opt_list,
     clear_func,
@@ -118,8 +115,8 @@ def add_order(
     loop = 1
     clear_func()
     while loop == 1:
-        customer_name1 = input(cust_fname_str)
-        customer_name2 = input(cust_sname_str)
+        customer_name1 = input("\nPlease enter the name first name of the customer\n>>> ")
+        customer_name2 = input("\nPlease enter the name second name of the customer\n>>> ")
         if (
             bool(re.search("^[a-zA-Z\s\-]+$", customer_name1)) == False
             or bool(re.search("^[a-zA-Z\s\-]+$", customer_name2)) == False
@@ -139,8 +136,8 @@ def add_order(
             continue
     loop = 1
     while loop == 1:
-        customer_address1 = input(cust_street_str)
-        customer_address2 = input(cust_city_str)
+        customer_address1 = input("\nPlease enter the name of the street for delivery\n>>> ")
+        customer_address2 = input("\nPlease enter the name of city for delivery\n>>> ")
         if (
             bool(re.search("[0-9]", customer_address1)) == True
             or bool(re.search("[0-9]", customer_address2)) == True
@@ -165,7 +162,7 @@ def add_order(
             continue
     loop = 1
     while loop == 1:
-        customer_number = input(cust_num_str)
+        customer_number = input("\nPlease enter the mobile number for the customer\n>>> ")
         if (
             bool(re.search("[a-zA-Z]", customer_number)) == True
             or len(customer_number) != 11
@@ -219,17 +216,6 @@ def add_order(
 
     else:
         selected_items = final_items
-        # more_item = input(
-        #     f"You have selected to add {prodlist[item_selected -1]} to the new order, would you like to add another item?\n1: Yes\n2: No\n>>> "
-        # )
-        # more_item_val = error_func(more_item, 1, 2)
-        # if more_item_val == True and int(more_item) == 1:
-        #     loop == 1
-        # elif more_item_val == True and int(more_item) == 2:
-        #     loop += 1
-        #     continue
-        # else:
-        #     loop == 1
     loop = 1
     while loop == 1:
         print("Below are the Couriers currently available to add to the order")
@@ -260,7 +246,6 @@ def add_order(
 def update_existing_order_status(
     list_output_func,
     orderslist,
-    gen_ord_selection_str,
     error_func,
     list_input_func,
     status_opt_list,
@@ -270,7 +255,7 @@ def update_existing_order_status(
     while loop == 1:
         clear_func()
         list_output_func(orderslist)
-        chng_sel1 = input(gen_ord_selection_str)
+        chng_sel1 = input("Which of the above options whould you like to select?\n>>> ")
         chng_sel2 = error_func(
             chng_sel1,
             1,
@@ -296,26 +281,13 @@ def update_existing_order_status(
 
 def update_existing_order(
     orderslist,
-    gen_ord_selection_str,
     error_func,
     str_input_func,
-    new_name_str,
-    new_address_str,
-    new_number_str,
-    add_item_str,
-    remove_item_str,
-    new_cust_fname_str,
-    new_cust_sname_str,
-    new_cust_street_str,
-    new_cust_city_str,
-    new_cust_num_str,
     prodlist,
     list_output_func,
     list_input_func,
     clear_func,
-    update_courier_str,
     courlist,
-    remove_product_str,
 ):
     temp_orders_list = orderslist
     loop = 1
@@ -323,7 +295,7 @@ def update_existing_order(
     while loop == 1:
 
         list_output_func(temp_orders_list)
-        chng_sel1 = input(gen_ord_selection_str)
+        chng_sel1 = input("Which of the above options whould you like to select?\n>>> ")
         chng_sel2 = error_func(
             chng_sel1,
             1,
@@ -333,12 +305,12 @@ def update_existing_order(
         if chng_sel2:
             chng_sel1 = int(chng_sel1)
             chng_op1 = str_input_func(
-                new_name_str,
-                new_address_str,
-                new_number_str,
-                add_item_str,
-                remove_item_str,
-                update_courier_str,
+                "Change customer name",
+                "Change delivery address",
+                "Change customer phone number",
+                "Add items to order",
+                "Remove items from order",
+                "Change the courier assigned to an order",
                 error_func=error_func,
                 clear_func=clear_func,
             )
@@ -346,8 +318,8 @@ def update_existing_order(
             clear_func()
             if chng_op1 == 0:
                 while loop2 == 1:
-                    customer_name1 = input(new_cust_fname_str)
-                    customer_name2 = input(new_cust_sname_str)
+                    customer_name1 = input("\nPlease enter the new name first name of the customer\n>>> ")
+                    customer_name2 = input("\nPlease enter the new name second name of the customer\n>>> ")
                     if (
                         bool(re.search("^[a-zA-Z\s\-]+$", customer_name1)) == False
                         or bool(re.search("^[a-zA-Z\s\-]+$", customer_name2)) == False
@@ -372,8 +344,8 @@ def update_existing_order(
                         return temp_orders_list
             elif chng_op1 == 1:
                 while loop2 == 1:
-                    customer_address1 = input(new_cust_street_str)
-                    customer_address2 = input(new_cust_city_str)
+                    customer_address1 = input("\nPlease enter the new name of the street for delivery\n>>> ")
+                    customer_address2 = input("\nPlease enter the new name of city for delivery\n>>> ")
                     if (
                         bool(re.search("[0-9]", customer_address1)) == True
                         or bool(re.search("[0-9]", customer_address2)) == True
@@ -410,7 +382,7 @@ def update_existing_order(
                         return temp_orders_list
             elif chng_op1 == 2:
                 while loop2 == 1:
-                    customer_number = input(new_cust_num_str)
+                    customer_number = input("\nPlease enter the new mobile number for the customer\n>>> ")
                     if (
                         bool(re.search("[a-zA-Z]", customer_number)) == True
                         or len(customer_number) != 11
@@ -448,7 +420,6 @@ def update_existing_order(
                 temp_orders_list = remove_item(
                     orderslist,
                     int(chng_sel1),
-                    remove_product_str,
                     prodlist,
                     error_func,
                     clear_func,
@@ -464,7 +435,9 @@ def update_existing_order(
                 print(
                     f"You have selected to add {courlist[courier_change_selection]['name']} as the courier for order{chng_sel1}\n"
                 )
-                temp_orders_list[chng_sel1 - 1][chng_sel1]["courier"] = (courier_change_selection)
+                temp_orders_list[chng_sel1 - 1][chng_sel1][
+                    "courier"
+                ] = courier_change_selection
                 loop += 1
                 return temp_orders_list
         else:

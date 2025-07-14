@@ -28,35 +28,25 @@ def rtrn_opt(clear_func):
 # product loop function
 def product_loop(
     str_input_func,
-    Main_menu_str,
-    view_option_str,
-    create_option_str,
-    update_option_str,
-    remove_option_str,
     list_output_func,
     prodlist,
     new_product_func,
-    created_product_str,
     update_item_func,
-    remove_product_str,
-    replacement_product_str,
     del_item_func,
     error_func,
     clear_func,
-    created_product_price_str,
-    replacement_product_price_str,
 ):
     loop = 1
     while loop == 1:
         clear_func()
         Menu_choice = str_input_func(
-            Main_menu_str,
-            view_option_str,
-            create_option_str,
-            update_option_str,
-            remove_option_str,
+           "Go to the main menu\n",
+            "View the products list\n",
+            "Add a new product\n",
+            "Update an existing product\n",
+            "Remove an existing product\n",
             error_func=error_func,
-            clear_func=clear_func,
+            clear_func=clear_func(),
         )
         clear_func()
         if Menu_choice == 1:
@@ -70,9 +60,7 @@ def product_loop(
                 None
         elif Menu_choice == 2:
             clear_func()
-            prodlist = new_product_func(
-                created_product_str, created_product_price_str, prodlist, clear_func
-            )
+            prodlist = new_product_func(prodlist, clear_func)
             return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop == 1
@@ -82,9 +70,6 @@ def product_loop(
         elif Menu_choice == 3:
             clear_func()
             prodlist = update_item_func(
-                remove_product_str,
-                replacement_product_str,
-                replacement_product_price_str,
                 list_output_func,
                 prodlist,
                 error_func,
@@ -98,9 +83,7 @@ def product_loop(
                 None
         elif Menu_choice == 4:
             clear_func()
-            prodlist = del_item_func(
-                remove_product_str, list_output_func, prodlist, error_func, clear_func
-            )
+            prodlist = del_item_func(list_output_func, prodlist, error_func, clear_func)
             return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop == 1
@@ -119,58 +102,32 @@ def product_loop(
 
 def Orders_loop(
     str_input_func,
-    Main_menu_str,
-    order_view_option_str,
-    order_create_option_str,
-    update_status_option_str,
-    order_update_option_str,
-    order_remove_option_str,
     error_func,
     list_output_func,
     orderslist,
     add_order_func,
-    cust_fname_str,
-    cust_sname_str,
-    cust_street_str,
-    cust_city_str,
-    cust_num_str,
     update_existing_order_status_func,
-    gen_ord_selection_str,
     status_opt_list,
     update_existing_order_func,
-    new_name_str,
-    new_address_str,
-    new_number_str,
-    add_item_str,
-    remove_item_str,
-    new_cust_fname_str,
-    new_cust_sname_str,
-    new_cust_street_str,
-    new_cust_city_str,
-    new_cust_num_str,
     del_order_func,
     list_input_func,
     prodlist,
     clear_func,
-    update_courier_str,
     courlist,
-    remove_product_str,
-    order_view_option_courier_str,
-    order_view_option_status_str,
     order_custom_output_function,
 ):
     loop1 = 1
     while loop1 == 1:
         clear_func()
         Menu_choice = str_input_func(
-            Main_menu_str,
-            order_view_option_str,
-            order_view_option_courier_str,
-            order_view_option_status_str,
-            order_create_option_str,
-            update_status_option_str,
-            order_update_option_str,
-            order_remove_option_str,
+            "Go to the main menu\n",
+            "View the orders list\n",
+            "view the orders list by assigned courier\n",
+            "view the orders list by status\n",
+            "Add a new order\n",
+            "Update the status of an order\n",
+            "Update an existing order\n",
+            "Remove an existing order\n",
             error_func=error_func,
             clear_func=clear_func,
         )
@@ -184,7 +141,7 @@ def Orders_loop(
                 clear_func()
                 None
         elif Menu_choice == 2:
-            order_custom_output_function(orderslist,2,prodlist,courlist)
+            order_custom_output_function(orderslist, 2, prodlist,)
             return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop1 == 1
@@ -192,21 +149,16 @@ def Orders_loop(
             else:
                 None
         elif Menu_choice == 3:
-            order_custom_output_function(orderslist,1,prodlist,courlist)
+            order_custom_output_function(orderslist, 1, prodlist,)
             return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop1 == 1
                 clear_func()
             else:
-                None         
+                None
         elif Menu_choice == 4:
             clear_func()
             orderslist = add_order_func(
-                cust_fname_str,
-                cust_sname_str,
-                cust_street_str,
-                cust_city_str,
-                cust_num_str,
                 orderslist,
                 status_opt_list,
                 clear_func,
@@ -227,7 +179,6 @@ def Orders_loop(
             orderslist = update_existing_order_status_func(
                 list_output_func,
                 orderslist,
-                gen_ord_selection_str,
                 error_func,
                 list_input_func,
                 status_opt_list,
@@ -244,26 +195,13 @@ def Orders_loop(
             clear_func()
             orderslist = update_existing_order_func(
                 orderslist,
-                gen_ord_selection_str,
                 error_func,
                 str_input_func,
-                new_name_str,
-                new_address_str,
-                new_number_str,
-                add_item_str,
-                remove_item_str,
-                new_cust_fname_str,
-                new_cust_sname_str,
-                new_cust_street_str,
-                new_cust_city_str,
-                new_cust_num_str,
                 prodlist,
                 list_output_func,
                 list_input_func,
                 clear_func,
-                update_courier_str,
                 courlist,
-                remove_product_str,
             )
             list_output_func(orderslist)
             return_option = rtrn_opt(clear_func)
@@ -291,33 +229,23 @@ def Orders_loop(
 
 def courier_loop(
     str_input_func,
-    Main_menu_str,
-    view_courier_option_str,
-    create_courier_option_str,
-    update_courier_option_str,
-    remove_courier_option_str,
     list_output_func,
     courlist,
     new_courier_func,
-    created_courier_name_str,
     update_courier_func,
-    remove_courier_str,  
-    replacement_courier_name_str,
     del_courier_func,
     error_func,
     clear_func,
-    created_courier_number_str,
-    replacement_courier_number_str,
 ):
     loop = 1
     while loop == 1:
         clear_func()
         Menu_choice = str_input_func(
-            Main_menu_str,
-            view_courier_option_str,
-            create_courier_option_str,
-            update_courier_option_str,
-            remove_courier_option_str,
+            "Go to the main menu\n",
+            "View the couriers list\n",
+            "Add a new courier\n",
+            "Update an existing courier\n",
+            "Remove an existing courier\n",
             error_func=error_func,
             clear_func=clear_func,
         )
@@ -334,8 +262,6 @@ def courier_loop(
         elif Menu_choice == 2:
             clear_func()
             courlist = new_courier_func(
-                created_courier_name_str,
-                created_courier_number_str,
                 courlist,
                 clear_func,
             )
@@ -348,8 +274,6 @@ def courier_loop(
         elif Menu_choice == 3:
             clear_func()
             courlist = update_courier_func(
-                replacement_courier_name_str,
-                replacement_courier_number_str,
                 list_output_func,
                 courlist,
                 error_func,
@@ -364,7 +288,7 @@ def courier_loop(
         elif Menu_choice == 4:
             clear_func()
             courlist = del_courier_func(
-                remove_courier_str, list_output_func, courlist, error_func, clear_func
+                list_output_func, courlist, error_func, clear_func
             )
             return_option = rtrn_opt(clear_func)
             if return_option == 0:
