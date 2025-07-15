@@ -113,20 +113,20 @@ What stood out most was how each new feature introduced **unexpected edge cases*
 - Add a lightweight web UI in the future  
 
 ---
+## 📂 Project Structure
 
-## 📂 Project Structure  
-
-
+```plaintext
 mini-project/
   week4/
     source/
       AppPackage_Week4/
-        masterLoop_module.py   # Main app loop
-        input_output_module.py # Handles input/output
-        data_module.py         # Data persistence logic connecting to the data files
-        test_app.py            # Unit tests
-        products.csv           # functions for the products menu
-        couriers.csv           # functions for the couriers menu
-        orders.csv             # functions for the orders menu
-        loops_module.py        # handles app loop around various menus and the main menu
-        error_checking_module.py  # holds the function used throughout the app to test user input
+        masterLoop_module.py         # Main app loop
+        input_output_module.py       # Handles input/output
+        data_module.py               # Data persistence logic connecting to the data files
+        test_app.py                  # Unit tests
+        products.csv                 # Data file for products menu
+        couriers.csv                 # Data file for couriers menu
+        orders.csv                   # Data file for orders menu
+        loops_module.py              # Handles app loop around various menus and the main menu
+        error_checking_module.py     # Input validation functions used throughout the app
+
