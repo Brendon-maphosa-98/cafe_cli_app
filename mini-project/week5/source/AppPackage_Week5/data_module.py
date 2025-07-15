@@ -1,4 +1,7 @@
 import csv
+from dotenv import load_dotenv
+import os
+import psycopg2 as psycopg
 
 products = []
 
@@ -102,10 +105,6 @@ def persistence_function(prodlist, courlist, orderslist):
 
 
 ## Database functions and code so that the app can move from local data files to working with databases
-
-from dotenv import load_dotenv
-import os
-import psycopg2 as psycopg
 
 # load enviroments variable from .env file
 load_dotenv()
