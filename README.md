@@ -46,6 +46,8 @@ The project was developed iteratively, with **weekly client requirements** shapi
 ---
 
 ## ▶️ How to Run the App  
+download required packages
+$py -m pip install -r requirements.txt
 
 1. Navigate to the **Week 4 App Package** directory:  
 
@@ -105,7 +107,6 @@ What stood out most was how each new feature introduced **unexpected edge cases*
 
 ✅ **User Experience**  
 - Improve CLI menus with **color-coded outputs**  
-- Add **search and filter options** for faster data retrieval  
 
 ✅ **Deployment**  
 - Dockerize the app for easier setup  
