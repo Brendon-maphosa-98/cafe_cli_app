@@ -1,3 +1,4 @@
+from itertools import product
 import data_module as data
 
 
@@ -7,19 +8,19 @@ import data_module as data
 def list_output(list):
     index_num = 1
     items_w_names = ""
-    if list == data.products:
+    if list == "products":
+        rows = data.database_fetch_function("products")
         print(" ")
         print("-------\n-------")
-        for item in list:
-            print(f"\n{index_num}. {item.get('name')} - £{item.get('price')}")
-            index_num += 1
+        for item in rows:
+            print(f"\n{item[0]}. {item[1]} - £{item[2]}")
         print("-------\n-------")
-    elif list == data.couriers:
+    elif list == "couriers":
+        rows = data.database_fetch_function("couriers")
         print(" ")
         print("-------\n-------")
-        for item in list:
-            print(f"\n{index_num}. {item.get('name')} - {item.get('phone_number')}")
-            index_num += 1
+        for item in rows:
+            print(f"\n{item[0]}. {item[1]} - {item[2]}")
         print("-------\n-------")
     elif list == data.orders:
         for item in list:
@@ -52,20 +53,19 @@ def list_input_function(list, error_func, clear_func):
     print("-------\n-------")
     loop = 1
     while loop == 1:
-        if list == data.products:
+        if list == "products":
+            rows = data.database_fetch_function("products")
             print(" ")
             print("-------\n-------")
-            for item in list:
-                print(f"\n{index_num}. {item.get('name')} - £{item.get('price')}")
-                index_num += 1
+            for item in rows:
+                print(f"\n{item[0]}. {item[1]} - £{item[2]}")
             print("-------\n-------")
-        elif list == data.couriers:
+        elif list == "couriers":
+            rows = data.database_fetch_function("couriers")
             print(" ")
             print("-------\n-------")
-            for item in list:
-                print(f"\n{index_num}. {item.get('name')} - {item.get('phone_number')}")
-                index_num += 1
-            print("-------\n-------")
+            for item in rows:
+                print(f"\n{item[0]}. {item[1]} - {item[2]}")
         elif list == data.orders:
             for item in list:
                 inner_dict = next(iter(item.values()))

@@ -1,4 +1,5 @@
 import re
+from data_module import database_send_function
 
 
 ## Product menu action functions
@@ -6,11 +7,11 @@ import re
 # function for creating and returning a new product, to be used for adding a new product to the list
 
 
-def new_product(prodlist, clear_func):
+def new_product(clear_func):
     loop = 1
     while loop == 1:
         clear_func()
-        temp_prod_list = prodlist
+        
         new_prod_name = input(
             "\nWhat is the name of the product you would like to add to the list?\n\nNew product name: "
         )
@@ -34,13 +35,12 @@ def new_product(prodlist, clear_func):
             )
             loop == 1
         else:
-            new_prod = {"name": new_prod_name.title(), "price": float(new_prod_price)}
             loop += 1
             print(
                 f"\n{new_prod_name.title()} has been added to the products list with the price of £{new_prod_price}\n"
             )
-    temp_prod_list.append(new_prod)
-    return temp_prod_list
+    database_send_function('products',new_prod_name.title(),float(new_prod_price))
+    
 
 
 # function for updating an existing item and returning the new value in the product list

@@ -6,6 +6,7 @@ import product_menu_module as prodmod
 import order_menu_module as ordermod
 import courier_menu_module as couriermod
 import os
+import re
 
 
 def clear_func():
@@ -85,4 +86,41 @@ def master_loop_function():
         clear_func()
 
 
-master_loop_function()
+#master_loop_function()
+
+
+def new_product(clear_func):
+    loop = 1
+    while loop == 1:
+        clear_func()
+        
+        new_prod_name = input(
+            "\nWhat is the name of the product you would like to add to the list?\n\nNew product name: "
+        )
+        new_prod_price = input(
+            "\nWhat is the price of the product you would like to add to the list?\n\nNew product price:£"
+        )
+        if (
+            bool(re.search("[0-9]", new_prod_name)) == True
+            or bool(re.search("[a-zA-Z]", new_prod_name)) == False
+            or bool(re.search(r"^[a-zA-Z\s\-'\.&]+$", new_prod_name)) == False
+            or bool(re.search("^[\s]+", new_prod_name)) == True
+        ) or (
+            bool(re.search("[a-zA-Z]", new_prod_price)) == True
+            or bool(
+                re.search("^[\s]+", new_prod_price) == True
+                or bool(re.search(r"^[a-zA-Z\s\-\'\&]+$", new_prod_price)) == True
+            )
+        ):
+            print(
+                "Invalid inputs for either your product name or price\nA product name must contain letters and cannot contain any numbers or start with a space\nA product price must not have any letter and only numbers and an optional decimal point\nplease try again"
+            )
+            loop == 1
+        else:
+            loop += 1
+            print(
+                f"\n{new_prod_name.title()} has been added to the products list with the price of £{new_prod_price}\n"
+            )
+    data.database_send_function('products',new_prod_name.title(),float(new_prod_price))
+
+new_product(clear_func)

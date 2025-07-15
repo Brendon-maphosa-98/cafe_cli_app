@@ -51,7 +51,7 @@ def product_loop(
         clear_func()
         if Menu_choice == 1:
             clear_func()
-            list_output_func(prodlist)
+            list_output_func("products")
             return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop == 1
@@ -252,7 +252,7 @@ def courier_loop(
         clear_func()
         if Menu_choice == 1:
             clear_func()
-            list_output_func(courlist)
+            list_output_func("couriers")
             return_option = rtrn_opt(clear_func)
             if return_option == 0:
                 loop == 1
