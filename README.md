@@ -35,7 +35,7 @@ The project was developed iteratively, with **weekly client requirements** shapi
 **Week 3**  
 - Add couriers in addition to products and orders  
 - Update the status of an order  
-- Persist product and courier data  
+- Persist product and courier data to txt files
 - Update or delete a product, order, or courier  
 
 **Week 4**  
