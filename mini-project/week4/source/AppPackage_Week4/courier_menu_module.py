@@ -1,127 +1,147 @@
 import re
 
-## Courier menu action functions
+# ---------------------------
+# Module: Courier Menu Actions
+# Provides functions to create, update, and delete courier entries
+# within the in-memory courier list.
+# ---------------------------
 
-# function for creating and returning a new product, to be used for adding a new product to the list
 
-
+# ---------------------------
+# Function: new_courier
+# Purpose: Prompt user to enter a new courier name and phone number,
+#          validate input, and append the new courier to courlist.
+# Arguments:
+#   courlist: list of existing courier dicts
+#   clear_func: function to clear the console screen
+# Returns:
+#   Updated courier list including the new courier
+# ---------------------------
 def new_courier(courlist, clear_func):
-    loop = 1
-    while loop == 1:
-        clear_func()
-        temp_courier_list = courlist
+    loop = True
+    while loop:
+        temp_cour_list = courlist
+        # Prompt for courier name
         new_courier_name = input(
             "\nWhat is the name of the courier you would like to add to the list?\n\nNew courier name: "
         )
+        # Prompt for courier mobile number
         new_courier_number = input(
             "\nWhat is the mobile number of the courier you would like to add to the list?\n\nNew courier number: "
         )
-        if (
-            bool(re.search("[0-9]", new_courier_name)) == True
-            or bool(re.search("[a-zA-Z]", new_courier_name)) == False
-            or bool(re.search(r"^[a-zA-Z\s\-']+$", new_courier_name)) == False
-            or bool(re.search("^[\s]+", new_courier_name)) == True
-        ) or (
-            bool(re.search("[a-zA-Z]", new_courier_number)) == True
+
+        # Validate name: letters only, no digits, no leading spaces
+        invalid_name = (
+            bool(re.search(r"[0-9]", new_courier_name))
+            or not bool(re.search(r"[a-zA-Z]", new_courier_name))
+            or not bool(re.match(r"^[a-zA-Z\s\-']+$", new_courier_name))
+            or bool(re.match(r"^\s+", new_courier_name))
+        )
+        # Validate phone: digits only, length 11, starts with '0', no spaces
+        invalid_phone = (
+            bool(re.search(r"[a-zA-Z]", new_courier_number))
             or len(new_courier_number) != 11
-            or bool(re.search("^[\s]+", new_courier_number)) == True
+            or bool(re.match(r"^\s+", new_courier_number))
             or new_courier_number[0] != "0"
-        ):
+        )
+
+        if invalid_name or invalid_phone:
+            clear_func()
             print(
-                "Invalid inputs for either your courier name or number\nA courier name must contain letters and cannot contain any numbers or start with a space\nA courier mobile number must not have any letter and only numbers and start with 0 and be 11 digits long\nplease try again"
+                "Invalid inputs for courier name or number:\n"
+                "- Name: letters only, cannot start with space\n"
+                "- Phone: numeric only, 11 digits, starts with 0\n"
+                "Please try again."
             )
-            loop == 1
         else:
+            clear_func()
+            # Build new courier dict and append
             new_courier = {
                 "name": new_courier_name.title(),
                 "phone_number": new_courier_number,
             }
-            loop += 1
-            print(f"\n{new_courier_name.title()} has been added to the couriers list\n")
-    temp_courier_list.append(new_courier)
-    return temp_courier_list
+            temp_cour_list.append(new_courier)
+            print(f"\n{new_courier['name']} has been added to the couriers list.\n")
+            loop = False
+    return temp_cour_list
 
 
-# function for updating an existing item and returning the new value in the product list
-
-
-def update_courier(
-    list_output_func,
-    courlist,
-    errorfunc,
-    clear_func,
-):
-    temp_courier_list = courlist
-    loop = 1
-    while loop == 1:
-        list_output_func(temp_courier_list)
-        courier_to_remove = input(
-            "Which of the above couriers would you like to update?\n>>> "
-        )
-        valid_rmv_input = errorfunc(courier_to_remove, 1, len(temp_courier_list))
-        if valid_rmv_input:
-            courier_to_remove = int(courier_to_remove)
-            new_courier_name = input(
-                "\nWhat is the name of the courier you would like to add in place of the old one?\n\nNew courier name: "
+# ---------------------------
+# Function: update_courier
+# Purpose: Replace an existing courier entry based on user choice.
+# Arguments:
+#   list_output_func: function to display current couriers
+#   courlist: list of existing courier dicts
+#   errorfunc: function to validate numeric selection
+#   clear_func: function to clear the console screen
+# Returns:
+#   Updated courier list after replacement
+# ---------------------------
+def update_courier(list_output_func, courlist, errorfunc, clear_func):
+    temp_cour_list = courlist
+    while True:
+        # Show current couriers with indices
+        list_output_func(temp_cour_list)
+        choice = input("Which of the above couriers would you like to update?\n>>> ")
+        if errorfunc(choice, 1, len(temp_cour_list)):
+            idx = int(choice) - 1
+            # Prompt for new details
+            new_name = input("\nNew courier name: ")
+            new_phone = input("\nNew courier number: ")
+            # Reuse validation logic
+            invalid_name = (
+                bool(re.search(r"[0-9]", new_name))
+                or not bool(re.search(r"[a-zA-Z]", new_name))
+                or not bool(re.match(r"^[a-zA-Z\s\-']+$", new_name))
+                or bool(re.match(r"^\s+", new_name))
             )
-            new_courier_number = input(
-                "\nWhat is the mobile number of the courier you would like to add to the list?\n\nNew courier number: "
+            invalid_phone = (
+                bool(re.search(r"[a-zA-Z]", new_phone))
+                or len(new_phone) != 11
+                or bool(re.match(r"^\s+", new_phone))
+                or new_phone[0] != "0"
             )
-            if (
-                bool(re.search("[0-9]", new_courier_name)) == True
-                or bool(re.search("[a-zA-Z]", new_courier_name)) == False
-                or bool(re.search(r"^[a-zA-Z\s\-']+$", new_courier_name)) == False
-                or bool(re.search("^[\s]+", new_courier_name)) == True
-            ) or (
-                bool(re.search("[a-zA-Z]", new_courier_number)) == True
-                or len(new_courier_number) != 11
-                or bool(re.search("^[\s]+", new_courier_number)) == True
-                or new_courier_number[0] != "0"
-            ):
-                print(
-                    "Invalid inputs for either your courier name or number\nA courier name must contain letters and cannot contain any numbers or start with a space\nA courier mobile number must not have any letter and only numbers and start with 0 and be 11 digits long\nplease try again"
-                )
-                loop == 1
+            if invalid_name or invalid_phone:
+                clear_func()
+                print("Invalid name or phone format. Please try again.")
             else:
                 clear_func()
-                courier_to_add = {
-                    "name": new_courier_name.title(),
-                    "phone_number": new_courier_number,
+                # Update entry in list
+                temp_cour_list[idx] = {
+                    "name": new_name.title(),
+                    "phone_number": new_phone,
                 }
-                print(
-                    f"\n{new_courier_name.title()} has been added to the couriers list\n"
-                )
-                temp_courier_list[courier_to_remove - 1] = courier_to_add
-                list_output_func(temp_courier_list)
-                loop += 1
-                return temp_courier_list
+                print(f"Courier #{idx+1} updated to {new_name.title()} - {new_phone}\n")
+                list_output_func(temp_cour_list)
+                return temp_cour_list
         else:
-            loop == 1
             clear_func()
 
 
-# function for deleting an item and return an updated list
-
-
+# ---------------------------
+# Function: del_courier
+# Purpose: Delete a courier entry based on user selection.
+# Arguments:
+#   list_output_func: function to display current couriers
+#   courlist: list of existing courier dicts
+#   error_func: function to validate numeric selection
+#   clear_func: function to clear the console screen
+# Returns:
+#   Updated courier list after deletion
+# ---------------------------
 def del_courier(list_output_func, courlist, error_func, clear_func):
-    loop = 1
-    temp_courier_list = courlist
-    while loop == 1:
-        list_output_func(temp_courier_list)
-        courier_to_remove = input(
-            "\nWhich of the above couriers would you like to remove from the list?\n\nInput corresponding number here: "
-        )
-        valid_rmv_input = error_func(courier_to_remove, 1, len(temp_courier_list))
-        if valid_rmv_input:
+    temp_cour_list = courlist
+    while True:
+        # Display current couriers
+        list_output_func(temp_cour_list)
+        choice = input("\nWhich of the above couriers would you like to remove?\n>>> ")
+        if error_func(choice, 1, len(temp_cour_list)):
+            idx = int(choice) - 1
             clear_func()
-            courier_to_remove = int(courier_to_remove)
-            print(
-                f"{temp_courier_list[courier_to_remove-1]} has been removed from the couriers list"
-            )
-            temp_courier_list.pop(courier_to_remove - 1)
-            list_output_func(temp_courier_list)
-            loop += 1
-            return temp_courier_list
+            print(f"{temp_cour_list[idx]['name']} has been removed from the list.\n")
+            # Remove and display updated list
+            temp_cour_list.pop(idx)
+            list_output_func(temp_cour_list)
+            return temp_cour_list
         else:
-            loop == 1
             clear_func()

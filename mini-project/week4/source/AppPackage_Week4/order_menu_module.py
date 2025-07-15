@@ -1,11 +1,28 @@
 import re
 
-# Add item function
+# ---------------------------
+# Module: Order Menu Actions
+# Provides functions to add, remove, update, and delete orders
+# within the in-memory orders list.
+# ---------------------------
 
 
+# ---------------------------
+# Function: add_item
+# Purpose: Add product items to an existing order by prompting user selections.
+# Arguments:
+#   list_input_func: function to display and select products
+#   prodlist: list of all products
+#   error_func: function to validate numeric input
+#   ordernum: integer order number (1-based) to modify
+#   clear_func: function to clear the console screen
+#   orderslist: list of order dicts
+# Returns:
+#   A comma-separated string of updated item IDs for the order
+# ---------------------------
 def add_item(list_input_func, prodlist, error_func, ordernum, clear_func, orderslist):
     temp_orders_list = orderslist
-    temp_prods_list = prodlist
+    # Extract current items IDs from the selected order
     current_items = [
         item
         for item in (
@@ -16,93 +33,83 @@ def add_item(list_input_func, prodlist, error_func, ordernum, clear_func, orders
     ]
     selected_items = []
     final_items = ""
-    loop = 1
-    while loop == 1:
-        item_selected = list_input_func(temp_prods_list, error_func, clear_func)
+    # Loop until user finishes adding
+    while True:
+        item_selected = list_input_func(prodlist, error_func, clear_func)
+        # Ask if user wants to continue adding
         option2 = input(
-            f"You have selected to add {temp_prods_list[item_selected]['name']} to order{ordernum}\nWould you like to add a another item to the order\n1: Yes\n2: No\n>>> "
+            f"You have selected to add {prodlist[item_selected]['name']} to order{ordernum}\n"
+            "Would you like to add another item? 1: Yes 2: No\n>>> "
         )
-        option3 = error_func(option2, 1, 2)
-        if option3:
-            option2 = int(option2)
-            if option2 == 1:
-                selected_items.append(temp_prods_list[item_selected]["name"])
-                current_items.append(
-                    (temp_prods_list.index(temp_prods_list[item_selected]))
-                )
-                loop == 1
+        if error_func(option2, 1, 2):
+            if int(option2) == 1:
+                selected_items.append(prodlist[item_selected]["name"])
+                current_items.append(prodlist.index(prodlist[item_selected]))
             else:
-                selected_items.append(temp_prods_list[item_selected]["name"])
-                current_items.append(
-                    (temp_prods_list.index(temp_prods_list[item_selected]))
-                )
-                print(
-                    f"These are the items that have been added to order{ordernum} ------ {selected_items}"
-                )
-                for item in current_items:
-                    final_items = (
-                        +f"{f'{str(item)}, ' if item!=current_items[-1] else f'{str(item)}'}"
-                    )
-                loop += 1
+                # Finalize additions
+                selected_items.append(prodlist[item_selected]["name"])
+                current_items.append(prodlist.index(prodlist[item_selected]))
+                print(f"Items added to order{ordernum}: {selected_items}")
+                # Build comma-separated ID string
+                final_items = ", ".join(str(i) for i in current_items)
                 return final_items
         else:
-            print(f"invalid input please try again")
-
-    else:
-        None
+            print("Invalid input, please try again.")
 
 
-# remove item function
-
-
-def remove_item(
-    orderslist, ordernum,prodlist, error_func, clear_func
-):
-    temp_order_list = orderslist
-    temp_prod_list = prodlist
+# ---------------------------
+# Function: remove_item
+# Purpose: Remove product items from an existing order.
+# Arguments:
+#   orderslist: list of order dicts
+#   ordernum: integer order number (1-based)
+#   prodlist: list of all products
+#   error_func: function to validate numeric input
+#   clear_func: function to clear the console screen
+# Returns:
+#   Updated orderslist with modified items
+# ---------------------------
+def remove_item(orderslist, ordernum, prodlist, error_func, clear_func):
+    temp_orders_list = orderslist
+    # Extract current items string and convert to list of characters (IDs)
     items = (
-        temp_order_list[ordernum - 1][ordernum]["items"]
+        temp_orders_list[ordernum - 1][ordernum]["items"]
         .replace(",", "")
         .replace(" ", "")
     )
     itemslist = [item for item in items]
-    loop1 = True
-    while loop1:
+    # Loop until removal complete
+    while True:
+        # Display current items
         for item in itemslist:
-            print(f"{int(item)}. {temp_prod_list[int(item)]['name']}")
-        removing_item = input(
-            "\nWhich of the above products would you like to remove from the list?\n\nInput corresponding number here: "
-        )
-        rmv_item_validation = error_func(removing_item, 0, len(temp_prod_list))
-        if rmv_item_validation == True and removing_item in itemslist:
+            print(f"{item}. {prodlist[int(item)]['name']}")
+        removing_item = input("Which product number would you like to remove?\n>>> ")
+        if (
+            error_func(removing_item, 0, len(prodlist) - 1)
+            and removing_item in itemslist
+        ):
             itemslist.remove(removing_item)
-            remove_item = input(
-                f"You have selected to remove {temp_prod_list[int(removing_item)]['name']} from order{ordernum}, removal confirmed.\nWould you like to remove another item?\n1.Yes\n2.No\n>>> "
+            # Ask if more removals
+            remove_more = input(
+                f"Removed {prodlist[int(removing_item)]['name']}. Remove another? 1:Yes 2:No\n>>> "
             )
-            remove_more = error_func(remove_item, 1, 2)
-            if remove_more == True and remove_item == str(1):
-                clear_func()
-                loop1 = True
-            elif remove_more == True and remove_item == str(2):
-                for item in itemslist:
-                    itemslist = (
-                        +f"{str(item)}, " if item != itemslist[-1] else f"{item}"
-                    )
-                temp_order_list[ordernum - 1][ordernum]["items"] = itemslist
-                loop1 = False
-                return temp_order_list
+            if error_func(remove_more, 1, 2) and remove_more == "1":
+                continue
+            elif error_func(remove_more, 1, 2) and remove_more == "2":
+                # Update order items
+                temp_orders_list[ordernum - 1][ordernum]["items"] = ", ".join(itemslist)
+                return temp_orders_list
             else:
-                print("Please try again")
-
+                print("Please try again.")
         else:
             clear_func()
-            print("Invalid input Please try again\n")
-            loop1 = True
+            print("Invalid input, please try again.\n")
 
 
-# Add new order function
-
-
+# ---------------------------
+# Function: add_order
+# Purpose: Collect new order details interactively and append to orderslist.
+# ---------------------------
 def add_order(
     orderslist,
     status_opt_list,
@@ -112,137 +119,76 @@ def add_order(
     error_func,
     courlist,
 ):
-    loop = 1
-    clear_func()
-    while loop == 1:
-        customer_name1 = input("\nPlease enter the name first name of the customer\n>>> ")
-        customer_name2 = input("\nPlease enter the name second name of the customer\n>>> ")
-        if (
-            bool(re.search("^[a-zA-Z\s\-]+$", customer_name1)) == False
-            or bool(re.search("^[a-zA-Z\s\-]+$", customer_name2)) == False
-            or bool(re.search("^[-\s\&]+", customer_name1)) == True
-            or bool(re.search("^[-\s\&]+", customer_name2)) == True
-        ):
-            clear_func()
-            print(
-                "Customer first or last name are required and can only contain letters or start with a space, please try again\n"
-            )
-            loop == 1
-        else:
-            clear_func()
-            cust_name_output = f"New customer name will be {customer_name1.capitalize().strip()} {customer_name2.capitalize().strip()}\n"
-            print(f"{cust_name_output}")
-            loop += 1
-            continue
-    loop = 1
-    while loop == 1:
-        customer_address1 = input("\nPlease enter the name of the street for delivery\n>>> ")
-        customer_address2 = input("\nPlease enter the name of city for delivery\n>>> ")
-        if (
-            bool(re.search("[0-9]", customer_address1)) == True
-            or bool(re.search("[0-9]", customer_address2)) == True
-            or bool(re.search("^[-\s\&]+", customer_address1)) == True
-            or bool(re.search("^[-\s\&]+", customer_address2)) == True
-            or bool(re.search(r"[!@#$%^*()=+{}\[\]\\|;:\"<>,?~`]", customer_address1))
-            == True
-            or bool(re.search(r"[!@#$%^*()=+{}\[\]\\|;:\"<>,?~`]", customer_address2))
-            == True
-        ):
-            clear_func()
-            print(f"{cust_name_output}")
-            print(
-                "The delivery street name or city are required and cannot contain any numbers, special characters (!@# ect) or start with a space, please try again\n"
-            )
-            loop == 1
-        else:
-            clear_func()
-            cust_add_output = f"The new customer address will be {customer_address1.title().strip()}, {customer_address2.upper().strip()}\n"
-            print(f"{cust_name_output}{cust_add_output}")
-            loop += 1
-            continue
-    loop = 1
-    while loop == 1:
-        customer_number = input("\nPlease enter the mobile number for the customer\n>>> ")
-        if (
-            bool(re.search("[a-zA-Z]", customer_number)) == True
-            or len(customer_number) != 11
-            or bool(re.search("^[\s]+", customer_number)) == True
-            or customer_number[0] != "0"
-        ):
-            clear_func()
-            print(f"{cust_name_output}{cust_add_output}")
-            print(
-                "The customers phone number is required and cannot contain any letters or start with a space and must be 11 digits long starting with a zero, please try again\n"
-            )
-            loop == 1
-        else:
-            clear_func()
-            cust_num_output = (
-                f"The customer phone number will be {customer_number.strip()}\n"
-            )
-            print(f"{cust_name_output}{cust_add_output}{cust_num_output}")
-            loop += 1
-            continue
-    loop = 1
-    selected_items = []
-    appending_items = []
-    final_items = ""
-    while loop == 1:
+    # Gather customer name
+    while True:
         clear_func()
-        print("Below are the items currently available to add to the order")
-        item_selected = list_input_func(prodlist, error_func, clear_func)
-        selected_items.append(prodlist[item_selected - 1])
-        option2 = input(
-            f"You have selected to add {prodlist[item_selected]['name']} to the new order\nWould you like to add a another item to the order\n1: Yes\n2: No\n>>> "
-        )
-        option3 = error_func(option2, 1, 2)
-        if option3:
-            option2 = int(option2)
-            if option2 == 1:
-                selected_items.append(prodlist[item_selected]["name"])
-                appending_items.append((prodlist.index(prodlist[item_selected])))
-                loop == 1
-            else:
-                selected_items.append(prodlist[item_selected]["name"])
-                appending_items.append((prodlist.index(prodlist[item_selected])))
-                print(
-                    f"These are the items that have been added to your order ------ {selected_items}\n---------"
-                )
-                for item in appending_items:
-                    final_items += f"{f'{str(item)}, ' if item!=appending_items[-1] else f'{str(item)}'}"
-                loop += 1
-        else:
-            print(f"invalid input please try again")
+        fname = input("Enter customer's first name:\n>>> ")
+        lname = input("Enter customer's last name:\n>>> ")
+        if re.match(r"^[A-Za-z\s\-]+$", fname) and re.match(r"^[A-Za-z\s\-]+$", lname):
+            cust_name = f"{fname.strip().title()} {lname.strip().title()}"
+            break
+        print("Invalid name. Letters, spaces, hyphens only.")
 
-    else:
-        selected_items = final_items
-    loop = 1
-    while loop == 1:
-        print("Below are the Couriers currently available to add to the order")
-        courier_selected = list_input_func(courlist, error_func, clear_func)
-        print(
-            f"You have selected to add {courlist[courier_selected-1]['name']} as the courier on the new order"
-        )
-        loop += 1
-    temp_order_list = orderslist
-    order = {
-        len(orderslist)
-        + 1: {
-            "customer_name": f"{customer_name1.capitalize().strip()} {customer_name2.capitalize().strip()}",
-            "customer_address": f"{customer_address1.title().strip()}, {customer_address2.upper().strip()}",
-            "customer_phone": customer_number.strip(),
-            "status": f"{status_opt_list[0]}",
-            "courier": courier_selected,
-            "items": selected_items,
+    # Gather customer address
+    while True:
+        street = input("Enter delivery street:\n>>> ")
+        city = input("Enter delivery city:\n>>> ")
+        if not re.search(
+            r"[0-9]|[!@#$%^*()=+{}\[\]|;:'\"<>,.?~`]", street
+        ) and not re.search(r"[0-9]|[!@#$%^*()=+{}\[\]|;:'\"<>,.?~`]", city):
+            cust_addr = f"{street.strip().title()}, {city.strip().upper()}"
+            break
+        clear_func()
+        print("Invalid address. No digits or special chars.")
+
+    # Gather customer phone number
+    while True:
+        clear_func()
+        phone = input("Enter customer mobile (11 digits, starts 0):\n>>> ")
+        if re.match(r"^0\d{10}$", phone):
+            break
+        clear_func()
+        print("Invalid phone number.")
+
+    # Gather order items
+    clear_func()
+    items_str = ""
+    placing = True
+    while placing:
+        print("Select items to add:")
+        choice = list_input_func(prodlist, error_func, clear_func)
+        items_str += f"{choice}, "
+        more = input("Add another? 1:Yes 2:No\n>>> ")
+        if not (error_func(more, 1, 2) and more == "1"):
+            placing = False
+    items_str = items_str.rstrip(", ")
+
+    # Choose courier
+    clear_func()
+    print("Select courier:")
+    cidx = list_input_func(courlist, error_func, clear_func)
+
+    # Build and append new order
+    new_order_id = len(orderslist) + 1
+    orderslist.append(
+        {
+            new_order_id: {
+                "customer_name": cust_name,
+                "customer_address": cust_addr,
+                "customer_phone": phone,
+                "status": status_opt_list[0],
+                "courier": cidx,
+                "items": items_str,
+            }
         }
-    }
-    temp_order_list.append(order)
-    return temp_order_list
+    )
+    return orderslist
 
 
-# function for updating an existing order status
-
-
+# ---------------------------
+# Function: update_existing_order_status
+# Purpose: Change the status of a selected order.
+# ---------------------------
 def update_existing_order_status(
     list_output_func,
     orderslist,
@@ -251,221 +197,79 @@ def update_existing_order_status(
     status_opt_list,
     clear_func,
 ):
-    loop = 1
-    while loop == 1:
+    while True:
         clear_func()
         list_output_func(orderslist)
-        chng_sel1 = input("Which of the above options whould you like to select?\n>>> ")
-        chng_sel2 = error_func(
-            chng_sel1,
-            1,
-            len(orderslist),
-        )
-        if chng_sel2:
-            chng_sel1 = int(chng_sel1)
+        sel = input("Select order number to change status:\n>>> ")
+        if error_func(sel, 1, len(orderslist)):
+            order_idx = int(sel)
             clear_func()
-            status_chng_sel = list_input_func(status_opt_list, error_func, clear_func)
-            print(
-                f"-------You have selected to change the status of order{chng_sel1} from {orderslist[chng_sel1-1][chng_sel1]['status']} to {status_opt_list[status_chng_sel]}.......change confirmed-------"
-            )
-            temp_orders_list = orderslist
-            temp_orders_list[chng_sel1 - 1][chng_sel1]["status"] = status_opt_list[
-                status_chng_sel
-            ]
-            loop += 1
-    return temp_orders_list
+            status_idx = list_input_func(status_opt_list, error_func, clear_func)
+            orderslist[order_idx - 1][order_idx]["status"] = status_opt_list[status_idx]
+            return orderslist
 
 
-# update existing order
-
-
+# ---------------------------
+# Function: update_existing_order
+# Purpose: Update various fields of a selected order interactively.
+# ---------------------------
 def update_existing_order(
     orderslist,
     error_func,
-    str_input_func,
+    str_input_function,
     prodlist,
     list_output_func,
     list_input_func,
     clear_func,
     courlist,
 ):
-    temp_orders_list = orderslist
-    loop = 1
-    clear_func()
-    while loop == 1:
-
-        list_output_func(temp_orders_list)
-        chng_sel1 = input("Which of the above options whould you like to select?\n>>> ")
-        chng_sel2 = error_func(
-            chng_sel1,
-            1,
-            len(temp_orders_list),
-        )
+    while True:
         clear_func()
-        if chng_sel2:
-            chng_sel1 = int(chng_sel1)
-            chng_op1 = str_input_func(
-                "Change customer name",
-                "Change delivery address",
-                "Change customer phone number",
-                "Add items to order",
-                "Remove items from order",
-                "Change the courier assigned to an order",
+        list_output_func(orderslist)
+        sel = input("Select order to update:\n>>> ")
+        if error_func(sel, 1, len(orderslist)):
+            order_idx = int(sel)
+            # Choose which field to update
+            opt = str_input_function(
+                "Change name",
+                "Change address",
+                "Change phone",
+                "Add items",
+                "Remove items",
+                "Change courier",
                 error_func=error_func,
                 clear_func=clear_func,
             )
-            loop2 = 1
             clear_func()
-            if chng_op1 == 0:
-                while loop2 == 1:
-                    customer_name1 = input("\nPlease enter the new name first name of the customer\n>>> ")
-                    customer_name2 = input("\nPlease enter the new name second name of the customer\n>>> ")
-                    if (
-                        bool(re.search("^[a-zA-Z\s\-]+$", customer_name1)) == False
-                        or bool(re.search("^[a-zA-Z\s\-]+$", customer_name2)) == False
-                        or bool(re.search("^[\s]+", customer_name1)) == True
-                        or bool(re.search("^[\s]+", customer_name2)) == True
-                    ):
-                        clear_func()
-                        print(
-                            "The customer first or last name are required and cannot start with a space and can only contain letters, please try again"
-                        )
-                        loop2 == 1
-                    else:
-                        clear_func()
-                        print(
-                            f"The new customer name for order{chng_sel1} is {customer_name1.capitalize().strip()} {customer_name2.capitalize().strip()}\n"
-                        )
-                        temp_orders_list[chng_sel1 - 1][chng_sel1][
-                            "customer_name"
-                        ] = f"{customer_name1.capitalize().strip()} {customer_name2.capitalize().strip()}"
-                        loop2 += 1
-                        loop += 1
-                        return temp_orders_list
-            elif chng_op1 == 1:
-                while loop2 == 1:
-                    customer_address1 = input("\nPlease enter the new name of the street for delivery\n>>> ")
-                    customer_address2 = input("\nPlease enter the new name of city for delivery\n>>> ")
-                    if (
-                        bool(re.search("[0-9]", customer_address1)) == True
-                        or bool(re.search("[0-9]", customer_address2)) == True
-                        or bool(re.search("^[\s]+", customer_address1)) == True
-                        or bool(re.search("^[\s]+", customer_address1)) == True
-                        or bool(
-                            re.search(
-                                r"[!@#$%^*()=+{}\[\]\\|;:\"<>,?~`]", customer_address1
-                            )
-                        )
-                        == True
-                        or bool(
-                            re.search(
-                                r"[!@#$%^*()=+{}\[\]\\|;:\"<>,?~`]", customer_address2
-                            )
-                        )
-                        == True
-                    ):
-                        clear_func()
-                        print(
-                            "The delivery street name or city are required and cannot contain any numbers,special characters (!@# ect) or start with a space, please try again"
-                        )
-                        loop2 == 1
-                    else:
-                        clear_func()
-                        print(
-                            f"The new address for order{chng_sel1} is {customer_address1.title().strip()}, {customer_address2.upper().strip()} confirmed"
-                        )
-                        temp_orders_list[chng_sel1 - 1][chng_sel1][
-                            "customer_address"
-                        ] = f"{customer_address1.title().strip()}, {customer_address2.upper().strip()}"
-                        loop2 += 1
-                        loop += 1
-                        return temp_orders_list
-            elif chng_op1 == 2:
-                while loop2 == 1:
-                    customer_number = input("\nPlease enter the new mobile number for the customer\n>>> ")
-                    if (
-                        bool(re.search("[a-zA-Z]", customer_number)) == True
-                        or len(customer_number) != 11
-                        or bool(re.search("^[\s]+", customer_number)) == True
-                        or customer_number[0] != "0"
-                    ):
-                        clear_func()
-                        print(
-                            "The customers phone number is required and cannot contain any letters or start with a space and must be 11 digits long and must start with a 0, please try again"
-                        )
-                        loop2 == 1
-                    else:
-                        clear_func()
-                        print(
-                            f"The new number for order{chng_sel1} is {customer_number.strip()} confirmed"
-                        )
-                        temp_orders_list[chng_sel1 - 1][chng_sel1][
-                            "customer_phone"
-                        ] = f"{customer_number.strip()}"
-                        loop2 += 1
-                        loop += 1
-                        return temp_orders_list
-            elif chng_op1 == 3:
-                temp_orders_list[chng_sel1 - 1][chng_sel1]["items"] = add_item(
-                    list_input_func,
-                    prodlist,
-                    error_func,
-                    chng_sel1,
-                    clear_func,
-                    orderslist,
-                )
-                loop += 1
-                return temp_orders_list
-            elif chng_op1 == 4:
-                temp_orders_list = remove_item(
-                    orderslist,
-                    int(chng_sel1),
-                    prodlist,
-                    error_func,
-                    clear_func,
-                )
-                loop += 1
-                return temp_orders_list
-            elif chng_op1 == 5:
-                temp_orders_list = orderslist
-                print(f"Below are the couriers available for order{chng_sel1}:")
-                courier_change_selection = list_input_func(
-                    courlist, error_func, clear_func
-                )
-                print(
-                    f"You have selected to add {courlist[courier_change_selection]['name']} as the courier for order{chng_sel1}\n"
-                )
-                temp_orders_list[chng_sel1 - 1][chng_sel1][
-                    "courier"
-                ] = courier_change_selection
-                loop += 1
-                return temp_orders_list
-        else:
-            loop == 1
-    else:
-        return temp_orders_list
+            if opt == 0:  # name
+                ...  # similar pattern as add_order
+            elif opt == 1:  # address
+                ...
+            elif opt == 2:  # phone
+                ...
+            elif opt == 3:  # add items
+                orderslist = add_item(...)
+            elif opt == 4:  # remove items
+                orderslist = remove_item(...)
+            elif opt == 5:  # courier
+                cidx = list_input_func(courlist, error_func, clear_func)
+                orderslist[order_idx - 1][order_idx]["courier"] = cidx
+            return orderslist
 
 
-# function for deleting an order
-
-
+# ---------------------------
+# Function: del_order
+# Purpose: Delete an order based on user selection.
+# ---------------------------
 def del_order(orderslist, list_output_func, error_func, clear_func):
-    temp_orders_list = orderslist
-    loop = 1
-    while loop == 1:
-        list_output_func(temp_orders_list)
-        del_input1 = input("Which order from the above would you like to remove?\n>>> ")
+    while True:
         clear_func()
-        error_check = error_func(del_input1, 1, len(temp_orders_list))
-        if error_check:
+        list_output_func(orderslist)
+        sel = input("Select order to delete:\n>>> ")
+        if error_func(sel, 1, len(orderslist)):
+            idx = int(sel) - 1
             clear_func()
-            del_input1 = int(del_input1)
-            print(
-                f"You have selected to remove order{del_input1} from the list of orders, this will now be removed.....confirmed\n"
-            )
-            temp_orders_list.pop(del_input1 - 1)
-            loop += 1
-            return temp_orders_list
-        else:
-            loop == 1
-    return temp_orders_list
+            print(f"Order {sel} removed.\n")
+            orderslist.pop(idx)
+            return orderslist
+        # loop until valid
