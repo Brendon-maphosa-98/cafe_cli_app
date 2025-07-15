@@ -1,19 +1,331 @@
-Welcome to Brendon's Cafe Mini Project
+☕ Brendon's Cafe Mini Project
+📖 Project Background
+The goal of this project is to create a CLI-based cafe management app with a clear and simple user interface. The app takes relevant inputs, produces meaningful outputs, and ensures that data persists over time.
 
-Project background
-The goal with this project is to create a programme that runs on the CLI for a cafe app that should have a clear, simple user interface that take relevant inputs and gives relevant outputs. The programmes data must over time be able to persist.
+The project was developed iteratively, with weekly client requirements shaping its growth and complexity.
 
-Client Requirements
-Week 1 - The client requested the app allow them to create a product and add it to a list, view all products and update or delete a product
-Week 2 - The client requested the app allow them to create a product or order, and add it to the relevant list, view all products or orders update or delete a product or order
-week 3 - The client requested the app allow them to create a product, courier, or order and add it to a list, view all products, couriers, or orders, update the status of an order, persist my data (products and couriers), update or delete a product, order, or courier
-week 4 - The client requested the app allow them to create a product, courier, or order and add it to a list, view all products, couriers, or orders, update the status of an order, persist my data for orders,products and couriers to csv's, update or delete a product, order, or courier and be able to view orders by either their assigned courier or order status.
+✅ Client Requirements
+Week 1
 
-How to run the app
-To run the app, open the app package for week 4 and then in your command line interface make sure you current directory is the AppPackage directory, then type in mini-project/week4/source/AppPackage_Week4/masterLoop_module.py and this should run the app.
+Create a product and add it to a list
 
-Unit testing 
-There is a test_app.py folder in the apppackage directory which runs test on the user input function which is user through the app in different ways to validate user input.
+View all products
 
-Project reflection
-The project has been challenging but very educational and has allowed me to grow my skills in various data engineering domains. What I have found particularly interesting is how I have over the weeks been able to improve my problem solving skills more and more as I implemented more challenging functionality like working with csv's and being able to alter data, add new data and delete data all while being able to persist that data. Work has began on allowing the app to be able to work with databases as opposed to locally saved files which is another challenging functionality to implement but with my skills in programmatic thinking and problem solving I should be able to do this in no time. Perhaps the most tedious part of the whole project has been error handling especially as the app got more complicated and the functionality increased, each new addition likely caused the app to have an error else where and this was a constant challenge to stay on top of this while advancing the development of the app. In future if I was to do this again, I would lead with TDD (test driven development) to ensure that errors and bugs are handled before they can cause issues down the line, especially I would like in future to implement integration testing throughout the development process. The structure of the app is not the best but not the worst, in future I would love to implement more OOP so that my code is a lot more modularised and make the code a lot clearner and effecient.
+Update or delete a product
+
+Week 2
+
+Extend functionality to include orders
+
+Create, view, update, and delete products or orders
+
+Week 3
+
+Add couriers in addition to products and orders
+
+Update the status of an order
+
+Persist product and courier data
+
+Update or delete a product, order, or courier
+
+Week 4
+
+Persist all data (products, couriers, and orders) to CSV files
+
+View orders filtered by assigned courier or order status
+
+Full CRUD (Create, Read, Update, Delete) for products, couriers, and orders
+
+▶️ How to Run the App
+Navigate to the Week 4 App Package directory:
+
+bash
+Copy
+Edit
+cd mini-project/week4/source/AppPackage_Week4
+Run the main program:
+
+bash
+Copy
+Edit
+python3 masterLoop_module.py
+Follow the on-screen prompts in the CLI.
+
+🧪 Unit Testing
+Unit tests are located in test_app.py.
+Currently, they focus on validating user input functions, ensuring that the app handles different types of user input reliably.
+
+In future, more robust tests could be added, including:
+
+Integration tests
+
+Database persistence tests
+
+Automated CLI navigation tests
+
+💡 Project Reflection
+This project has been challenging but highly educational, improving my:
+
+Problem-solving skills
+
+Knowledge of data persistence with CSV files
+
+Ability to manage increasing application complexity
+
+What stood out most was how each new feature introduced unexpected edge cases and errors elsewhere in the code. Managing this while continuously expanding functionality required deliberate debugging and refactoring.
+
+Looking back:
+
+The most tedious aspect was error handling in an evolving codebase.
+
+If I were to start over, I’d lead with TDD (Test Driven Development) to catch errors early and ensure new features didn’t break existing functionality.
+
+I would also implement integration testing alongside unit tests to maintain stability as features grow.
+
+Moving forward:
+
+I plan to migrate from CSV persistence to a database-backed approach for improved scalability.
+
+I would refactor the structure with OOP (Object-Oriented Programming) principles to make the codebase more modular, cleaner, and more maintainable.
+
+🚀 Future Improvements
+✅ Code Structure & Modularity
+
+Implement classes for products, couriers, and orders
+
+Create reusable helper modules
+
+✅ Database Integration
+
+Replace CSV persistence with PostgreSQL or SQLite
+
+Add Adminer or similar DB admin tooling for easy management
+
+✅ Testing & Quality
+
+Introduce TDD from the start
+
+Add integration tests for complete workflow validation
+
+Include type hints and static analysis tools
+
+✅ User Experience
+
+Improve CLI menus with color-coded outputs
+
+Add search and filter options for faster data retrieval
+
+✅ Deployment
+
+Dockerize the app for easier setup
+
+Add a lightweight web UI in the future
+
+📂 Project Structure
+plaintext
+Copy
+Edit
+mini-project/
+  week4/
+    source/
+      AppPackage_Week4/
+        masterLoop_module.py   # Main app loop
+        input_output_module.py # Handles input/output
+        data_module.py         # Data persistence logic
+        test_app.py            # Unit tests
+        products.csv
+        couriers.csv
+        orders.csv
+✨ Key Takeaways
+Start with clean architecture to avoid refactoring pains later
+
+TDD helps avoid regression errors when adding new features
+
+Incremental feature development teaches how complexity grows in real apps
+
+Always plan for data persistence strategy before scaling features
+
+Would you like me to:
+✅ Add badges (Python version, license, etc.)?
+✅ Include example screenshots of CLI menus?
+✅ Or even create a table of contents for easy navigation on GitHub?
+
+Should I add those extra touches?
+
+
+
+
+
+
+You said:
+3
+
+
+ChatGPT said:
+Got it! Here’s your README with an improved GitHub-friendly Table of Contents for better navigation.
+
+☕ Brendon's Cafe Mini Project
+📑 Table of Contents
+📖 Project Background
+
+✅ Client Requirements
+
+▶️ How to Run the App
+
+🧪 Unit Testing
+
+💡 Project Reflection
+
+🚀 Future Improvements
+
+📂 Project Structure
+
+✨ Key Takeaways
+
+📖 Project Background
+The goal of this project is to create a CLI-based cafe management app with a clear and simple user interface. The app takes relevant inputs, produces meaningful outputs, and ensures that data persists over time.
+
+The project was developed iteratively, with weekly client requirements shaping its growth and complexity.
+
+✅ Client Requirements
+Week 1
+
+Create a product and add it to a list
+
+View all products
+
+Update or delete a product
+
+Week 2
+
+Extend functionality to include orders
+
+Create, view, update, and delete products or orders
+
+Week 3
+
+Add couriers in addition to products and orders
+
+Update the status of an order
+
+Persist product and courier data
+
+Update or delete a product, order, or courier
+
+Week 4
+
+Persist all data (products, couriers, and orders) to CSV files
+
+View orders filtered by assigned courier or order status
+
+Full CRUD (Create, Read, Update, Delete) for products, couriers, and orders
+
+▶️ How to Run the App
+Navigate to the Week 4 App Package directory:
+
+bash
+Copy
+Edit
+cd mini-project/week4/source/AppPackage_Week4
+Run the main program:
+
+bash
+Copy
+Edit
+python3 masterLoop_module.py
+Follow the on-screen prompts in the CLI.
+
+🧪 Unit Testing
+Unit tests are located in test_app.py.
+Currently, they focus on validating user input functions, ensuring that the app handles different types of user input reliably.
+
+In future, more robust tests could be added, including:
+
+Integration tests
+
+Database persistence tests
+
+Automated CLI navigation tests
+
+💡 Project Reflection
+This project has been challenging but highly educational, improving my:
+
+Problem-solving skills
+
+Knowledge of data persistence with CSV files
+
+Ability to manage increasing application complexity
+
+What stood out most was how each new feature introduced unexpected edge cases and errors elsewhere in the code. Managing this while continuously expanding functionality required deliberate debugging and refactoring.
+
+Looking back:
+
+The most tedious aspect was error handling in an evolving codebase.
+
+If I were to start over, I’d lead with TDD (Test Driven Development) to catch errors early and ensure new features didn’t break existing functionality.
+
+I would also implement integration testing alongside unit tests to maintain stability as features grow.
+
+Moving forward:
+
+I plan to migrate from CSV persistence to a database-backed approach for improved scalability.
+
+I would refactor the structure with OOP (Object-Oriented Programming) principles to make the codebase more modular, cleaner, and more maintainable.
+
+🚀 Future Improvements
+✅ Code Structure & Modularity
+
+Implement classes for products, couriers, and orders
+
+Create reusable helper modules
+
+✅ Database Integration
+
+Replace CSV persistence with PostgreSQL or SQLite
+
+Add Adminer or similar DB admin tooling for easy management
+
+✅ Testing & Quality
+
+Introduce TDD from the start
+
+Add integration tests for complete workflow validation
+
+Include type hints and static analysis tools
+
+✅ User Experience
+
+Improve CLI menus with color-coded outputs
+
+Add search and filter options for faster data retrieval
+
+✅ Deployment
+
+Dockerize the app for easier setup
+
+Add a lightweight web UI in the future
+
+📂 Project Structure
+plaintext
+Copy
+Edit
+mini-project/
+  week4/
+    source/
+      AppPackage_Week4/
+        masterLoop_module.py   # Main app loop
+        input_output_module.py # Handles input/output
+        data_module.py         # Data persistence logic
+        test_app.py            # Unit tests
+        products.csv
+        couriers.csv
+        orders.csv
+✨ Key Takeaways
+Start with clean architecture to avoid refactoring pains later
+
+TDD helps avoid regression errors when adding new features
+
+Incremental feature development teaches how complexity grows in real apps
+
+Always plan for data persistence strategy before scaling features
