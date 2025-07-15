@@ -128,8 +128,6 @@ def product_loop(
             break
 
 
-import data_module as data
-
 # ---------------------------
 # Module: Navigation Menu Handlers
 # Provides functions to navigate between menus,
@@ -420,8 +418,6 @@ def Orders_loop(
 
     # End of orders submenu loop
 
-
-import data_module as data
 
 # ---------------------------
 # Module: Navigation Menu Handlers
