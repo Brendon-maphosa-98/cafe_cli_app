@@ -5,4 +5,4 @@ order_num,customer_name,customer_address,customer_phone,courier,status,items
 4,Generation HQ,"Learning Street, London",07932510172,1,enroute,"9, 4"
 5,Brendon Maphosa,"Rother View Road, ROTHERHAM",07932510167,6,enroute,"5, 4, 7"
 6,Greg Thomas,"Heavenly Drive, BRISTOL",09758493721,7,preparing,"10, 11"
-7,Barry Davis,"Wisteria Lane, GLENDALE",07849367291,10,preparing,11
+7,Brendon Maphosa,"New Street, LONDON",07932510167,10,preparing,"12, 2, 3"
