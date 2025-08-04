@@ -1,19 +1,19 @@
 # ☕ Brendon's Cafe Mini Project  
 
-## 📑 Table of Contents  
+## Table of Contents  
 
-- [📖 Project Background](#-project-background)  
-- [✅ Client Requirements](#-client-requirements)  
-- [▶️ How to Run the App](#️-how-to-run-the-app)  
-- [🧪 Unit Testing](#-unit-testing)  
-- [💡 Project Reflection](#-project-reflection)  
-- [🚀 Future Improvements](#-future-improvements)  
-- [📂 Project Structure](#-project-structure)  
-- [✨ Key Takeaways](#-key-takeaways)  
+- [Project Background](#-project-background)  
+- [Client Requirements](#-client-requirements)  
+- [How to Run the App](#️-how-to-run-the-app)  
+- [Unit Testing](#-unit-testing)  
+- [Project Reflection](#-project-reflection)  
+- [Future Improvements](#-future-improvements)  
+- [Project Structure](#-project-structure)  
+- [Key Takeaways](#-key-takeaways)  
 
 ---
 
-## 📖 Project Background  
+## Project Background  
 
 The goal of this project is to create a **CLI-based cafe management app** with a clear and simple user interface. The app takes relevant inputs, produces meaningful outputs, and ensures that data persists over time.  
 
@@ -21,7 +21,7 @@ The project was developed iteratively, with **weekly client requirements** shapi
 
 ---
 
-## ✅ Client Requirements  
+## Client Requirements  
 
 **Week 1**  
 - Create a product and add it to a list  
@@ -45,7 +45,7 @@ The project was developed iteratively, with **weekly client requirements** shapi
 
 ---
 
-## ▶️ How to Run the App  
+## How to Run the App  
 download required packages
 $py -m pip install -r requirements.txt
 
@@ -58,7 +58,7 @@ $py -m pip install -r requirements.txt
 
 ---
 
-## 🧪 Unit Testing  
+## Unit Testing  
 
 Unit tests are located in `test_app.py`.  
 Currently, they focus on validating **user input functions**, ensuring that the app handles different types of user input reliably.  
@@ -70,7 +70,7 @@ In future, **more robust tests** could be added, including:
 
 ---
 
-## 💡 Project Reflection  
+## Project Reflection  
 
 This project has been **challenging but highly educational**, improving my:  
 - Problem-solving skills  
@@ -90,30 +90,30 @@ What stood out most was how each new feature introduced **unexpected edge cases*
 
 ---
 
-## 🚀 Future Improvements  
+## Future Improvements  
 
-✅ **Code Structure & Modularity**  
+ **Code Structure & Modularity**  
 - Implement classes for products, couriers, and orders  
 - Create reusable helper modules  
 
-✅ **Database Integration**  
+ **Database Integration**  
 - Replace CSV persistence with **PostgreSQL** or **SQLite**  
 - Add Adminer or similar DB admin tooling for easy management  
 
-✅ **Testing & Quality**  
+ **Testing & Quality**  
 - Introduce **TDD** from the start  
 - Add integration tests for complete workflow validation  
 - Include type hints and static analysis tools  
 
-✅ **User Experience**  
+ **User Experience**  
 - Improve CLI menus with **color-coded outputs**  
 
-✅ **Deployment**  
+ **Deployment**  
 - Dockerize the app for easier setup  
 - Add a lightweight web UI in the future  
 
 ---
-## 📂 Project Structure
+## Project Structure
 
 ```plaintext
 mini-project/
