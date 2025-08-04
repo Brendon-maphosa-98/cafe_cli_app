@@ -1,4 +1,4 @@
-# ☕ Brendon's Cafe Mini Project  
+# Brendon's Cafe Mini Project  
 
 ## Table of Contents  
 
