@@ -43,7 +43,7 @@ body:
     attributes:
       label: Definition of Ready (tick when true)
       options:
-        - label: INVEST: Independent / Valuable / Small / Testable
+        - label: "INVEST: Independent / Valuable / Small / Testable"
         - label: Acceptance criteria are clear (G/W/T)
         - label: Dependencies identified
         - label: Data/UX samples attached (if relevant)
