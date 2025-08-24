@@ -1,0 +1,41 @@
+name: "Sprint Planning"
+description: "Define the goal and backlog items for the next sprint"
+labels: ["sprint-planning"]
+body:
+  - type: input
+    id: sprint_name
+    attributes:
+      label: Sprint Name / Number
+      placeholder: "Sprint 7 – 2025-09-01 to 2025-09-14"
+    validations:
+      required: true
+  - type: textarea
+    id: sprint_goal
+    attributes:
+      label: Sprint Goal
+      placeholder: "What will be delivered this sprint, why it matters"
+    validations:
+      required: true
+  - type: textarea
+    id: backlog_items
+    attributes:
+      label: Backlog Items (issue numbers)
+      placeholder: |
+        - #123 – Ingest orders into Postgres
+        - #124 – CLI order features
+    validations:
+      required: true
+  - type: input
+    id: velocity
+    attributes:
+      label: Estimated capacity / velocity (e.g. in story points or hours)
+      placeholder: "e.g. 20 pts or 10h"
+  - type: checkboxes
+    id: ready_check
+    attributes:
+      label: Pre-Sprint Ready Checklist
+      options:
+        - label: Issues refined + acceptance criteria clear
+        - label: Estimates assigned
+        - label: Dependencies identified
+        - label: Priorty ordering set
