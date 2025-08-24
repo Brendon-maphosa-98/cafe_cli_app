@@ -1,0 +1,20 @@
+name: "Chore / Refactor"
+description: "Non-functional improvement or repo hygiene"
+labels: ["type:chore"]
+body:
+  - type: textarea
+    id: change
+    attributes:
+      label: Change description
+      placeholder: "Refactor order parser to pure functions; add pre-commit; upgrade dependencies."
+    validations:
+      required: true
+  - type: checkboxes
+    id: dod
+    attributes:
+      label: Definition of Done
+      options:
+        - label: No functional behavior change (unless stated)
+        - label: Tests updated/added
+        - label: CI green
+        - label: Docs/README touched if user-facing

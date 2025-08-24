@@ -1,0 +1,46 @@
+name: "Bug"
+description: "Something is broken or incorrect"
+labels: ["type:bug"]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Affected version / branch
+      placeholder: "main @ abc123, v0.2.1"
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: "1) … 2) … 3) …"
+      render: bash
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / screenshots
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options: ["S1 - Crash/data loss", "S2 - Major", "S3 - Minor", "S4 - Cosmetic"]
+  - type: checkboxes
+    id: dod
+    attributes:
+      label: Fix validation
+      options:
+        - label: Repro added as unit/integ test
+        - label: Regression covered
+        - label: CI green
