@@ -5,11 +5,8 @@
 - [Project Background](#-project-background)  
 - [Client Requirements](#-client-requirements)  
 - [How to Run the App](#️-how-to-run-the-app)  
-- [Unit Testing](#-unit-testing)  
-- [Project Reflection](#-project-reflection)  
-- [Future Improvements](#-future-improvements)  
-- [Project Structure](#-project-structure)  
-- [Key Takeaways](#-key-takeaways)  
+- [Unit Testing](#-unit-testing)   
+- [Project Structure](#-project-structure)   
 
 ---
 
@@ -67,50 +64,6 @@ In future, **more robust tests** could be added, including:
 - Integration tests  
 - Database persistence tests  
 - Automated CLI navigation tests  
-
----
-
-## Project Reflection  
-
-This project has been **challenging but highly educational**, improving my:  
-- Problem-solving skills  
-- Knowledge of **data persistence** with CSV files  
-- Ability to manage increasing **application complexity**  
-
-What stood out most was how each new feature introduced **unexpected edge cases** and **errors** elsewhere in the code. Managing this while continuously expanding functionality required deliberate debugging and refactoring.  
-
-**Looking back:**  
-- The most tedious aspect was **error handling** in an evolving codebase.  
-- If I were to start over, I’d lead with **TDD (Test Driven Development)** to catch errors early and ensure new features didn’t break existing functionality.  
-- I would also implement **integration testing** alongside unit tests to maintain stability as features grow.  
-
-**Moving forward:**  
-- I plan to migrate from CSV persistence to a **database-backed approach** for improved scalability.  
-- I would refactor the structure with **OOP (Object-Oriented Programming)** principles to make the codebase more modular, cleaner, and more maintainable.  
-
----
-
-## Future Improvements  
-
- **Code Structure & Modularity**  
-- Implement classes for products, couriers, and orders  
-- Create reusable helper modules  
-
- **Database Integration**  
-- Replace CSV persistence with **PostgreSQL** or **SQLite**  
-- Add Adminer or similar DB admin tooling for easy management  
-
- **Testing & Quality**  
-- Introduce **TDD** from the start  
-- Add integration tests for complete workflow validation  
-- Include type hints and static analysis tools  
-
- **User Experience**  
-- Improve CLI menus with **color-coded outputs**  
-
- **Deployment**  
-- Dockerize the app for easier setup  
-- Add a lightweight web UI in the future  
 
 ---
 ## Project Structure
