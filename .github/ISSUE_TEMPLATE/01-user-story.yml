@@ -1,0 +1,60 @@
+name: "User Story"
+description: "Feature delivering user value (INVEST)"
+labels: ["type:feature"]
+body:
+  - type: textarea
+    id: story
+    attributes:
+      label: Story
+      description: "As a <role>, I want <capability>, so that <benefit>."
+      placeholder: "As a barista, I want to add a custom note to an order so that allergies are captured."
+    validations:
+      required: true
+  - type: input
+    id: acceptance_criteria_intro
+    attributes:
+      label: Acceptance criteria (Given/When/Then)
+      description: "Add at least 3, each testable."
+      placeholder: "Given an order... When I add a note... Then it is saved and visible at payment."
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Criteria (bullet list)
+      placeholder: |
+        - Given ...
+        - When ...
+        - Then ...
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options: ["P1 - High", "P2 - Medium", "P3 - Low"]
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes / constraints
+      placeholder: "Perf, security, data model notes, UX constraints..."
+  - type: checkboxes
+    id: dor
+    attributes:
+      label: Definition of Ready (tick when true)
+      options:
+        - label: INVEST: Independent / Valuable / Small / Testable
+        - label: Acceptance criteria are clear (G/W/T)
+        - label: Dependencies identified
+        - label: Data/UX samples attached (if relevant)
+  - type: checkboxes
+    id: dod
+    attributes:
+      label: Definition of Done (quality gate)
+      description: "What ‘done’ means here (adapted from Scrum DoD guidance)."
+      options:
+        - label: Unit tests pass (new + existing)
+        - label: Docs/README updated
+        - label: Feature behind flag or backwards compatible
+        - label: Security/PII considerations addressed
+        - label: CI green; reviewed & approved
