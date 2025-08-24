@@ -1,0 +1,38 @@
+name: "Task"
+description: "Engineering task supporting a story"
+labels: ["type:task"]
+body:
+  - type: input
+    id: link
+    attributes:
+      label: Linked Story / Issue
+      placeholder: "#123"
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      placeholder: "What exactly will be delivered (code, config, data migration, infra)?"
+      render: bash
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Task Type
+      options: ["ingestion", "transform", "load", "infra", "testing", "docs", "devx"]
+    validations:
+      required: true
+  - type: input
+    id: estimate
+    attributes:
+      label: Effort (S/M/L or hours)
+      placeholder: "S (~1–2h) / M (~0.5d) / L (~1–2d)"
+  - type: checkboxes
+    id: dod
+    attributes:
+      label: Definition of Done
+      options:
+        - label: Code + tests updated
+        - label: CI green
+        - label: Docs/README updated (if needed)
+        - label: Linked story acceptance criteria still valid
