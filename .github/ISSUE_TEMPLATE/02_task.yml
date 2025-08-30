@@ -31,4 +31,4 @@ body:
     id: dod
     attributes:
       label: Definition of Done
-      placeholder: "- [ ] DoD 1\n -[ ] DoD 2\n -[ ] DoD 3"
+      placeholder: "-[ ] DoD 1\n -[ ] DoD 2\n -[ ] DoD 3"
