@@ -1,9 +1,7 @@
 # Mini Project Week 1
 
 In this week we'll be building out the foundation of your app, in particular, the UI aspect.
-This will make use of your ability to print to the screen, clear the screen, accept user input, and create a basic `list` data structure.
-
-Try to make good use of functions for repetitive tasks.
+This will make use of our ability to print to the screen, clear the screen, accept user input, and create a basic `list` data structure.
 
 ## Goals
 

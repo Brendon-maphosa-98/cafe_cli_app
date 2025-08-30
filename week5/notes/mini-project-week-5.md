@@ -4,8 +4,6 @@ CSV is great, but there is a better option. Let's store our couriers and product
 
 An order's courier and product items properties currently use indexes to reference these entities, we're going to change this to use ids instead.
 
-Remember to update unit-tests.
-
 ## Goals
 
 As a user I want to:

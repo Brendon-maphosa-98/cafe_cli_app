@@ -1,6 +1,6 @@
 # Mini Project Week 3
 
-Now that our app can create and list products, and handle orders it should be simple enough to do the same for couriers. We'll also dump our data into `.txt` files so we don't lose it. Try to ensure code that writes or reads from a text file is separated from the code that prints a list for example.
+Now that our app can create and list products, and handle orders it should be simple enough to do the same for couriers. We'll also dump our data into `.txt` files so we don't lose it.
 
 ## Goals
 
