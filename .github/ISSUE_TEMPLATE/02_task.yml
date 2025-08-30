@@ -27,12 +27,8 @@ body:
     attributes:
       label: Effort (S/M/L or hours)
       placeholder: "S (~1–2h) / M (~0.5d) / L (~1–2d)"
-  - type: checkboxes
+  - type: textarea
     id: dod
     attributes:
       label: Definition of Done
-      options:
-        - label: Code + tests updated
-        - label: CI green
-        - label: Docs/README updated (if needed)
-        - label: Linked story acceptance criteria still valid
+      placeholder: "-[ ] DoD 1\n -[ ] DoD 2\n -[ ] DoD 3"
