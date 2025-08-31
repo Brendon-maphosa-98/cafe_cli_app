@@ -1,0 +1,18 @@
+# <type>(<scope>): <short summary>
+#  │      │
+#  │      └─> optional: the part of the app this commit touches (e.g. products, orders, db)
+#  └─> type: feat | fix | chore | docs | refactor | style | test | perf
+#
+# Summary should be in the imperative mood, max ~50 chars
+# Example: feat(products): add DB connection config
+
+<type>(<scope>): <summary>
+
+# Body (optional, 72-char wrap). Explain WHY not just WHAT.
+# Example:
+# Added psycopg2 connection handling for products table.
+# This sets up the base schema and ensures connection pooling.
+
+# Footer (optional)
+# - Reference tickets/issues: Closes #7
+# - Note breaking changes: BREAKING CHANGE: details here
