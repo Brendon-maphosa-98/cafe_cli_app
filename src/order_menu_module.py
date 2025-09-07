@@ -90,6 +90,10 @@ def add_order(
     orderslist,
     status_opt_list,
     clear_func,
+    list_input_func,
+    prodlist,
+    error_func,
+    courlist,
 ):
     loop = 1
     clear_func()
@@ -146,11 +150,12 @@ def add_order(
             bool(re.search("[a-zA-Z]", customer_number)) == True
             or len(customer_number) != 11
             or bool(re.search("^[\s]+", customer_number)) == True
+            or customer_number[0] != "0"
         ):
             clear_func()
             print(f"{cust_name_output}{cust_add_output}")
             print(
-                "The customers phone number is required and cannot contain any letters or start with a space and must be 11 digits long, please try again\n"
+                "The customers phone number is required and cannot contain any letters or start with a space and must be 11 digits long starting with a zero, please try again\n"
             )
             loop == 1
         else:
@@ -161,6 +166,34 @@ def add_order(
             print(f"{cust_name_output}{cust_add_output}{cust_num_output}")
             loop += 1
             continue
+    loop = 1
+    selected_items = []
+    while loop == 1:
+        clear_func()
+        print("Below are the items currently available to add to the order")
+        item_selected = list_input_func(prodlist, error_func, clear_func)
+        selected_items.append(prodlist[item_selected - 1])
+        more_item = input(
+            f"You have selected to add {prodlist[item_selected -1]} to the new order, would you like to add another item?\n1: Yes\n2: No\n>>> "
+        )
+        more_item_val = error_func(more_item, 1, 2)
+        if more_item_val == True and int(more_item) == 1:
+            loop == 1
+        elif more_item_val == True and int(more_item) == 2:
+            loop += 1
+            continue
+        else:
+            loop == 1
+    loop = 1
+    while loop == 1:
+        clear_func()
+        print("Below are the Couriers currently available to add to the order")
+        courier_selected = list_input_func(courlist, error_func, clear_func)
+        print(
+            f"You have selected to add {courlist[courier_selected]} as the courier on the new order"
+        )
+        loop += 1
+        continue
     temp_order_list = orderslist
     order = {
         f"order{len(orderslist) + 1}": {
@@ -168,7 +201,8 @@ def add_order(
             "customer_address": f"{customer_address1.title().strip()}, {customer_address2.upper().strip()}",
             "customer_phone": customer_number.strip(),
             "status": f"{status_opt_list[0]}",
-            "item(s)_ordered": [],
+            "courier": courlist[courier_selected],
+            "item(s)_ordered": selected_items,
         }
     }
     temp_order_list.append(order)
@@ -236,6 +270,8 @@ def update_existing_order(
     remove_order_output_func,
     list_input_func,
     clear_func,
+    update_courier_str,
+    courlist,
 ):
     temp_orders_list = orderslist
     loop = 1
@@ -259,7 +295,9 @@ def update_existing_order(
                 new_number_str,
                 add_item_str,
                 remove_item_str,
+                update_courier_str,
                 error_func=error_func,
+                clear_func=clear_func,
             )
             loop2 = 1
             clear_func()
@@ -333,10 +371,12 @@ def update_existing_order(
                     if (
                         bool(re.search("[a-zA-Z]", customer_number)) == True
                         or len(customer_number) != 11
+                        or bool(re.search("^[\s]+", customer_number)) == True
+                        or customer_number[0] != "0"
                     ):
                         clear_func()
                         print(
-                            "The customers phone number is required and cannot contain any letters or start with a space and must be 11 digits long, please try again"
+                            "The customers phone number is required and cannot contain any letters or start with a space and must be 11 digits long and must start with a 0, please try again"
                         )
                         loop2 == 1
                     else:
@@ -364,6 +404,20 @@ def update_existing_order(
                     remove_order_output_func,
                     ordernum=chng_sel1,
                 )
+                loop += 1
+                return temp_orders_list
+            elif chng_op1 == 5:
+                temp_orders_list = orderslist
+                print(f"Below are the couriers available for order{chng_sel1}:")
+                courier_change_selection = list_input_func(
+                    courlist, error_func, clear_func
+                )
+                print(
+                    f"You have selected to add {courlist[courier_change_selection]} as the courier for {key}\n"
+                )
+                temp_orders_list[chng_sel1 - 1][key]["courier"] = courlist[
+                    courier_change_selection
+                ]
                 loop += 1
                 return temp_orders_list
         else:

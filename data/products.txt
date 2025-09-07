@@ -1,0 +1,9 @@
+Espresso
+Cappuccino
+Latte
+Americano
+Mocha
+Iced Coffee
+Flat White
+Cold Brew
+Croissant

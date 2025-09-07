@@ -12,6 +12,8 @@ product_menu = "Go to the products menu\n"
 
 order_menu = "Go to the orders menu\n"
 
+courier_menu = "Go to the couriers menu\n"
+
 exit_app = "Exit app\n"
 
 # Variables for the product menu options
@@ -55,7 +57,9 @@ change_option_customer_phone = "Change customer phone number"
 
 change_option_add_items = "Add items to order"
 
-change_option_remove_items = "Remove items from order\n>>> "
+change_option_remove_items = "Remove items from order"
+
+change_option_courier = "Change the courier assigned to an order"
 
 # variables for new order input strings
 
@@ -73,3 +77,21 @@ customer_number2 = "\nPlease enter the new mobile number for the customer\n>>> "
 # Variable for general option string
 
 gen_opt_string = "Which of the above options whould you like to select?\n>>> "
+
+# Variables for the courier menu options
+
+view_courier_option = "View the couriers list\n"
+
+create_courier_option = "Add a new courier\n"
+
+update_courier_option = "Update an existing courier\n"
+
+remove_courier_option = "Remove an existing courier\n"
+
+created_courier_str = "\nWhat is the name of the courier you would like to add to the list?\n\nNew courier name: "
+
+replaced_courier_str = "\nWhich of the above couriers would you like to replace?\n\nInput corresponding number here: "
+
+replacement_courier_str = "\nWhat is the name of the courier you would like to add in place of the old one?\n\nNew courier name: "
+
+remove_courier_str = "\nWhich of the above couriers would you like to remove from the list?\n\nInput corresponding number here: "

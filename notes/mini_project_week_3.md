@@ -1,18 +1,27 @@
-# Mini Project Week 2
+# Mini Project Week 3
 
-So far we've been using one-dimensional lists of data, however, this won't work for orders. We need to store more information such as the customer's name, address and phone number, as well as the status of the order. To solve this we'll use a two-dimensional data structure, a `dictionary`. We won't be able to read/write this structure to a text file anymore, but we'll fix this later.
-
-For now we'll also skip adding products to the order.
+Now that our app can create and list products, and handle orders it should be simple enough to do the same for couriers. We'll also dump our data into `.txt` files so we don't lose it.
 
 ## Goals
 
 As a user I want to:
 
-- create a product or order, and add it to the relevant list
-- view all products or orders
-- _STRETCH_ I want to be able to update or delete a product or order
+- create a product, courier, or order and add it to a list
+- view all products, couriers, or orders
+- update the status of an order
+- persist my data (products and couriers)
+- _STRETCH_ update or delete a product, order, or courier
 
 ## Spec
+
+- A `courier` should just be a `string` containing its name, i.e: `"John"`
+- A list of `couriers` should be a list of `strings`, i.e: `["John"]`
+- Data should be persisted to a `.txt` file on a new line for each `courier` or `product`, ie:
+
+    ```txt
+    John
+    Claire
+    ```
 
 - A `product` should just be a `string` containing its name, i.e: `"Mocha"`
 - A list of `products` should be a list of `strings`, i.e: `["Mocha", "Americano"]`
@@ -32,10 +41,17 @@ As a user I want to:
 ## Pseudo Code
 
 ```txt
+LOAD products list from products.txt
+LOAD couriers list from couriers.txt
+CREATE orders list of dictionaries
+CREATE order status list
+
 PRINT main menu options
 GET user input for main menu option
 
 IF user input is 0:
+    SAVE products list to products.txt
+    SAVE couriers list to couriers.txt
     EXIT app
 
 # products menu
@@ -69,19 +85,51 @@ ELSE IF user input is 1:
         GET user input for product index value
         DELETE product at index in products list
 
-# orders menu
+# couriers menu
 ELSE IF user input is 2:
+    PRINT courier menu options
+    GET user input for courier menu option
+
+    IF user inputs 0:
+        RETURN to main menu
+
+    ELIF user inputs 1:
+        PRINT couriers list
+
+    ELSE IF user input is 2:
+        # CREATE new courier
+        GET user input for courier name
+        APPEND courier name to couriers list
+
+    ELSE IF user input is 3:
+        # STRETCH GOAL - UPDATE existing courier
+
+        PRINT courier names with its index value
+        GET user input for courier index value
+        GET user input for new courier name
+        UPDATE courier name at index in couriers list
+
+    ELSE IF user input is 4:
+        # STRETCH GOAL - DELETE courier
+
+        PRINT courier list
+        GET user input for courier index value
+        DELETE courier at index in courier list
+# orders menu
+ELSE IF user input is 3:
     IF user input is 0:
         RETURN to main menu
 
     ELSE IF user input is 1:
-        PRINT orders list (of dictionaries)
+        PRINT orders list
 
     ELSE IF user input is 2:
         GET user input for customer name
         GET user input for customer address
         GET user input for customer phone number
 
+        PRINT couriers list with index value for each courier
+        GET user input for courier index to select courier
         SET order status to be 'PREPARING'
         APPEND order to orders list
 

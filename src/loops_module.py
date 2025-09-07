@@ -41,7 +41,6 @@ def product_loop(
     remove_product_str,
     replacement_product_str,
     del_item_func,
-    master_loop_func,
     error_func,
     clear_func,
 ):
@@ -55,6 +54,7 @@ def product_loop(
             update_option_str,
             remove_option_str,
             error_func=error_func,
+            clear_func=clear_func,
         )
         clear_func()
         if Menu_choice == 1:
@@ -104,7 +104,7 @@ def product_loop(
                 None
         elif Menu_choice == 0:
             clear_func()
-            master_loop_func()
+            loop += 1
     else:
         loop == 1
 
@@ -144,11 +144,12 @@ def Orders_loop(
     new_cust_city_str,
     new_cust_num_str,
     del_order_func,
-    master_loop_func,
     list_input_func,
     prodlist,
     remove_order_output_func,
     clear_func,
+    update_courier_str,
+    courlist,
 ):
     loop1 = 1
     while loop1 == 1:
@@ -161,6 +162,7 @@ def Orders_loop(
             order_update_option_str,
             order_remove_option_str,
             error_func=error_func,
+            clear_func=clear_func,
         )
         if Menu_choice == 1:
             clear_func()
@@ -182,6 +184,10 @@ def Orders_loop(
                 orderslist,
                 status_opt_list,
                 clear_func,
+                list_input_func,
+                prodlist,
+                error_func,
+                courlist,
             )
             dict_output_func(orderslist)
             return_option = rtrn_opt(clear_func)
@@ -230,6 +236,8 @@ def Orders_loop(
                 remove_order_output_func,
                 list_input_func,
                 clear_func,
+                update_courier_str,
+                courlist,
             )
             dict_output_func(orderslist)
             return_option = rtrn_opt(clear_func)
@@ -253,4 +261,86 @@ def Orders_loop(
         elif Menu_choice == 0:
             clear_func()
             loop1 += 1
-            master_loop_func()
+
+
+def courier_loop(
+    str_input_func,
+    Main_menu_str,
+    view_courier_option_str,
+    create_courier_option_str,
+    update_courier_option_str,
+    remove_courier_option_str,
+    list_output_func,
+    courlist,
+    new_courier_func,
+    created_courier_str,
+    update_courier_func,
+    remove_courier_str,
+    replacement_courier_str,
+    del_courier_func,
+    error_func,
+    clear_func,
+):
+    loop = 1
+    while loop == 1:
+        clear_func()
+        Menu_choice = str_input_func(
+            Main_menu_str,
+            view_courier_option_str,
+            create_courier_option_str,
+            update_courier_option_str,
+            remove_courier_option_str,
+            error_func=error_func,
+            clear_func=clear_func,
+        )
+        clear_func()
+        if Menu_choice == 1:
+            clear_func()
+            list_output_func(courlist)
+            return_option = rtrn_opt(clear_func)
+            if return_option == 0:
+                loop == 1
+                clear_func()
+            else:
+                None
+        elif Menu_choice == 2:
+            clear_func()
+            courlist = new_courier_func(created_courier_str, courlist, clear_func)
+            return_option = rtrn_opt(clear_func)
+            if return_option == 0:
+                loop == 1
+                clear_func()
+            else:
+                None
+        elif Menu_choice == 3:
+            clear_func()
+            courlist = update_courier_func(
+                remove_courier_str,
+                replacement_courier_str,
+                list_output_func,
+                courlist,
+                error_func,
+                clear_func,
+            )
+            return_option = rtrn_opt(clear_func)
+            if return_option == 0:
+                loop == 1
+                clear_func()
+            else:
+                None
+        elif Menu_choice == 4:
+            clear_func()
+            courlist = del_courier_func(
+                remove_courier_str, list_output_func, courlist, error_func, clear_func
+            )
+            return_option = rtrn_opt(clear_func)
+            if return_option == 0:
+                loop == 1
+                clear_func()
+            else:
+                None
+        elif Menu_choice == 0:
+            clear_func()
+            loop += 1
+    else:
+        loop == 1

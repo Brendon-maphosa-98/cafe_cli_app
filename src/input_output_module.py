@@ -16,14 +16,14 @@ def order_dict_output(dict):
     for order in dict:
         for key, value in order.items():
             print(
-                f'-------\n{key}:\n\nCustomer Name: {value["customer_name"]}\nCustomer Address: {value["customer_address"]}\nContact Number: {value["customer_phone"]}\nStatus: {value["status"]}\nItems: {value["item(s)_ordered"]}\n-------'
+                f'-------\n{key}:\n\nCustomer Name: {value["customer_name"]}\nCustomer Address: {value["customer_address"]}\nContact Number: {value["customer_phone"]}\nStatus: {value["status"]}\nCourier: {value["courier"]}\nItems: {value["item(s)_ordered"]}\n-------'
             )
 
 
 # functions for taking and returning inputs
 
 
-def list_input_function(list, error_func,clear_func):
+def list_input_function(list, error_func, clear_func):
     index_num = 0
     print("-------\n-------")
     loop = 1
@@ -62,10 +62,7 @@ def remove_order_output_function(items, error_func):
             index_num = 0
 
 
-def str_input_function(
-    *input_str,
-    error_func,
-):
+def str_input_function(*input_str, error_func, clear_func):
     index_num = 0
     print("-------\n-------")
     loop = 1
@@ -76,6 +73,7 @@ def str_input_function(
         returned_input = input(
             "\nWhich of the above options would you like to select?\n>>> "
         )
+        clear_func()
         penultimate_input = error_func(returned_input, 0, len(input_str) - 1)
         if penultimate_input:
             final_input = int(returned_input)

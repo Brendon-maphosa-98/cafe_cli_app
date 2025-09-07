@@ -15,9 +15,10 @@ def new_product(created_product_str, prodlist, clear_func):
             bool(re.search("[0-9]", new_prod)) == True
             or bool(re.search("[a-zA-Z]", new_prod)) == False
             or bool(re.search(r"^[a-zA-Z\s\-'\.&]+$", new_prod)) == False
+            or bool(re.search("^[\s]+", new_prod)) == True
         ):
             print(
-                "A product name must contain letters and cannot contain any numbers please try again"
+                "A product name must contain letters and cannot contain any numbers or start with a space please try again"
             )
             loop == 1
         else:
@@ -51,9 +52,10 @@ def update_item(
                 bool(re.search("[0-9]", product_to_add)) == True
                 or bool(re.search("[a-zA-Z]", product_to_add)) == False
                 or bool(re.search(r"^[a-zA-Z\s\-'\.&]+$", product_to_add)) == False
+                or bool(re.search("^[\s]+", product_to_add)) == True
             ):
                 print(
-                    "A product name must contain letters and cannot contain any numbers please try again"
+                    "A product name must contain letters and cannot contain any numbers or start with space please try again"
                 )
                 loop == 1
             else:
