@@ -1,6 +1,0 @@
-order_num,customer_name,customer_address,customer_phone,courier,status,items
-1,Alan Smith,"New Road, MANCHESTER",07932510172,2,ready for pick up,"8, 10, 13"
-2,James Carter,"Oak Street, LIVERPOOL",07234567890,2,enroute,"8, 13, 12"
-3,Laura Green,"Maple Avenue, SHEFFIELD",07345678901,3,delivered,"1, 2, 3"
-4,Generation HQ,"Learning Street, London",07932510172,1,enroute,"12, 11"
-5,Brendon Maphosa,"New Street, London",07932510172,8,preparing,"5, 11"
