@@ -5,7 +5,7 @@ services:
     container_name: my-postgres
     restart: always
     volumes:
-      - ./week_5/data/database_utils/database_schema.sql:/docker-entrypoint-initdb.d
+      - ./database_schema.sql:/docker-entrypoint-initdb.d/database_schema.sql
     ports:
       - 5432:5432
     environment:

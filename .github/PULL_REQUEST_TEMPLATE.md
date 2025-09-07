@@ -13,4 +13,3 @@
 - [ ] Tests added/updated and passing
 - [ ] Docs/README updated (if needed)
 - [ ] No secrets/keys committed
-- [ ] Linked issue(s) and labels set
