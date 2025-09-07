@@ -1,4 +1,4 @@
-# Cafe CLI App
+# Cafe CLI App – Week 2  
 
 ## Table of Contents  
 
@@ -16,13 +16,17 @@ The goal of this project is to create a **CLI-based cafe management app** with a
 
 The project is developed iteratively, with **weekly client requirements** shaping its growth and complexity.  
 
+This README reflects the state of the project at the end of **Week 2**.  
+
 ---
 
-## Client Requirements 
+## Client Requirements – Week 2  
 
-- Create a product and add it to a list  
-- View all products  
-- Update or delete a product  
+- Create a product or order and add it to the relevant list  
+- View all products or orders  
+- _STRETCH_ Update or delete a product or order  
+
+Orders are now stored as **dictionaries** containing customer details and status, while products remain stored as simple strings.  
 
 ---
 
@@ -34,11 +38,11 @@ The project is developed iteratively, with **weekly client requirements** shapin
   ```
 2. Navigate to the source directory:
   ``` bash
-   cd source
+   cd src
   ```
 3. Run the main program:
   ``` bash
-   python3 app.py
+   python3 masterLoop_module.py
   ```
 4. Follow the onscreen prompts.
 ---
@@ -47,17 +51,17 @@ The project is developed iteratively, with **weekly client requirements** shapin
 
 ```plaintext
 cafe_cli_app/
-  data/
-    products.txt               # Stores product list data
-    couriers.txt               # (placeholder for later weeks)
-    orders.txt                 # (placeholder for later weeks)
   notes/
-    mini_project_week_1.md     # Weekly development notes
-  source/
-    app.py                     # Main program entry point
-  tests/
-    __init__.py
-    test_app.py                # Unit tests for input handling
+    mini_project_week_2.md     # Weekly development notes
+  src/
+    data_module.py             # Data handling logic for lists & orders
+    error_checking_module.py   # Input validation functions
+    input_output_module.py     # Handles input/output
+    loops_module.py            # Core menu loops
+    masterLoop_module.py       # Main app loop entry point
+    order_menu_module.py       # Handles order menu actions
+    product_menu_module.py     # Handles product menu actions
+    stringVariable_module.py   # Stores string constants
   .gitignore
   LICENSE
   cafe_cli_project_overview.md
