@@ -1,97 +1,156 @@
 import re
 
-## Product menu action functions
+# ---------------------------
+# Module: Product Menu Actions
+# Provides functions to create, update, and delete products
+# within the in-memory product list.
+# ---------------------------
 
-# function for creating and returning a new product, to be used for adding a new product to the list
-
-
-def new_product(created_product_str, prodlist, clear_func):
-    loop = 1
-    while loop == 1:
-        clear_func()
+# ---------------------------
+# Function: new_product
+# Purpose: Prompt user to enter a new product name and price,
+#          validate input, and append the new product to prodlist.
+# Arguments:
+#   prodlist: list of existing product dicts
+#   clear_func: function to clear the console screen
+# Returns:
+#   Updated product list including the new product
+# ---------------------------
+def new_product(prodlist, clear_func):
+    loop = True
+    while loop:
         temp_prod_list = prodlist
-        new_prod = input(created_product_str)
-        if (
-            bool(re.search("[0-9]", new_prod)) == True
-            or bool(re.search("[a-zA-Z]", new_prod)) == False
-            or bool(re.search(r"^[a-zA-Z\s\-'\.&]+$", new_prod)) == False
-            or bool(re.search("^[\s]+", new_prod)) == True
-        ):
+        # Ask for product name
+        new_prod_name = input(
+            "\nWhat is the name of the product you would like to add to the list?\n\nNew product name: "
+        )
+        # Ask for product price
+        new_prod_price = input(
+            "\nWhat is the price of the product you would like to add to the list?\n\nNew product price:£"
+        )
+
+        # Validate: name must contain letters only, no digits or leading spaces
+        # Price must be numeric with optional decimal, no letters or leading spaces
+        invalid_name = (
+            bool(re.search(r"[0-9]", new_prod_name))
+            or not bool(re.search(r"[a-zA-Z]", new_prod_name))
+            or not bool(re.match(r"^[a-zA-Z\s\-'.&]+$", new_prod_name))
+            or bool(re.match(r"^\s+", new_prod_name))
+        )
+        invalid_price = (
+            bool(re.search(r"[a-zA-Z]", new_prod_price))
+            or bool(re.match(r"^\s+", new_prod_price))
+            or not bool(re.match(r"^[0-9]+(\.[0-9]+)?$", new_prod_price))
+        )
+
+        if invalid_name or invalid_price:
+            clear_func()
             print(
-                "A product name must contain letters and cannot contain any numbers or start with a space please try again"
+                "Invalid inputs for either your product name or price\n"
+                "- Name: letters only, no digits, no leading spaces\n"
+                "- Price: numeric only, optional decimal point, no letters or spaces\n"
+                "Please try again."
             )
-            loop == 1
         else:
-            loop += 1
-            print(f"\n{new_prod} has been added to the products list\n")
-    temp_prod_list.append(new_prod)
+            # Build the new product dict and add to list
+            new_prod = {
+                "name": new_prod_name.title(),
+                "price": float(new_prod_price)
+            }
+            temp_prod_list.append(new_prod)
+            clear_func()
+            print(
+                f"\n{new_prod['name']} has been added to the products list "
+                f"with the price of £{new_prod['price']:.2f}\n"
+            )
+            loop = False
+
     return temp_prod_list
 
-
-# function for updating an existing item and returning the new value in the product list
-
-
-def update_item(
-    remove_product_str,
-    replacement_product_str,
-    list_output_func,
-    prodlist,
-    errorfunc,
-    clear_func,
-):
+# ---------------------------
+# Function: update_item
+# Purpose: Replace an existing product at a chosen index with a new one.
+# Arguments:
+#   list_output_func: function to display current products
+#   prodlist: list of existing products
+#   errorfunc: function to validate numeric selection
+#   clear_func: function to clear the console screen
+# Returns:
+#   Updated product list after replacement
+# ---------------------------
+def update_item(list_output_func, prodlist, errorfunc, clear_func):
     temp_prod_list = prodlist
-    loop = 1
-    while loop == 1:
+    while True:
+        clear_func()
+        # Show current products with indices
         list_output_func(temp_prod_list)
-        product_to_remove = input(remove_product_str)
-        valid_rmv_input = errorfunc(product_to_remove, 1, len(temp_prod_list))
-        if valid_rmv_input:
-            product_to_remove = int(product_to_remove)
-            product_to_add = input(replacement_product_str)
-            if (
-                bool(re.search("[0-9]", product_to_add)) == True
-                or bool(re.search("[a-zA-Z]", product_to_add)) == False
-                or bool(re.search(r"^[a-zA-Z\s\-'\.&]+$", product_to_add)) == False
-                or bool(re.search("^[\s]+", product_to_add)) == True
-            ):
-                print(
-                    "A product name must contain letters and cannot contain any numbers or start with space please try again"
-                )
-                loop == 1
+        choice = input(
+            "\nEnter the number of the product you want to replace: "
+        )
+        if errorfunc(choice, 1, len(temp_prod_list)):
+            idx = int(choice) - 1
+            # Prompt for replacement details
+            new_name = input("\nNew product name: ")
+            new_price = input("\nNew product price: £")
+            # Validate input using same rules as new_product
+            invalid_name = (
+                bool(re.search(r"[0-9]", new_name))
+                or not bool(re.search(r"[a-zA-Z]", new_name))
+                or not bool(re.match(r"^[a-zA-Z\s\-'.&]+$", new_name))
+                or bool(re.match(r"^\s+", new_name))
+            )
+            invalid_price = (
+                bool(re.search(r"[a-zA-Z]", new_price))
+                or bool(re.match(r"^\s+", new_price))
+                or not bool(re.match(r"^[0-9]+(\.[0-9]+)?$", new_price))
+            )
+            if invalid_name or invalid_price:
+                print("Invalid name or price format. Please try again.")
             else:
                 clear_func()
+                # Update the selected product
+                temp_prod_list[idx] = {
+                    "name": new_name.title(),
+                    "price": float(new_price)
+                }
                 print(
-                    f"{product_to_add} has now replaced {temp_prod_list[product_to_remove-1]}"
+                    f"Product #{idx+1} updated to "
+                    f"{new_name.title()} – £{float(new_price):.2f}\n"
                 )
-                temp_prod_list[product_to_remove - 1] = product_to_add
                 list_output_func(temp_prod_list)
-                loop += 1
                 return temp_prod_list
         else:
-            loop == 1
             clear_func()
 
-
-# function for deleting an item and return an updated list
-
-
-def del_item(remove_product_str, list_output_func, prodlist, error_func, clear_func):
-    loop = 1
+# ---------------------------
+# Function: del_item
+# Purpose: Remove a product by index from the product list.
+# Arguments:
+#   list_output_func: function to display current products
+#   prodlist: list of existing products
+#   error_func: function to validate numeric selection
+#   clear_func: function to clear the console screen
+# Returns:
+#   Updated product list after deletion
+# ---------------------------
+def del_item(list_output_func, prodlist, error_func, clear_func):
     temp_prod_list = prodlist
-    while loop == 1:
+    while True:
+        # Show current products
         list_output_func(temp_prod_list)
-        item_to_remove = input(remove_product_str)
-        valid_rmv_input = error_func(item_to_remove, 1, len(temp_prod_list))
-        if valid_rmv_input:
+        choice = input(
+            "\nEnter the number of the product you would like to delete: "
+        )
+        if error_func(choice, 1, len(temp_prod_list)):
+            idx = int(choice) - 1
             clear_func()
-            item_to_remove = int(item_to_remove)
             print(
-                f"{temp_prod_list[item_to_remove-1]} has been removed from the products list"
+                f"{temp_prod_list[idx]['name']} has been removed from the list.\n"
             )
-            temp_prod_list.pop(item_to_remove - 1)
+            # Remove the chosen product
+            temp_prod_list.pop(idx)
             list_output_func(temp_prod_list)
-            loop += 1
             return temp_prod_list
         else:
-            loop == 1
             clear_func()
+
