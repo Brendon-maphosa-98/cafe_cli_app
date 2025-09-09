@@ -4,9 +4,7 @@ name: cafe_cli_app
 
 on:  
   push:
-    branches: [ "main", "file_structure_update"]
   pull_request:
-    branches: [ "main" ]
 
 
 permissions:
