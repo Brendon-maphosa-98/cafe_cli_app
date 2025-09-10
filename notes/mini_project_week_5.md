@@ -1,39 +1,40 @@
-# Mini Project Week 4
+# Mini Project Week 5
 
-Now that we've learned how to work with two-dimensional data, let's refactor our app to use dictionaries for both product and courier.
+CSV is great, but there is a better option. Let's store our couriers and products in a database, we'll leave orders as they are for now.
 
-Building upon our use of a courier index within our order, let's create a list of product indexes now for order items.
-
-We'll also need to refactor our storage layer to use `.csv` files rather than `.txt` to bring back our persistence functionality.
-
-To show that our code works, we will also need to write unit tests to prove that our app works correctly.
+An order's courier and product items properties currently use indexes to reference these entities, we're going to change this to use ids instead.
 
 ## Goals
 
 As a user I want to:
 
-- create a product, courier, or order dictionary and add it to a list
+- create a product or courier and add it to a database table
+- create an order and add the order dictionary to a list
 - view all products, couriers, or orders
 - update the status of an order
 - persist my data
 - _STRETCH_ update or delete a product, order, or courier
 - _BONUS_ list orders by status or courier
+- _BONUS_ track my product inventory
+- _BONUS_ import/export my entities in CSV format
 
 ## Spec
 
-- A `product` should be a `dict`, i.e:
+- A row in the `products` table should contain the following information:
 
     ```json
     {
+        "id": 4,
         "name": "Coke Zero",
-        "price": 0.8 // Float
+        "price": 0.8
     }
     ```
 
-- A `courier` should be a `dict`, i.e:
+- A row in the `couriers` table should contain the following information:
 
     ```json
     {
+        "id": 2,
         "name": "Bob",
         "phone": "0789887889"
     }
@@ -46,26 +47,25 @@ As a user I want to:
         "customer_name": "John",
         "customer_address": "Main Street, LONDON",
         "customer_phone": "0789887334",
-        "courier": 2, // Courier index
+        "courier": 2, // Courier ID
         "status": "preparing",
-        "items": "1, 3, 4" // Product indexes
+        "items": "1, 3, 4" // Product IDs
     }
     ```
 
-- Data should be persisted to a `.csv` file on a new line for each `courier`, `order`, or `product`, ie:
+- Orders should be persisted to a `.csv` file on a new line for each `order`, ie:
 
     ```csv
     # ORDER
     John,"Main Street, LONDON",2,preparing,"1,3,4"
     ```
 
-- Couriers, Products and Orders should all be saved in different files
-
 ## Pseudo Code
 
 ```txt
-LOAD products from products.csv
-LOAD couriers from couriers.csv
+# we are no longer reading products and couriers from files
+# we are now reading product and courier data from database tables
+
 LOAD orders from orders.csv
 CREATE order status list
 
@@ -73,9 +73,7 @@ PRINT main menu options
 GET user input for main menu option
 
 IF user input is 0:
-    SAVE products list to products.csv
-    SAVE couriers list to couriers.csv
-    SAVE orders list to order.csv
+    SAVE orders to order.csv
     EXIT app
 
 # products menu
@@ -86,39 +84,42 @@ ELSE IF user input is 1:
     IF user inputs 0:
         RETURN to main menu
 
+    # WEEK 5 UPDATE
     ELSE IF user input is 1:
-        PRINT products list
+        GET all products from products table
+        PRINT products
 
-    # WEEK 4 UPDATE
+    # WEEK 5 UPDATE
     ELSE IF user input is 2:
         # CREATE new product
 
         GET user input for product name
         GET user input for product price
-        CREATE new product dictionary with above properties
-        APPEND product dictionary to products list
+        INSERT product into products table
 
-    # WEEK 4 UPDATE
+    # WEEK 5 UPDATE
     ELSE IF user input is 3:
         # STRETCH GOAL - UPDATE existing product
 
-        PRINT products with their index values
-        GET user input for product index value
+        GET all products from products table
+        PRINT products with their IDs
+        GET user input for product ID
 
-        # iterate over the (key: value) pairs in the selected dictionary
-        FOR EACH key-value pair in selected product dictionary:
-            GET user input for updated property
-            IF user input is blank:
-                do not update this property and skip
-            ELSE:
-                update the property value with user input
+        GET user input for product name
+        GET user input for product price
 
+        IF any inputs are empty, do not update them
+        UPDATE properties for product in product table
+
+    # WEEK 5 UPDATE
     ELSE IF user input is 4:
         # STRETCH GOAL - DELETE product
 
-        PRINT products list
-        GET user input for product index value
-        DELETE product dictionary at index in products list
+        GET all products from products table
+        PRINT products with their IDs
+
+        GET user input for product ID
+        DELETE product in products table
 
 # couriers menu
 ELSE IF user input is 2:
@@ -128,64 +129,74 @@ ELSE IF user input is 2:
     IF user inputs 0:
         RETURN to main menu
 
+    # WEEK 5 UPDATE
     ELIF user inputs 1:
-        PRINT couriers list
+        GET all couriers from couriers table
+        PRINT couriers
 
-    # WEEK 4 UPDATE
+    # WEEK 5 UPDATE
     ELSE IF user input is 2:
         # CREATE new courier
 
         GET user input for courier name
         GET user input for courier phone number
-        CREATE new courier dictionary with above properties
-        APPEND courier dictionary to courier list
+        INSERT courier into couriers table
 
-    # WEEK 4 UPDATE
+    # WEEK 5 UPDATE
     ELSE IF user input is 3:
         # STRETCH GOAL - UPDATE existing courier
 
-        PRINT courier with their index values
-        GET user input for courier index value
+        GET all couriers from couriers table
+        PRINT couriers with their IDs
+        GET user input for courier ID
 
-        # iterate over the (key: value) pairs in the selected dictionary
-        FOR EACH key-value pair in selected courier dictionary:
-            GET user input for updated property
-            IF user input is blank:
-                do not update this property and skip
-            ELSE:
-                update the property value with user input
+        GET user input for courier name
+        GET user input for courier phone number
 
+        IF an input is empty, do not update its respective table property
+        UPDATE properties for courier in courier table
+
+    # WEEK 5 UPDATE
     ELSE IF user input is 4:
         # STRETCH GOAL - DELETE courier
 
-        PRINT courier list
-        GET user input for courier index value
-        DELETE courier dictionary at index in courier list
+        GET all couriers from couriers table
+        PRINT courier with their IDs
+
+        GET user input for courier ID
+        DELETE courier in couriers table
 
 # orders menu
 ELSE IF user input is 3:
+    PRINT order menu options
+    GET user input for order menu option
+
     IF user input is 0:
         RETURN to main menu
 
     ELSE IF user input is 1:
         PRINT orders list
 
-    # WEEK 4 UPDATE
     ELSE IF user input is 2:
         GET user input for customer name
         GET user input for customer address
         GET user input for customer phone number
 
-        PRINT products list with its index values
-        GET user inputs for comma-separated list of product index values
+        # WEEK 5 UPDATE
+        GET all products from products table
+        PRINT products
+        GET user inputs for comma-separated list of product IDs
         CONVERT above user input to a string e.g. "2,1,3"
 
-        PRINT couriers list with index value for each courier
-        GET user input for courier index
+        # WEEK 5 UPDATE
+        GET all couriers from couriers table
+        PRINT couriers
+        GET user input for courier ID
+
         SET order status to be 'PREPARING'
 
         CREATE new order dictionary with above properties
-        APPEND order dictionary to orders list
+        APPEND order to orders list
 
     ELSE IF user input is 3:
         # UPDATE existing order status
@@ -203,7 +214,6 @@ ELSE IF user input is 3:
         PRINT orders list with its index values
         GET user input for order index value
 
-        # iterate over the (key: value) pairs in the selected dictionary
         FOR EACH key-value pair in selected order dictionary:
             GET user input for updated property
             IF user input is blank:
