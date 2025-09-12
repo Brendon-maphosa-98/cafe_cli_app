@@ -6,4 +6,4 @@ letterhead = text2art("Welcome To Super Cafe")
 
 # main menu options that the user can select from
 
-main_menu_options = "\n1. Orders Menu\n2. Products Menu\n3. Couriers Menu\n0. Exit\n"
+main_menu_options = ["Orders Menu", "Products Menu", "Couriers Menu", "Exit"]

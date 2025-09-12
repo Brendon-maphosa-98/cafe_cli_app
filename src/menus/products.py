@@ -1,1 +1,7 @@
-products_main_menu_options = "\n1. View Products\n2. Add New Product\n3. Update Existing Product\n4. Delete Product\n0. Return to Main Menu\n"
+products_main_menu_options = [
+    "View Products",
+    "Add New Product",
+    "Update Existing Product",
+    "Delete Product",
+    "Return to Main Menu",
+]
