@@ -7,3 +7,6 @@ letterhead = text2art("Welcome To Super Cafe")
 # main menu options that the user can select from
 
 main_menu_options = ["Orders Menu", "Products Menu", "Couriers Menu", "Exit"]
+
+def main_menu_selector():
+    pass
