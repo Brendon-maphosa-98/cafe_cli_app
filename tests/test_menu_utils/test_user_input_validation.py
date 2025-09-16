@@ -1,6 +1,6 @@
 # test_menu_choice_validator.py
 
-from src.utils.validation_utils.user_input_validation import menu_choice_validator
+from utils.menu_utils.user_input_validation import menu_choice_validator
 
 
 def test_valid_input_zero():  # input "0", choices ["a", "b", "c"] - should return True

@@ -1,7 +1,7 @@
 # function used to display menu options across different options
+from user_input_validation import menu_choice_validator
 
-
-def menu_choice_display(options):
+def menu_choices_display(options):
     """
     Build and return a string representation of a numbered menu
     where 0 is always reserved for the 'back' or 'exit' option.
@@ -21,3 +21,17 @@ def menu_choice_display(options):
             option_num += 1      # Increment the display counter for the next option
 
     return display_str           # Return the complete formatted menu string
+
+
+def main_menu_selector(options):
+    num_of_options = len(options) - 1
+    print(menu_choices_display(options))
+    user_input = input("\nplease select which option you would like to select\n>>> ")
+    if menu_choice_validator(user_input,options) == True:
+        return user_input
+    elif menu_choice_validator(user_input,options) == "NOT_A_VALID_OPTION":
+        return f"Please select a valid option between 0 and {num_of_options}"
+    elif menu_choice_validator(user_input,options) == "NOT_A_NUMBER":
+        return f'You must select number'
+    
+
