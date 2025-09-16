@@ -23,8 +23,15 @@ def menu_choices_display(options):
 
     return display_str  # Return the complete formatted menu string
 
-def menu_selector(options,user_input):
-    num_of_options = len(options) - 1
+
+def menu_selector(options, user_input):
+    """
+    Use menu_choice_validator to validate user input against available options.
+    Return the selected option index as an integer if valid,
+    or an appropriate error message string if invalid.
+    """
+
+    num_of_options = len(options) - 1  # Last valid option index (0-based)
     if menu_choice_validator(user_input, options) == True:
         return int(user_input)
     elif menu_choice_validator(user_input, options) == "NOT_A_VALID_OPTION":
