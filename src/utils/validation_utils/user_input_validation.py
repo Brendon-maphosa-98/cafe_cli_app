@@ -9,7 +9,7 @@ def menu_choice_validator(
             user_input
         )  # check that the user input can be turned into an int
         if (
-            0 <= stringint < len(choices)
+            0 <= stringint <= len(choices)
         ):  # check if the input the user gave can be turned into an integer and if that int is less than the length of the options available.
             return True
         return False
