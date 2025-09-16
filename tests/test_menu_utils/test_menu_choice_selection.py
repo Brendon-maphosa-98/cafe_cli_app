@@ -1,6 +1,6 @@
 from src.utils.menu_utils.menu_choice_selection import (
     menu_choices_display,
-    menu_selector,
+    menu_selection_validator,
 )
 
 ### test_menu_choices_display function
@@ -40,7 +40,7 @@ def test_two_options_menu():
     assert menu_choices_display(options) == expected
 
 
-### test menu_selector function
+### test menu_selection_validator function
 
 ## Happy paths
 
@@ -49,34 +49,42 @@ def test_valid_option_in_range(
     monkeypatch,
 ):  # Simulate validator returning True for input "1"
     monkeypatch.setattr("src.utils.menu_utils.user_input_validation", lambda u, o: True)
-    result = menu_selector(["A", "B", "C"], "1")
-    assert result == '1'
+    result = menu_selection_validator(["A", "B", "C"], "1")
+    assert result == "1"
 
 
 def test_valid_zero_option(
     monkeypatch,
 ):  # "0" should also be valid, validator returns True
     monkeypatch.setattr("src.utils.menu_utils.user_input_validation", lambda u, o: True)
-    result = menu_selector(["A", "B", "C"], "0")
-    assert result == '0'
+    result = menu_selection_validator(["A", "B", "C"], "0")
+    assert result == "0"
+
 
 ## Unhappy paths
 
+
 def test_out_of_range_input(monkeypatch):
     # Validator signals out-of-range input
-    monkeypatch.setattr("src.utils.menu_utils.user_input_validation", lambda u, o: "NOT_A_VALID_OPTION")
-    result = menu_selector(["A", "B", "C"], "5")
+    monkeypatch.setattr(
+        "src.utils.menu_utils.user_input_validation", lambda u, o: "NOT_A_VALID_OPTION"
+    )
+    result = menu_selection_validator(["A", "B", "C"], "5")
     assert result == "Please select a valid option between 0 and 2"
 
 
 def test_non_numeric_input_letter(monkeypatch):
     # Validator signals non-numeric input
-    monkeypatch.setattr("src.utils.menu_utils.user_input_validation", lambda u, o: "NOT_A_NUMBER")
-    result = menu_selector(["A", "B", "C"], "w")
+    monkeypatch.setattr(
+        "src.utils.menu_utils.user_input_validation", lambda u, o: "NOT_A_NUMBER"
+    )
+    result = menu_selection_validator(["A", "B", "C"], "w")
     assert result == "You must select number"
 
 
 def test_non_numeric_input_symbol(monkeypatch):
-    monkeypatch.setattr("src.utils.menu_utils.user_input_validation", lambda u, o: "NOT_A_NUMBER")
-    result = menu_selector(["A", "B", "C"], "/")
+    monkeypatch.setattr(
+        "src.utils.menu_utils.user_input_validation", lambda u, o: "NOT_A_NUMBER"
+    )
+    result = menu_selection_validator(["A", "B", "C"], "/")
     assert result == "You must select number"

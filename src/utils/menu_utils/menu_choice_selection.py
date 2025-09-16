@@ -24,7 +24,7 @@ def menu_choices_display(options):
     return display_str  # Return the complete formatted menu string
 
 
-def menu_selector(options, user_input):
+def menu_selection_validator(options, user_input):
     """
     Use menu_choice_validator to validate user input against available options.
     Return the selected option index as an integer if valid,
@@ -38,3 +38,23 @@ def menu_selector(options, user_input):
         return f"Please select a valid option between 0 and {num_of_options}"
     elif menu_choice_validator(user_input, options) == "NOT_A_NUMBER":
         return "You must select number"
+
+
+def menu_selection(options):
+    """
+    Display a menu of options, prompt the user for input,
+    validate the input, and return the selected option index as a string.
+    """
+
+    function_loop = 0
+    while function_loop == 0:
+        print(menu_choices_display(options))
+        user_input = input(
+            "\nplease select an option from the available options above\n>>> "
+        )
+        selection_output = menu_selection_validator(options, user_input)
+        if selection_output == user_input:
+            function_loop = 1
+            return selection_output
+        else:
+            print(f"\n{selection_output}\n\n")
