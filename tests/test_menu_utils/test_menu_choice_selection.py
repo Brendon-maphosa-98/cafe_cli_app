@@ -50,7 +50,7 @@ def test_valid_option_in_range(
 ):  # Simulate validator returning True for input "1"
     monkeypatch.setattr("src.utils.menu_utils.user_input_validation", lambda u, o: True)
     result = menu_selector(["A", "B", "C"], "1")
-    assert result == 1
+    assert result == '1'
 
 
 def test_valid_zero_option(
@@ -58,7 +58,7 @@ def test_valid_zero_option(
 ):  # "0" should also be valid, validator returns True
     monkeypatch.setattr("src.utils.menu_utils.user_input_validation", lambda u, o: True)
     result = menu_selector(["A", "B", "C"], "0")
-    assert result == 0
+    assert result == '0'
 
 ## Unhappy paths
 

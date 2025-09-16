@@ -33,7 +33,7 @@ def menu_selector(options, user_input):
 
     num_of_options = len(options) - 1  # Last valid option index (0-based)
     if menu_choice_validator(user_input, options) == True:
-        return int(user_input)
+        return user_input
     elif menu_choice_validator(user_input, options) == "NOT_A_VALID_OPTION":
         return f"Please select a valid option between 0 and {num_of_options}"
     elif menu_choice_validator(user_input, options) == "NOT_A_NUMBER":
