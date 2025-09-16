@@ -1,5 +1,26 @@
+# function to validate the users input when selecting menu options
+
+
+def menu_choice_validator(
+    user_input, options
+):  # will intake the returned value from the function that takes the users choice.
+    try:
+        stringint = int(
+            user_input
+        )  # check that the user input can be turned into an int
+        if (
+            0 <= stringint < len(options) and len(options) != 0
+        ):  # check if that int is less than the length of the options available or 0.
+            return True
+        elif stringint == 0 and len(options) == 0:
+            return True
+        else:
+            return "NOT_A_VALID_OPTION"
+    except ValueError:
+        return "NOT_A_NUMBER"
+
+
 # function used to display menu options across different options
-from src.utils.menu_utils.user_input_validation import menu_choice_validator
 
 
 def menu_choices_display(options):
