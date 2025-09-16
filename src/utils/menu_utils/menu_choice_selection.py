@@ -1,5 +1,6 @@
 # function used to display menu options across different options
-from user_input_validation import menu_choice_validator
+from src.utils.menu_utils.user_input_validation import menu_choice_validator
+
 
 def menu_choices_display(options):
     """
@@ -7,10 +8,10 @@ def menu_choices_display(options):
     where 0 is always reserved for the 'back' or 'exit' option.
     """
 
-    option_num = 1               # Start numbering at 1 for user-facing menu options
-    display_str = ""             # Accumulate the formatted menu into a single string
+    option_num = 1  # Start numbering at 1 for user-facing menu options
+    display_str = ""  # Accumulate the formatted menu into a single string
 
-    for option in options:       # Loop through each option in the list
+    for option in options:  # Loop through each option in the list
         if option == options[-1]:
             # Special case: the final option in the list is always assigned to 0
             # (commonly used for "Go Back" or "Exit")
@@ -18,20 +19,15 @@ def menu_choices_display(options):
         else:
             # For all other options, number them sequentially starting at 1
             display_str += f"{option_num}. {option}\n"
-            option_num += 1      # Increment the display counter for the next option
+            option_num += 1  # Increment the display counter for the next option
 
-    return display_str           # Return the complete formatted menu string
+    return display_str  # Return the complete formatted menu string
 
-
-def main_menu_selector(options):
+def menu_selector(options,user_input):
     num_of_options = len(options) - 1
-    print(menu_choices_display(options))
-    user_input = input("\nplease select which option you would like to select\n>>> ")
-    if menu_choice_validator(user_input,options) == True:
-        return user_input
-    elif menu_choice_validator(user_input,options) == "NOT_A_VALID_OPTION":
+    if menu_choice_validator(user_input, options) == True:
+        return int(user_input)
+    elif menu_choice_validator(user_input, options) == "NOT_A_VALID_OPTION":
         return f"Please select a valid option between 0 and {num_of_options}"
-    elif menu_choice_validator(user_input,options) == "NOT_A_NUMBER":
-        return f'You must select number'
-    
-
+    elif menu_choice_validator(user_input, options) == "NOT_A_NUMBER":
+        return "You must select number"
