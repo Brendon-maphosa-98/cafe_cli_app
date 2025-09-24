@@ -1,6 +1,7 @@
 from src.utils.menu_utils.menu_choice_selection import menu_selection
+from src.utils.list_utils.list_view import list_view
 
-menu = "Orders"
+menu_name = "Orders"
 
 orders_main_menu_options = [
     "View Orders",
@@ -10,4 +11,8 @@ orders_main_menu_options = [
     "Return to Main Menu",
 ]
 
+list_of_orders = []
+
 menu_selection(orders_main_menu_options)
+
+view_orders_list = list_view(list_of_orders, menu_name)
