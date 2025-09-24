@@ -8,4 +8,4 @@ couriers_main_menu_options = [
     "Return to Main Menu",
 ]
 
-menu_selection(options=couriers_main_menu_options)
+menu_selection(couriers_main_menu_options)

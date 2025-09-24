@@ -8,4 +8,4 @@ orders_main_menu_options = [
     "Return to Main Menu",
 ]
 
-menu_selection(options=orders_main_menu_options)
+menu_selection(orders_main_menu_options)
