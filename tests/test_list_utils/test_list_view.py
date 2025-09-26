@@ -1,11 +1,12 @@
 from src.utils.list_utils.list_view import list_view
 import pytest
 
+"""
+comprehensive test suite for the list_view function.
+tests cover edge cases, normal operations, and various data types.
+"""
+
 class TestListView:
-    """
-    Comprehensive test suite for the list_view function.
-    Tests cover edge cases, normal operations, and various data types.
-    """
     menu = "items"
 
     def test_empty_list_returns_message(self):

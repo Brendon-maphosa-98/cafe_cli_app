@@ -7,12 +7,19 @@ def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print):
     menu_name: str - the name of the menu (e.g., "items", "couriers")
     """
     while True:
-        new_item = input_fn(f"Enter the name of the new {menu_name[:-1]}: ").strip()
-        if not new_item:
-            choice = input_fn("No input provided. Press 1 to try again or 2 to cancel: ")
-            if choice == "2":
-                output_fn(f"Operation cancelled. Returning to {menu_name} menu.")
-                return None
-        else:
-            return new_item
+        new_item = input_fn(f"Enter the name of the new {menu_name[:-1]}: ").strip().title()
+        inner_loop = 0
+        while inner_loop == 0:
+            if not new_item:
+                choice = input_fn("No input provided. Press 1 to try again or 2 to cancel: ")
+                if choice == "2":
+                    output_fn(f"Operation cancelled. Returning to {menu_name} menu.")
+                    return None
+                elif choice == "1":
+                        inner_loop = 1  # Break inner loop to re-prompt for input
+                else:
+                    output_fn("Invalid choice.")
+                    inner_loop = 0  # Stay in the inner loop
+            else:
+                return new_item
     
