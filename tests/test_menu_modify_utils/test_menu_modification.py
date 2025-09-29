@@ -298,7 +298,7 @@ def test_input_function_raises_keyboardinterrupt_returns_none():
     assert outputs[-1] == f"\nOperation cancelled. Returning to {menu_name} menu.", "Expected cancellation message"
 
 
-def test_invalid_menu_name_type_raises_typeerror():
+def test_invalid_menu_name_type_returns_none_with_error_message():
     # arrange
     menu_name = 123  # Invalid type
     inputs = iter(["item1"])
