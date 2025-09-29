@@ -33,3 +33,18 @@ def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print):
         output_fn(f"\nAn unexpected error occurred: {e}. Returning to {menu_name} menu.")
         return None 
     
+def add_new_item_to_list(menu_name,new_item,list_to_modify,output_fn=print):
+    """
+    Add a new item to the specified list and confirm the addition.
+    menu_name: str - the name of the menu (e.g., "items", "couriers")
+    new_item: str - the name of the new item to add
+    list_to_modify: list - the list to which the new item will be added
+    """
+    try:
+        if new_item not in list_to_modify:
+            list_to_modify.append(new_item)
+            output_fn(f"{new_item} added successfully to {menu_name} list.")
+        else:
+            output_fn(f"{new_item} already exists in {menu_name} list.")
+    except Exception as e:
+        output_fn(f"Failed to add {new_item} to {menu_name} list. Error: {e}")

@@ -1,10 +1,13 @@
 from src.utils.menu_modify_utils.menu_modification import user_prompt_for_new_item
+from src.utils.menu_modify_utils.menu_modification import add_new_item_to_list
 import pytest
 
 """
 Comprehensive test suite for the menu_modification functions.
 Tests cover edge cases, normal operations, and various data types.
 """
+
+# ------ user_prompt_for_new_item ------
 
 # happy path
 
@@ -258,95 +261,148 @@ def test_user_cancels_and_outputs_correct_message():
 
 # unhappy path
 
+
 def test_input_iterator_runs_out_returns_none():
     # arrange
     menu_name = "Products"
     inputs = iter([])  # No inputs provided
-    
+
     def fake_input(prompt):
         return next(inputs)
-    
+
     outputs = []
+
     def fake_output(message):
         outputs.append(message)
 
     # act
-    result = user_prompt_for_new_item(menu_name, input_fn=fake_input, output_fn=fake_output)
-  
+    result = user_prompt_for_new_item(
+        menu_name, input_fn=fake_input, output_fn=fake_output
+    )
+
     # assert
     assert result is None, "Expected None when input iterator runs out"
-    assert outputs[-1] == f"\nNo more input available. Returning to {menu_name} menu.", "Expected no more input message"
+    assert (
+        outputs[-1] == f"\nNo more input available. Returning to {menu_name} menu."
+    ), "Expected no more input message"
 
 
 def test_input_function_raises_keyboardinterrupt_returns_none():
     # arrange
     menu_name = "Products"
+
     def fake_input(prompt):
         raise KeyboardInterrupt()
-    
+
     outputs = []
 
     def fake_output(message):
         outputs.append(message)
-    
+
     # act
-    result = user_prompt_for_new_item(menu_name, input_fn=fake_input, output_fn=fake_output)
-  
-  
+    result = user_prompt_for_new_item(
+        menu_name, input_fn=fake_input, output_fn=fake_output
+    )
+
     # assert
     assert result is None, "Expected None when input function raises KeyboardInterrupt"
-    assert outputs[-1] == f"\nOperation cancelled. Returning to {menu_name} menu.", "Expected cancellation message"
+    assert (
+        outputs[-1] == f"\nOperation cancelled. Returning to {menu_name} menu."
+    ), "Expected cancellation message"
 
 
 def test_invalid_menu_name_type_returns_none_with_error_message():
     # arrange
     menu_name = 123  # Invalid type
     inputs = iter(["item1"])
+
     def fake_input(prompt):
         return next(inputs)
+
     outputs = []
+
     def fake_output(message):
         outputs.append(message)
-  
+
     # act
-    result = user_prompt_for_new_item(menu_name, input_fn=fake_input, output_fn=fake_output)
-  
-  
+    result = user_prompt_for_new_item(
+        menu_name, input_fn=fake_input, output_fn=fake_output
+    )
+
     # assert
     assert result is None, "Expected None when menu_name is of invalid type"
-    assert outputs[-1] == f"\nAn unexpected error occurred: 'int' object is not subscriptable. Returning to {menu_name} menu.", "Expected unexpected error message"
+    assert (
+        outputs[-1]
+        == f"\nAn unexpected error occurred: 'int' object is not subscriptable. Returning to {menu_name} menu."
+    ), "Expected unexpected error message"
 
 
 def test_infinite_loop_on_continuous_invalid_choices_eventually_handled():
     # arrange
     menu_name = "Products"
     inputs = iter(["", "3", "0", "yes", "maybe", "1", "tea"])
+
     def fake_input(prompt):
         return next(inputs)
-  
-  
+
     # act
     result = user_prompt_for_new_item(menu_name, input_fn=fake_input)
-  
-  
+
     # assert
-    assert result == "Tea", "Expected 'Tea' after multiple invalid choices followed by valid input"
+    assert (
+        result == "Tea"
+    ), "Expected 'Tea' after multiple invalid choices followed by valid input"
+
 
 def test_unexpected_exception_is_caught_and_returns_none():
     # arrange
     menu_name = "Products"
+
     def fake_input(prompt):
         raise ValueError("Unexpected error")
+
     outputs = []
+
     def fake_output(message):
         outputs.append(message)
-  
-  
+
     # act
-    result = user_prompt_for_new_item(menu_name, input_fn=fake_input, output_fn=fake_output)
-  
-  
+    result = user_prompt_for_new_item(
+        menu_name, input_fn=fake_input, output_fn=fake_output
+    )
+
     # assert
     assert result is None, "Expected None when unexpected exception is raised"
-    assert outputs[-1] == f"\nAn unexpected error occurred: Unexpected error. Returning to {menu_name} menu.", "Expected unexpected error message"
-    
+    assert (
+        outputs[-1]
+        == f"\nAn unexpected error occurred: Unexpected error. Returning to {menu_name} menu."
+    ), "Expected unexpected error message"
+
+
+# ------ add_new_item_to_list ------
+def test_adds_new_item_successfully():
+    # arrange
+
+
+    # act
+
+    # assert
+    pass
+
+
+def test_does_not_add_duplicate_item():
+    # arrange
+
+    # act
+
+    # assert
+    pass
+
+
+def test_handles_error_during_append():
+    # arrange
+
+    # act
+
+    # assert
+    pass
