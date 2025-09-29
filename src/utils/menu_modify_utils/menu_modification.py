@@ -26,15 +26,6 @@ def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print):
     except KeyboardInterrupt:
         output_fn(f"\nOperation cancelled. Returning to {menu_name} menu.")
         return None
-    except KeyError:
-        output_fn(f"\nEntered key is not recognised. Returning to {menu_name} menu.")
-        return None
-    except RuntimeError:
-        output_fn(f"\nRuntime error occurred. Returning to {menu_name} menu.")
-        return None
-    except SystemError:
-        output_fn(f"\nSystem error occurred. Returning to {menu_name} menu.")
-        return None
     except StopIteration:
         output_fn(f"\nNo more input available. Returning to {menu_name} menu.")
         return None

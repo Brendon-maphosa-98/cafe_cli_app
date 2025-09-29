@@ -258,67 +258,95 @@ def test_user_cancels_and_outputs_correct_message():
 
 # unhappy path
 
-def test_input_iterator_runs_out_raises_stopiteration():
+def test_input_iterator_runs_out_returns_none():
     # arrange
+    menu_name = "Products"
+    inputs = iter([])  # No inputs provided
+    
+    def fake_input(prompt):
+        return next(inputs)
+    
+    outputs = []
+    def fake_output(message):
+        outputs.append(message)
 
+    # act
+    result = user_prompt_for_new_item(menu_name, input_fn=fake_input, output_fn=fake_output)
+  
+    # assert
+    assert result is None, "Expected None when input iterator runs out"
+    assert outputs[-1] == f"\nNo more input available. Returning to {menu_name} menu.", "Expected no more input message"
+
+
+def test_input_function_raises_keyboardinterrupt_returns_none():
+    # arrange
+    menu_name = "Products"
+    def fake_input(prompt):
+        raise KeyboardInterrupt()
+    
+    outputs = []
+
+    def fake_output(message):
+        outputs.append(message)
     
     # act
-
-    
+    result = user_prompt_for_new_item(menu_name, input_fn=fake_input, output_fn=fake_output)
+  
+  
     # assert
-    pass
-
-
-def test_input_function_raises_keyboardinterrupt():
-    # arrange
-
-    
-    # act
-
-    
-    # assert
-    pass
-
-
-def test_output_function_raises_exception():
-    # arrange
-
-    
-    # act
-
-    
-    # assert
-    pass
+    assert result is None, "Expected None when input function raises KeyboardInterrupt"
+    assert outputs[-1] == f"\nOperation cancelled. Returning to {menu_name} menu.", "Expected cancellation message"
 
 
 def test_invalid_menu_name_type_raises_typeerror():
     # arrange
-
-    
+    menu_name = 123  # Invalid type
+    inputs = iter(["item1"])
+    def fake_input(prompt):
+        return next(inputs)
+    outputs = []
+    def fake_output(message):
+        outputs.append(message)
+  
     # act
-
-    
+    result = user_prompt_for_new_item(menu_name, input_fn=fake_input, output_fn=fake_output)
+  
+  
     # assert
-    pass
+    assert result is None, "Expected None when menu_name is of invalid type"
+    assert outputs[-1] == f"\nAn unexpected error occurred: 'int' object is not subscriptable. Returning to {menu_name} menu.", "Expected unexpected error message"
 
 
-def test_infinite_loop_on_continuous_invalid_choices():
+def test_infinite_loop_on_continuous_invalid_choices_eventually_handled():
     # arrange
-
-    
+    menu_name = "Products"
+    inputs = iter(["", "3", "0", "yes", "maybe", "1", "tea"])
+    def fake_input(prompt):
+        return next(inputs)
+  
+  
     # act
-
-    
+    result = user_prompt_for_new_item(menu_name, input_fn=fake_input)
+  
+  
     # assert
-    pass
+    assert result == "Tea", "Expected 'Tea' after multiple invalid choices followed by valid input"
 
-
-def test_user_enters_only_special_characters():
+def test_unexpected_exception_is_caught_and_returns_none():
     # arrange
-
-    
+    menu_name = "Products"
+    def fake_input(prompt):
+        raise ValueError("Unexpected error")
+    outputs = []
+    def fake_output(message):
+        outputs.append(message)
+  
+  
     # act
-
-    
+    result = user_prompt_for_new_item(menu_name, input_fn=fake_input, output_fn=fake_output)
+  
+  
     # assert
-    pass
+    assert result is None, "Expected None when unexpected exception is raised"
+    assert outputs[-1] == f"\nAn unexpected error occurred: Unexpected error. Returning to {menu_name} menu.", "Expected unexpected error message"
+    
