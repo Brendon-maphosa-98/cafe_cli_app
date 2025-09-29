@@ -88,3 +88,86 @@ def test_user_cancels_after_blank_input():
     assert (
         outputs[-1] == f"Operation cancelled. Returning to {menu_name} menu."
     ), "Expected cancellation message"
+
+    # edge cases
+
+
+def test_user_repeatedly_enters_blank_then_cancels():
+    # arrange
+
+    # act
+
+    # assert
+    pass
+
+
+def test_user_repeatedly_enters_blank_then_valid_input():
+    # arrange
+
+    # act
+
+    # assert
+    pass
+
+
+def test_user_enters_invalid_choices_then_valid_input():
+    # arrange
+
+    # act
+
+    # assert
+    pass
+
+
+def test_user_enters_only_spaces_then_valid_input():
+    # arrange
+
+    # act
+
+    # assert
+    pass
+
+
+def test_user_enters_mixed_case_input():
+    # arrange
+
+    # act
+
+    # assert
+    pass
+
+
+def test_user_enters_whitespace_and_mixed_case_input():
+    # arrange
+
+    # act
+
+    # assert
+    pass
+
+
+def test_user_prompt_with_single_character_menu_name():
+    # arrange
+
+    # act
+
+    # assert
+    pass
+
+
+def test_user_prompt_with_empty_menu_name():
+    # arrange
+
+    # act
+
+    # assert
+    pass
+
+
+def test_user_cancels_and_outputs_correct_message():
+    # arrange
+
+    # act
+
+    # assert
+    pass
