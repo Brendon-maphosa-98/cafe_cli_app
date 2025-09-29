@@ -1,3 +1,4 @@
+from src.utils.menu_utils.menu_choice_selection import menu_choices_display
 # functions to add new items to a list
 
 
@@ -57,3 +58,21 @@ def add_new_item_to_list(menu_name, new_item, list_to_modify, output_fn=print):
         output_fn(f"{new_item} added successfully to {menu_name} list.")
     else:
         output_fn(f"{new_item} already exists in {menu_name} list.")
+
+
+# function to update an existing item in a list
+def update_existing_item_in_list(menu_name, list_to_modify, output_fn=print):
+    """
+    Update an existing item in the specified list.
+    menu_name: str - the name of the menu (e.g., "items", "couriers")
+    list_to_modify: list - the list containing items to update
+    """
+    if not list_to_modify:
+        output_fn(f"No items available to update in {menu_name} list.")
+        return None
+    
+    try:
+        menu_choices_display(list_to_modify)
+        pass
+    except Exception as e:
+        pass

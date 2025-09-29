@@ -19,3 +19,4 @@ products_menu_selection = menu_selection(products_main_menu_options)
 view_products_list = list_view(list_of_products, menu_name)
 
 new_product = user_prompt_for_new_item(menu_name)
+
