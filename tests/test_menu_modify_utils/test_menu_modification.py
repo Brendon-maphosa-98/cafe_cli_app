@@ -254,3 +254,71 @@ def test_user_cancels_and_outputs_correct_message():
     assert (
         outputs[-1] == f"Operation cancelled. Returning to {menu_name} menu."
     ), "Expected cancellation message"
+
+
+# unhappy path
+
+def test_input_iterator_runs_out_raises_stopiteration():
+    # arrange
+
+    
+    # act
+
+    
+    # assert
+    pass
+
+
+def test_input_function_raises_keyboardinterrupt():
+    # arrange
+
+    
+    # act
+
+    
+    # assert
+    pass
+
+
+def test_output_function_raises_exception():
+    # arrange
+
+    
+    # act
+
+    
+    # assert
+    pass
+
+
+def test_invalid_menu_name_type_raises_typeerror():
+    # arrange
+
+    
+    # act
+
+    
+    # assert
+    pass
+
+
+def test_infinite_loop_on_continuous_invalid_choices():
+    # arrange
+
+    
+    # act
+
+    
+    # assert
+    pass
+
+
+def test_user_enters_only_special_characters():
+    # arrange
+
+    
+    # act
+
+    
+    # assert
+    pass
