@@ -1,5 +1,6 @@
 from src.utils.menu_utils.menu_choice_selection import menu_selection
 from src.utils.list_utils.list_view import list_view
+from src.utils.menu_modify_utils.menu_modification import user_prompt_for_new_item
 
 menu_name = "Couriers"
 
@@ -16,3 +17,5 @@ list_of_couriers = []
 menu_selection(couriers_main_menu_options)
 
 view_couriers_list = list_view(list_of_couriers, menu_name)
+
+new_courier = user_prompt_for_new_item(menu_name)
