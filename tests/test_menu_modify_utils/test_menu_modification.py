@@ -382,27 +382,39 @@ def test_unexpected_exception_is_caught_and_returns_none():
 # ------ add_new_item_to_list ------
 def test_adds_new_item_successfully():
     # arrange
+    menu_name = "Products"
+    new_item = "Latte"
+    list_to_modify = []
+    outputs = []
 
+    def fake_output(message):
+        outputs.append(message)
 
     # act
+    add_new_item_to_list(menu_name, new_item, list_to_modify, output_fn=fake_output)
 
     # assert
-    pass
+    assert new_item in list_to_modify, "Expected new item to be added to the list"
+    assert (
+        outputs[-1] == f"{new_item} added successfully to {menu_name} list."
+    ), "Expected success message"
 
 
 def test_does_not_add_duplicate_item():
     # arrange
+    menu_name = "Products"
+    new_item = "Latte"
+    list_to_modify = ["Latte"]
+    outputs = []
+    def fake_output(message):
+        outputs.append(message)
 
     # act
+    add_new_item_to_list(menu_name, new_item, list_to_modify, output_fn=fake_output)
 
     # assert
-    pass
+    assert list_to_modify.count(new_item) == 1, "Expected no duplicate items in the list"
+    assert (
+        outputs[-1] == f"{new_item} already exists in {menu_name} list."
+    ), "Expected duplicate item message"
 
-
-def test_handles_error_during_append():
-    # arrange
-
-    # act
-
-    # assert
-    pass

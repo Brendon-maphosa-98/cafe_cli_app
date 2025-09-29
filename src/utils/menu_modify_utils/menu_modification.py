@@ -1,6 +1,7 @@
 # functions to add new items to a list
 
-def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print): 
+
+def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print):
     """
     Prompt the user to enter a new item name.
     Returns the entered item name as a string, or None if cancelled.
@@ -8,16 +9,24 @@ def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print):
     """
     try:
         while True:
-            new_item = input_fn(f"Enter the name of the new {menu_name[:-1]}: ").strip().title()
+            new_item = (
+                input_fn(f"Enter the name of the new {menu_name[:-1]}: ")
+                .strip()
+                .title()
+            )
             inner_loop = 0
             while inner_loop == 0:
                 if not new_item:
-                    choice = input_fn("No input provided. Press 1 to try again or 2 to cancel: ")
+                    choice = input_fn(
+                        "No input provided. Press 1 to try again or 2 to cancel: "
+                    )
                     if choice == "2":
-                        output_fn(f"Operation cancelled. Returning to {menu_name} menu.")
+                        output_fn(
+                            f"Operation cancelled. Returning to {menu_name} menu."
+                        )
                         return None
                     elif choice == "1":
-                            inner_loop = 1  # Break inner loop to re-prompt for input
+                        inner_loop = 1  # Break inner loop to re-prompt for input
                     else:
                         output_fn("Invalid choice.")
                         inner_loop = 0  # Stay in the inner loop
@@ -30,21 +39,21 @@ def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print):
         output_fn(f"\nNo more input available. Returning to {menu_name} menu.")
         return None
     except Exception as e:
-        output_fn(f"\nAn unexpected error occurred: {e}. Returning to {menu_name} menu.")
-        return None 
-    
-def add_new_item_to_list(menu_name,new_item,list_to_modify,output_fn=print):
+        output_fn(
+            f"\nAn unexpected error occurred: {e}. Returning to {menu_name} menu."
+        )
+        return None
+
+
+def add_new_item_to_list(menu_name, new_item, list_to_modify, output_fn=print):
     """
     Add a new item to the specified list and confirm the addition.
     menu_name: str - the name of the menu (e.g., "items", "couriers")
     new_item: str - the name of the new item to add
     list_to_modify: list - the list to which the new item will be added
     """
-    try:
-        if new_item not in list_to_modify:
-            list_to_modify.append(new_item)
-            output_fn(f"{new_item} added successfully to {menu_name} list.")
-        else:
-            output_fn(f"{new_item} already exists in {menu_name} list.")
-    except Exception as e:
-        output_fn(f"Failed to add {new_item} to {menu_name} list. Error: {e}")
+    if new_item not in list_to_modify:
+        list_to_modify.append(new_item)
+        output_fn(f"{new_item} added successfully to {menu_name} list.")
+    else:
+        output_fn(f"{new_item} already exists in {menu_name} list.")
