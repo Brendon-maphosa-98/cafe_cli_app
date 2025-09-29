@@ -35,6 +35,9 @@ def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print):
     except SystemError:
         output_fn(f"\nSystem error occurred. Returning to {menu_name} menu.")
         return None
+    except StopIteration:
+        output_fn(f"\nNo more input available. Returning to {menu_name} menu.")
+        return None
     except Exception as e:
         output_fn(f"\nAn unexpected error occurred: {e}. Returning to {menu_name} menu.")
         return None 
