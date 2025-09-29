@@ -89,85 +89,168 @@ def test_user_cancels_after_blank_input():
         outputs[-1] == f"Operation cancelled. Returning to {menu_name} menu."
     ), "Expected cancellation message"
 
-    # edge cases
+
+# edge cases
 
 
 def test_user_repeatedly_enters_blank_then_cancels():
     # arrange
+    menu_name = "Products"
+    inputs = iter(["", "1", "", "1", "", "2"])
+
+    def fake_input(prompt):
+        return next(inputs)
+
+    outputs = []
+
+    def fake_output(message):
+        outputs.append(message)
 
     # act
 
+    result = user_prompt_for_new_item(
+        menu_name, input_fn=fake_input, output_fn=fake_output
+    )
+
     # assert
-    pass
+    assert result is None, "Expected None when user cancels operation"
+    assert (
+        outputs[-1] == f"Operation cancelled. Returning to {menu_name} menu."
+    ), "Expected cancellation message"
 
 
 def test_user_repeatedly_enters_blank_then_valid_input():
     # arrange
+    menu_name = "Products"
+    inputs = iter(["", "1", "", "1", "  ", "1", "espresso"])
+
+    def fake_input(prompt):
+        return next(inputs)
 
     # act
-
+    result = user_prompt_for_new_item(menu_name, input_fn=fake_input)
     # assert
-    pass
+    assert (
+        result == "Espresso"
+    ), "Expected 'Espresso' after multiple retries with valid input"
 
 
 def test_user_enters_invalid_choices_then_valid_input():
     # arrange
+    menu_name = "Products"
+    inputs = iter(["", "3", "0", "yes", "1", "tea"])
+
+    def fake_input(prompt):
+        return next(inputs)
 
     # act
+    result = user_prompt_for_new_item(menu_name, input_fn=fake_input)
 
     # assert
-    pass
+    assert (
+        result == "Tea"
+    ), "Expected 'Tea' after invalid choices followed by valid input"
 
 
 def test_user_enters_only_spaces_then_valid_input():
     # arrange
+    menu_name = "Products"
+    inputs = iter(["     ", "1", "sandwich"])
+
+    def fake_input(prompt):
+        return next(inputs)
 
     # act
-
+    result = user_prompt_for_new_item(menu_name, input_fn=fake_input)
     # assert
-    pass
+    assert (
+        result == "Sandwich"
+    ), "Expected 'Sandwich' after entering only spaces followed by valid input"
 
 
 def test_user_enters_mixed_case_input():
     # arrange
+    menu_name = "Products"
+    inputs = iter(["cHeEsE cAkE"])
+
+    def fake_input(prompt):
+        return next(inputs)
 
     # act
+    result = user_prompt_for_new_item(menu_name, input_fn=fake_input)
 
     # assert
-    pass
+    assert (
+        result == "Cheese Cake"
+    ), "Expected 'Cheese Cake' when user enters 'cHeEsE cAkE'"
 
 
 def test_user_enters_whitespace_and_mixed_case_input():
     # arrange
+    menu_name = "Products"
+    inputs = iter(["   gReEn tEa   "])
+
+    def fake_input(prompt):
+        return next(inputs)
 
     # act
+    result = user_prompt_for_new_item(menu_name, input_fn=fake_input)
 
     # assert
-    pass
+    assert (
+        result == "Green Tea"
+    ), "Expected 'Green Tea' when user enters '   gReEn tEa   '"
 
 
 def test_user_prompt_with_single_character_menu_name():
     # arrange
+    menu_name = "C"
+    inputs = iter(["steve"])
+
+    def fake_input(prompt):
+        return next(inputs)
 
     # act
+    result = user_prompt_for_new_item(menu_name, input_fn=fake_input)
 
     # assert
-    pass
+    assert result == "Steve", "Expected 'Steve' when user enters 'steve'"
 
 
 def test_user_prompt_with_empty_menu_name():
     # arrange
+    menu_name = ""
+    inputs = iter(["item1"])
+
+    def fake_input(prompt):
+        return next(inputs)
 
     # act
-
+    result = user_prompt_for_new_item(menu_name, input_fn=fake_input)
     # assert
-    pass
+    assert result == "Item1", "Expected 'Item1' when user enters 'item1'"
 
 
 def test_user_cancels_and_outputs_correct_message():
     # arrange
+    menu_name = "Products"
+    inputs = iter(["", "2"])
+
+    def fake_input(prompt):
+        return next(inputs)
+
+    outputs = []
+
+    def fake_output(message):
+        outputs.append(message)
 
     # act
+    result = user_prompt_for_new_item(
+        menu_name, input_fn=fake_input, output_fn=fake_output
+    )
 
     # assert
-    pass
+    assert result is None, "Expected None when user cancels operation"
+    assert (
+        outputs[-1] == f"Operation cancelled. Returning to {menu_name} menu."
+    ), "Expected cancellation message"
