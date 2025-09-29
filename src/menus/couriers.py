@@ -14,7 +14,7 @@ couriers_main_menu_options = [
 
 list_of_couriers = []
 
-menu_selection(couriers_main_menu_options)
+courier_menu_selection = menu_selection(couriers_main_menu_options)
 
 view_couriers_list = list_view(list_of_couriers, menu_name)
 

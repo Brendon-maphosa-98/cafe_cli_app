@@ -5,5 +5,5 @@ from src.utils.menu_modify_utils.menu_modification import user_prompt_for_new_it
 
 main_menu_options = ["Orders Menu", "Products Menu", "Couriers Menu", "Exit"]
 
-menu_selection(main_menu_options)
+main_menu_selection = menu_selection(main_menu_options)
 

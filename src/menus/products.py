@@ -14,7 +14,7 @@ products_main_menu_options = [
 
 list_of_products = []
 
-menu_selection(products_main_menu_options)
+products_menu_selection = menu_selection(products_main_menu_options)
 
 view_products_list = list_view(list_of_products, menu_name)
 

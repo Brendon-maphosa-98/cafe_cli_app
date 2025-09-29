@@ -13,6 +13,6 @@ orders_main_menu_options = [
 
 list_of_orders = []
 
-menu_selection(orders_main_menu_options)
+orders_menu_selection = menu_selection(orders_main_menu_options)
 
 view_orders_list = list_view(list_of_orders, menu_name)
