@@ -1,4 +1,4 @@
-from src.utils.menu_utils.menu_choice_selection import menu_choices_display
+
 # functions to add new items to a list
 
 
@@ -70,9 +70,7 @@ def update_existing_item_in_list(menu_name, list_to_modify, output_fn=print):
     if not list_to_modify:
         output_fn(f"No items available to update in {menu_name} list.")
         return None
-    
     try:
-        menu_choices_display(list_to_modify)
         pass
     except Exception as e:
         pass

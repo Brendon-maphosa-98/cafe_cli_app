@@ -27,3 +27,21 @@ def list_view(items, menu_name):
         return display_str.strip()  # Return the complete formatted list string without trailing newline
     except TypeError:
         return "Invalid input: items or menu name must be a list of strings."
+    
+def list_choice_validator(
+    user_input, list_to_check
+):  # will intake the returned value from the function that takes the users choice.
+    try:
+        stringint = int(
+            user_input
+        )  # check that the user input can be turned into an int
+        if (
+            0 <= stringint < len(list_to_check) and len(list_to_check) != 0
+        ):  # check if that int is less than the length of the options available or 0.
+            return True
+        elif stringint == 0 and len(list_to_check) == 0:
+            return True
+        else:
+            return "NOT_A_VALID_OPTION"
+    except ValueError:
+        return "NOT_A_NUMBER"
