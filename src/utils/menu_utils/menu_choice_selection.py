@@ -79,3 +79,7 @@ def menu_selection(options):
             return selection_output
         else:
             print(f"\n{selection_output}\n\n")
+
+
+# ====== REFACTOR OF FILE BELOW ======
+
