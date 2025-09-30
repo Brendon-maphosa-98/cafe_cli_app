@@ -145,3 +145,7 @@ class TestMenuChoiceSelection:
         )
         result = menu_selection_validator(["A", "B", "C"], "/")
         assert result == "You must select number"
+
+
+# ====== new test cases for refactored functions in menu_modification.py ======
+
