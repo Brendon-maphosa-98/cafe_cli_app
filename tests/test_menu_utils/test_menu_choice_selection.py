@@ -14,6 +14,7 @@ from src.utils.menu_utils.menu_choice_selection import (
     menu_choices_display,
     menu_selection_validator,
     menu_choice_validator,
+    numbered_display,
 )
 
 
@@ -149,3 +150,92 @@ class TestMenuChoiceSelection:
 
 # ====== new test cases for refactored functions in menu_modification.py ======
 
+# Tests for numbered_display function
+
+# happy path
+
+
+def test_default_numbering_multiple_options():
+    # arrange
+    menu_name = "products"
+    options = ["cheese", "bread", "guacamole"]
+    expected_output = "1. Cheese\n2. Bread\n3. Guacamole"
+
+    # act
+    result = numbered_display(options, menu_name)
+
+    # assert
+    assert result == expected_output
+
+
+def test_reserve_zero_for_last_true():
+    # arrange
+    options = ["add", "view", "exit"]
+    expected_output = "1. Add\n2. View\n\n0. Exit"
+
+    # act
+    result = numbered_display(options, reserve_zero_for_last=True)
+
+    # assert
+    assert result == expected_output
+
+
+def test_custom_start_index():
+    # arrange
+    menu_name = "products"
+    options = ["apple", "banana", "cherry"]
+    expected_output = "3. Apple\n4. Banana\n5. Cherry"
+
+    # act
+    result = numbered_display(options, menu_name, start_index=3)
+
+    # assert
+    assert result == expected_output
+
+
+def test_empty_options_returns_custom_empty_message():
+    # arrange
+    options = []
+    expected_output = "no options available"
+
+    # act
+    result = numbered_display(options)
+
+    # assert
+    assert result == "No options to display."
+
+
+def test_single_option_with_reserve_zero_for_last():
+    # arrange
+    options = ["exit"]
+    expected_output = "0. Exit"
+
+    # act
+    result = numbered_display(options, reserve_zero_for_last=True)
+    # assert
+    assert result == expected_output
+
+
+def test_single_option_default_start():
+    # arrange
+    options = ["cheese"]
+    expected_output = "1. Cheese"
+
+    # act  
+    result = numbered_display(options)
+
+    # assert
+    assert result == expected_output
+
+
+def test_items_are_displayed_as_given():
+    # arrange
+    options = ["  apple  ", "BANANA", "ChErRy"]
+    expected_output = "1. Apple\n2. Banana\n3. Cherry"
+    menu_name = "products"
+
+    # act
+    result = numbered_display(options, menu_name)
+
+    # assert
+    assert result == expected_output

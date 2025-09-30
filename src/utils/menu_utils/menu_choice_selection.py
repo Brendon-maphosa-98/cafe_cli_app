@@ -85,7 +85,10 @@ def menu_selection(options):
 
 # generic helpers (core logic)
 
-def numbered_display(options, start_index=1,reserve_zero_for_last=False,empty_messege=None):
+
+def numbered_display(
+    options, menu_name="options", start_index=1, reserve_zero_for_last=False
+):
     """
     Build and return a string representation of a numbered list of options.
     Each option is prefixed with its index in the list, starting from start_index.
@@ -94,9 +97,9 @@ def numbered_display(options, start_index=1,reserve_zero_for_last=False,empty_me
     """
     try:
         if not options:
-            return empty_messege or "No options to display."
-        if len(options) == 0:
             return "No options to display."
+        if len(options) == 0:
+            return f"No {menu_name} to display."
 
         display_str = ""  # Accumulate the formatted list into a single string
 
@@ -104,15 +107,18 @@ def numbered_display(options, start_index=1,reserve_zero_for_last=False,empty_me
 
         for i, option in enumerate(options):
             if reserve_zero_for_last and i == len(options) - 1:
-                display_str += f"\n0. {option}"
+                display_str += f"\n0. {option.strip()}"
             else:
-                display_str += f"{item_index}. {option}\n"
+                display_str += f"{item_index}. {option.strip()}\n"
                 item_index += 1
 
-        return display_str.strip()  # Return the complete formatted list string without trailing newline
+        return (
+            display_str.strip().title()
+        )  # Return the complete formatted list string without trailing newline
     except Exception as e:
         return f"An error occurred while generating the list: {e}"
-    
+
+
 def choice_validator(user_input, options, allow_zero=False):
     """
     Validate user input against available options.
@@ -132,14 +138,15 @@ def choice_validator(user_input, options, allow_zero=False):
     except Exception as e:
         return f"An unexpected error occurred: {e}"
 
-def list_selection_choice(options, prompt_message, allow_zero=False,start_index=1):
+
+def list_selection_choice(options, prompt_message, allow_zero=False, start_index=1, menu_name="options"):
     """
     Display a menu of options, prompt the user for input,
     validate the input, and return the selected option index as a string.
     """
     function_loop = 0
     while function_loop == 0:
-        print(numbered_display(options, start_index, reserve_zero_for_last=allow_zero))
+        print(numbered_display(options, menu_name,start_index, reserve_zero_for_last=allow_zero))
         user_input = input(f"\n{prompt_message}\n>>> ")
         selection_output = choice_validator(user_input, options, allow_zero=allow_zero)
         if selection_output == True:
