@@ -1,5 +1,5 @@
 from src.utils.menu_utils.menu_choice_selection import menu_selection
-from src.utils.list_utils.list_view import list_view
+from src.utils.list_utils.list_choice_selection import list_view
 
 menu_name = "Orders"
 

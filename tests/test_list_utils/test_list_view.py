@@ -1,4 +1,4 @@
-from src.utils.list_utils.list_view import list_view
+from src.utils.list_utils.list_choice_selection import list_view
 import pytest
 
 """
