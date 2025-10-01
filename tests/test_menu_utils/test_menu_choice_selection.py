@@ -10,6 +10,7 @@ Tests include happy paths, edge cases, invalid inputs, display formatting,
 and validator-integration tests using `monkeypatch` for controlled behavior.
 """
 
+from _pytest.monkeypatch import MonkeyPatch
 from src.utils.menu_utils.menu_choice_selection import (
     menu_choices_display,
     menu_selection_validator,
@@ -106,7 +107,7 @@ class TestMenuChoiceSelection:
 
     # ===== menu_selection_validator Tests =====
 
-    def test_valid_option_in_range(self, monkeypatch):
+    def test_valid_option_in_range(self, monkeypatch: MonkeyPatch):
         # Mock the menu_choice_validator to return True for valid input
         monkeypatch.setattr(
             "src.utils.menu_utils.menu_choice_selection.menu_choice_validator",
@@ -115,7 +116,7 @@ class TestMenuChoiceSelection:
         result = menu_selection_validator(["A", "B", "C"], "1")
         assert result == "1"
 
-    def test_valid_zero_option(self, monkeypatch):
+    def test_valid_zero_option(self, monkeypatch: MonkeyPatch):
         monkeypatch.setattr(
             "src.utils.menu_utils.menu_choice_selection.menu_choice_validator",
             lambda u, o: True,
@@ -123,7 +124,7 @@ class TestMenuChoiceSelection:
         result = menu_selection_validator(["A", "B", "C"], "0")
         assert result == "0"
 
-    def test_out_of_range_input(self, monkeypatch):
+    def test_out_of_range_input(self, monkeypatch: MonkeyPatch):
         monkeypatch.setattr(
             "src.utils.menu_utils.menu_choice_selection.menu_choice_validator",
             lambda u, o: "NOT_A_VALID_OPTION",
@@ -131,7 +132,7 @@ class TestMenuChoiceSelection:
         result = menu_selection_validator(["A", "B", "C"], "5")
         assert result == "Please select a valid option between 0 and 2"
 
-    def test_non_numeric_input_letter(self, monkeypatch):
+    def test_non_numeric_input_letter(self, monkeypatch: MonkeyPatch):
         monkeypatch.setattr(
             "src.utils.menu_utils.menu_choice_selection.menu_choice_validator",
             lambda u, o: "NOT_A_NUMBER",
@@ -139,7 +140,7 @@ class TestMenuChoiceSelection:
         result = menu_selection_validator(["A", "B", "C"], "w")
         assert result == "You must select number"
 
-    def test_non_numeric_input_symbol(self, monkeypatch):
+    def test_non_numeric_input_symbol(self, monkeypatch: MonkeyPatch):
         monkeypatch.setattr(
             "src.utils.menu_utils.menu_choice_selection.menu_choice_validator",
             lambda u, o: "NOT_A_NUMBER",
@@ -358,151 +359,89 @@ def test_reserve_zero_for_last_with_whitespace_and_mixed_values():
     # assert
     assert result == expected_output
 
+
 # unhappy path
 
-def test_numbered_display_with_none_options_list():
+
+def test_options_is_not_a_list_returns_error_message():
     # arrange
+    menu_name = "products"
+    options = "not a list"
+    expected_output = (
+        "An error occurred while generating the list: Options must be a list."
+    )
 
     # act
-    # assert
-    pass
+    result = numbered_display(options, menu_name)
 
-def test_numbered_display_with_non_list_options_parameter():
+    # assert
+    assert result == expected_output
+
+
+def test_start_index_is_float_returns_error_message():
     # arrange
-    # act
-    # assert
-    pass
+    menu_name = "products"
+    options = ["apple", "banana"]
+    expected_output = (
+        "An error occurred while generating the list: Start index must be an integer."
+    )
 
-def test_numbered_display_with_options_containing_none_values():
+    # act
+    result = numbered_display(options, menu_name, start_index=1.5) # type: ignore
+
+    # assert
+    assert result == expected_output
+
+
+def test_start_index_is_string_returns_error_message():
     # arrange
-    # act
-    # assert
-    pass
+    menu_name = "products"
+    options = ["apple", "banana"]
+    expected_output = (
+        "An error occurred while generating the list: Start index must be an integer."
+    )
 
-def test_numbered_display_with_non_string_options_elements():
+    # act
+    result = numbered_display(options, menu_name, start_index="one") # type: ignore
+
+    # assert
+    assert result == expected_output
+
+
+def test_reserve_zero_for_last_not_boolean_returns_error_message():
     # arrange
-    # act
-    # assert
-    pass
+    menu_name = "products"
+    options = ["apple", "banana"]
+    expected_output = "An error occurred while generating the list: reserve_zero_for_last must be a boolean."
 
-def test_numbered_display_with_none_menu_name():
+    # act
+    result = numbered_display(options, menu_name, reserve_zero_for_last="yes") # type: ignore
+
+    # assert
+    assert result == expected_output
+
+
+def test_all_options_are_empty_strings_returns_no_items_message():
     # arrange
-    # act
-    # assert
-    pass
+    menu_name = "products"
+    options = ["", "   ", "     "]
+    expected_output = f"No {menu_name} to display."
 
-def test_numbered_display_with_non_string_menu_name():
+    # act
+    result = numbered_display(options, menu_name)
+
+    # assert
+    assert result == expected_output
+
+
+def test_option_contains_non_string_value_returns_error_message():
     # arrange
+    menu_name = "products"
+    options = ["apple", 123, "banana"]
+    expected_output = "An error occurred while generating the list: 'int' object has no attribute 'strip'"
+
     # act
+    result = numbered_display(options, menu_name)
+
     # assert
-    pass
-
-def test_numbered_display_with_non_integer_start_index():
-    # arrange
-    # act
-    # assert
-    pass
-
-def test_numbered_display_with_non_boolean_reserve_zero_for_last():
-    # arrange
-    # act
-    # assert
-    pass
-
-def test_numbered_display_with_float_start_index():
-    # arrange
-    # act
-    # assert
-    pass
-
-def test_numbered_display_with_string_start_index():
-    # arrange
-    # act
-    # assert
-    pass
-
-def test_numbered_display_with_dict_as_options():
-    # arrange
-    # act
-    # assert
-    pass
-
-def test_numbered_display_with_generator_as_options():
-    # arrange
-    # act
-    # assert
-    pass
-
-def test_numbered_display_with_options_containing_objects():
-    # arrange
-    # act
-    # assert
-    pass
-
-def test_numbered_display_with_options_containing_functions():
-    # arrange
-    # act
-    # assert
-    pass
-
-def test_numbered_display_with_options_containing_bytes():
-    # arrange
-    # act
-    # assert
-    pass
-
-def test_numbered_display_with_deeply_nested_data_structures():
-    # arrange
-    # act
-    # assert
-    pass
-
-def test_numbered_display_memory_error_with_extremely_large_options():
-    # arrange
-    # act
-    # assert
-    pass
-
-def test_numbered_display_recursion_error_scenario():
-    # arrange
-    # act
-    # assert
-    pass
-
-def test_numbered_display_with_malformed_unicode_in_options():
-    # arrange
-    # act
-    # assert
-    pass
-
-def test_numbered_display_with_control_characters_in_options():
-    # arrange
-    # act
-    # assert
-    pass
-
-def test_numbered_display_with_circular_reference_in_options():
-    # arrange
-    # act
-    # assert
-    pass
-
-def test_numbered_display_exception_during_string_formatting():
-    # arrange
-    # act
-    # assert
-    pass
-
-def test_numbered_display_with_infinity_as_start_index():
-    # arrange
-    # act
-    # assert
-    pass
-
-def test_numbered_display_with_nan_as_start_index():
-    # arrange
-    # act
-    # assert
-    pass
-
-
+    assert result == expected_output

@@ -96,6 +96,12 @@ def numbered_display(
     If the options list is empty, return empty_messege or a default message.
     """
     try:
+        if not isinstance(options, list):
+            raise TypeError("Options must be a list.")
+        if isinstance(start_index, float) or not isinstance(start_index, int):
+            raise TypeError("Start index must be an integer.")
+        if not isinstance(reserve_zero_for_last, bool):
+            raise TypeError("reserve_zero_for_last must be a boolean.")
         if len(options) == 0:
             return f"No {menu_name} to display."
         if all (option.strip() == "" for option in options):
