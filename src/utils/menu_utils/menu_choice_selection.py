@@ -96,8 +96,6 @@ def numbered_display(
     If the options list is empty, return empty_messege or a default message.
     """
     try:
-        if not options:
-            return "No options to display."
         if len(options) == 0:
             return f"No {menu_name} to display."
 

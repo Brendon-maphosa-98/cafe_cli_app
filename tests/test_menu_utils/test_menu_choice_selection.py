@@ -221,7 +221,7 @@ def test_single_option_default_start():
     options = ["cheese"]
     expected_output = "1. Cheese"
 
-    # act  
+    # act
     result = numbered_display(options)
 
     # assert
@@ -236,6 +236,124 @@ def test_items_are_displayed_as_given():
 
     # act
     result = numbered_display(options, menu_name)
+
+    # assert
+    assert result == expected_output
+
+
+# edge cases
+
+
+def test_empty_options_with_custom_menu_name():
+    # arrange
+    menu_name = "products"
+    options = []
+    expected_output = f"No {menu_name} to display."
+
+    # act
+    result = numbered_display(options, menu_name)
+
+    # assert
+    assert result == expected_output
+
+
+def test_options_contain_only_whitespace_strings():
+    # arrange
+    options = ["   ", "     "]
+    expected_output = "No options to display."
+    menu_name = "products"
+
+    # act
+    result = numbered_display(options, menu_name)
+
+    # assert
+    assert result == expected_output
+
+
+def test_options_with_leading_and_trailing_whitespace():
+    # arrange
+    options = ["  apple  ", "  banana", "cherry  "]
+    expected_output = "1. Apple\n2. Banana\n3. Cherry"
+    menu_name = "products"
+
+    # act
+    result = numbered_display(options, menu_name)
+
+    # assert
+    assert result == expected_output
+
+
+def test_options_with_mixed_case_strings_title_applied():
+    # arrange
+    options = ["aPpLe", "BaNaNa", "CHERRY"]
+    expected_output = "1. Apple\n2. Banana\n3. Cherry"
+    menu_name = "products"
+
+    # act
+    result = numbered_display(options, menu_name)
+
+    # assert
+    assert result == expected_output
+
+
+def test_reserve_zero_for_last_with_single_item():
+    # arrange
+    options = ["exit"]
+    expected_output = "0. Exit"
+
+    # act
+    result = numbered_display(options, reserve_zero_for_last=True)
+
+    # assert
+    assert result == expected_output
+
+
+def test_custom_start_index_applied_correctly():
+    # arrange
+    options = ["apple", "banana", "cherry"]
+    expected_output = "5. Apple\n6. Banana\n7. Cherry"
+
+    # act
+    result = numbered_display(options, start_index=5)
+
+    # assert
+    assert result == expected_output
+
+
+def test_large_list_numbering_scales_correctly():
+    # arrange
+    options = [f"item{i}" for i in range(1, 21)]  # 20 items
+    expected_output_lines = [f"{i}. Item{i}" for i in range(1, 21)]
+    expected_output = "\n".join(expected_output_lines)
+
+    # act
+    result = numbered_display(options)
+
+    # assert
+    assert result == expected_output
+
+
+def test_non_string_option_values_handled():
+    # arrange
+    options = ["apple", 123, None, "banana"]
+    expected_output = "An error occurred while generating the list: 'int' object has no attribute 'strip'"
+    menu_name = "products"
+
+    # act
+    result = numbered_display(options, menu_name)
+
+    # assert
+    assert result == expected_output
+
+
+def test_reserve_zero_for_last_with_whitespace_and_mixed_values():
+    # arrange
+    options = ["  apple  ", "BANANA", "", "   ", None, "ChErRy"]
+    expected_output = "An error occurred while generating the list: 'NoneType' object has no attribute 'strip'"
+    menu_name = "products"
+
+    # act
+    result = numbered_display(options, menu_name, reserve_zero_for_last=True)
 
     # assert
     assert result == expected_output
