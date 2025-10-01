@@ -357,3 +357,65 @@ def test_reserve_zero_for_last_with_whitespace_and_mixed_values():
 
     # assert
     assert result == expected_output
+
+# edge cases
+
+def test_numbered_display_with_very_long_option_strings():
+    pass
+
+def test_numbered_display_with_empty_strings_in_options():
+    pass
+
+def test_numbered_display_with_newline_characters_in_options():
+    pass
+
+def test_numbered_display_with_special_characters_in_options():
+    pass
+
+def test_numbered_display_with_unicode_characters_in_options():
+    pass
+
+def test_numbered_display_with_numeric_strings_as_options():
+    pass
+
+def test_numbered_display_with_boolean_strings_as_options():
+    pass
+
+def test_numbered_display_with_duplicate_option_values():
+    pass
+
+def test_numbered_display_with_zero_start_index():
+    pass
+
+def test_numbered_display_with_negative_start_index():
+    pass
+
+def test_numbered_display_with_maximum_integer_start_index():
+    pass
+
+def test_numbered_display_with_reserve_zero_and_custom_start_index():
+    pass
+
+def test_numbered_display_with_very_large_options_list():
+    pass
+
+def test_numbered_display_with_tabs_and_mixed_whitespace():
+    pass
+
+def test_numbered_display_with_html_tags_in_options():
+    pass
+
+def test_numbered_display_with_sql_injection_like_strings():
+    pass
+
+def test_numbered_display_with_menu_name_containing_special_chars():
+    pass
+
+def test_numbered_display_with_empty_menu_name():
+    pass
+
+def test_numbered_display_with_none_menu_name():
+    pass
+
+def test_numbered_display_exception_handling_for_invalid_parameters():
+    pass
