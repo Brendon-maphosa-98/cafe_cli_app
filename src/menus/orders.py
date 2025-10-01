@@ -1,5 +1,7 @@
-from src.utils.menu_utils.menu_choice_selection import menu_selection
-from src.utils.list_utils.list_choice_selection import list_view
+from src.utils.menu_utils.menu_choice_selection import (
+    list_selection_choice,
+    numbered_display,
+)
 
 menu_name = "Orders"
 
@@ -13,6 +15,10 @@ orders_main_menu_options = [
 
 list_of_orders = []
 
-orders_menu_selection = menu_selection(orders_main_menu_options)
+orders_menu_selection = list_selection_choice(
+    orders_main_menu_options,
+    f"Select an option from the {menu_name} menu:",
+    allow_zero=True,
+)
 
-view_orders_list = list_view(list_of_orders, menu_name)
+view_orders_list = numbered_display(list_of_orders, menu_name)
