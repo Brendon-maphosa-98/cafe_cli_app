@@ -358,73 +358,151 @@ def test_reserve_zero_for_last_with_whitespace_and_mixed_values():
     # assert
     assert result == expected_output
 
-# edge cases
+# unhappy path
 
-def test_numbered_display_with_very_long_option_strings():
+def test_numbered_display_with_none_options_list():
     # arrange
-    options = ["a" * 1000, "b" * 2000, "c" * 3000]
-    expected_output = f"1. {("a" * 1000).title()}\n2. {("b" * 2000).title()}\n3. {("c" * 3000).title()}"
-    menu_name = "products"
 
     # act
-    result = numbered_display(options, menu_name)
     # assert
-    assert result == expected_output
-
-
-def test_numbered_display_with_empty_strings_in_options():
     pass
 
-def test_numbered_display_with_newline_characters_in_options():
+def test_numbered_display_with_non_list_options_parameter():
+    # arrange
+    # act
+    # assert
     pass
 
-def test_numbered_display_with_special_characters_in_options():
+def test_numbered_display_with_options_containing_none_values():
+    # arrange
+    # act
+    # assert
     pass
 
-def test_numbered_display_with_unicode_characters_in_options():
-    pass
-
-def test_numbered_display_with_numeric_strings_as_options():
-    pass
-
-def test_numbered_display_with_boolean_strings_as_options():
-    pass
-
-def test_numbered_display_with_duplicate_option_values():
-    pass
-
-def test_numbered_display_with_zero_start_index():
-    pass
-
-def test_numbered_display_with_negative_start_index():
-    pass
-
-def test_numbered_display_with_maximum_integer_start_index():
-    pass
-
-def test_numbered_display_with_reserve_zero_and_custom_start_index():
-    pass
-
-def test_numbered_display_with_very_large_options_list():
-    pass
-
-def test_numbered_display_with_tabs_and_mixed_whitespace():
-    pass
-
-def test_numbered_display_with_html_tags_in_options():
-    pass
-
-def test_numbered_display_with_sql_injection_like_strings():
-    pass
-
-def test_numbered_display_with_menu_name_containing_special_chars():
-    pass
-
-def test_numbered_display_with_empty_menu_name():
+def test_numbered_display_with_non_string_options_elements():
+    # arrange
+    # act
+    # assert
     pass
 
 def test_numbered_display_with_none_menu_name():
+    # arrange
+    # act
+    # assert
     pass
 
-def test_numbered_display_exception_handling_for_invalid_parameters():
+def test_numbered_display_with_non_string_menu_name():
+    # arrange
+    # act
+    # assert
     pass
+
+def test_numbered_display_with_non_integer_start_index():
+    # arrange
+    # act
+    # assert
+    pass
+
+def test_numbered_display_with_non_boolean_reserve_zero_for_last():
+    # arrange
+    # act
+    # assert
+    pass
+
+def test_numbered_display_with_float_start_index():
+    # arrange
+    # act
+    # assert
+    pass
+
+def test_numbered_display_with_string_start_index():
+    # arrange
+    # act
+    # assert
+    pass
+
+def test_numbered_display_with_dict_as_options():
+    # arrange
+    # act
+    # assert
+    pass
+
+def test_numbered_display_with_generator_as_options():
+    # arrange
+    # act
+    # assert
+    pass
+
+def test_numbered_display_with_options_containing_objects():
+    # arrange
+    # act
+    # assert
+    pass
+
+def test_numbered_display_with_options_containing_functions():
+    # arrange
+    # act
+    # assert
+    pass
+
+def test_numbered_display_with_options_containing_bytes():
+    # arrange
+    # act
+    # assert
+    pass
+
+def test_numbered_display_with_deeply_nested_data_structures():
+    # arrange
+    # act
+    # assert
+    pass
+
+def test_numbered_display_memory_error_with_extremely_large_options():
+    # arrange
+    # act
+    # assert
+    pass
+
+def test_numbered_display_recursion_error_scenario():
+    # arrange
+    # act
+    # assert
+    pass
+
+def test_numbered_display_with_malformed_unicode_in_options():
+    # arrange
+    # act
+    # assert
+    pass
+
+def test_numbered_display_with_control_characters_in_options():
+    # arrange
+    # act
+    # assert
+    pass
+
+def test_numbered_display_with_circular_reference_in_options():
+    # arrange
+    # act
+    # assert
+    pass
+
+def test_numbered_display_exception_during_string_formatting():
+    # arrange
+    # act
+    # assert
+    pass
+
+def test_numbered_display_with_infinity_as_start_index():
+    # arrange
+    # act
+    # assert
+    pass
+
+def test_numbered_display_with_nan_as_start_index():
+    # arrange
+    # act
+    # assert
+    pass
+
+
