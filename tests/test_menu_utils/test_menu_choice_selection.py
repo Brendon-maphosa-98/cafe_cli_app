@@ -16,6 +16,7 @@ from src.utils.menu_utils.menu_choice_selection import (
     menu_selection_validator,
     menu_choice_validator,
     numbered_display,
+    choice_validator,
 )
 
 
@@ -444,3 +445,139 @@ def test_option_contains_non_string_value_returns_error_message():
 
 # Tests for choice validator function
 
+# happy path
+
+def test_valid_first_option():
+    # arrange
+    user_input = "1"
+    list_to_check = ["apple", "banana", "cherry"]
+    
+    # act
+    result = choice_validator(user_input, list_to_check)
+    
+    # assert
+    assert result == True
+
+
+def test_valid_middle_option():
+    # arrange
+    user_input = "2"
+    list_to_check = ["apple", "banana", "cherry"]
+    
+    # act
+    result = choice_validator(user_input, list_to_check)
+    
+    # assert
+    assert result == True
+
+
+def test_valid_last_option():
+    # arrange
+    user_input = "3"
+    list_to_check = ["apple", "banana", "cherry"]
+    
+    # act
+    result = choice_validator(user_input, list_to_check)
+    
+    # assert
+    assert result == True
+
+
+def test_valid_zero_when_allowed():
+    # arrange
+    user_input = "0"
+    list_to_check = ["apple", "banana", "cherry"]
+    
+    # act
+    result = choice_validator(user_input, list_to_check, allow_zero=True)
+    
+    # assert
+    assert result == True
+
+
+# edge cases
+
+def test_zero_not_allowed():
+    # arrange
+    user_input = "0"
+    list_to_check = ["apple", "banana", "cherry"]
+    
+    # act
+    result = choice_validator(user_input, list_to_check, allow_zero=False)
+    
+    # assert
+    assert result == "NOT_A_VALID_OPTION"
+
+
+def test_empty_options_list_with_input_one():
+    # arrange
+    user_input = "1"
+    list_to_check = []
+    
+    # act
+    result = choice_validator(user_input, list_to_check)
+    
+    # assert   
+    assert result == "NOT_A_VALID_OPTION"
+
+
+def test_input_equal_to_length_plus_one():
+    # arrange
+    list_to_check = ["apple", "banana", "cherry"]
+    user_input = str(len(list_to_check) + 1)  # "4"
+
+    # act
+    result = choice_validator(user_input, list_to_check)
+    
+    # assert
+    assert result == "NOT_A_VALID_OPTION"
+
+
+def test_negative_number_input():
+    # arrange
+    user_input = "-1"
+    list_to_check = ["apple", "banana", "cherry"]
+    
+    # act
+    result = choice_validator(user_input, list_to_check)
+    
+    # assert
+    assert result == "NOT_A_VALID_OPTION"
+
+
+# unhappy path
+
+def test_non_numeric_input_letter():
+    # arrange
+    user_input = "a"
+    list_to_check = ["apple", "banana", "cherry"]
+    
+    # act
+    result = choice_validator(user_input, list_to_check)
+    
+    # assert
+    assert result == "NOT_A_NUMBER"
+
+
+def test_non_numeric_input_symbol():
+    # arrange
+    user_input = "@"
+    list_to_check = ["apple", "banana", "cherry"]
+    
+    # act
+    result = choice_validator(user_input, list_to_check)
+    
+    # assert
+    assert result == "NOT_A_NUMBER"
+
+
+def test_non_numeric_input_float_string():
+    # arrange
+    user_input = "2.5"
+    list_to_check = ["apple", "banana", "cherry"]
+    
+    # act
+    result = choice_validator(user_input, list_to_check)
+    
+    # assert
+    assert result == "NOT_A_NUMBER"
