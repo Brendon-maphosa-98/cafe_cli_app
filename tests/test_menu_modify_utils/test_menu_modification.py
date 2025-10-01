@@ -1,6 +1,5 @@
 from src.utils.menu_modify_utils.menu_modification import user_prompt_for_new_item
 from src.utils.menu_modify_utils.menu_modification import add_new_item_to_list
-import pytest
 
 """
 Comprehensive test suite for the menu_modification functions.
