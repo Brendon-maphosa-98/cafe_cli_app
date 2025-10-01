@@ -98,6 +98,8 @@ def numbered_display(
     try:
         if len(options) == 0:
             return f"No {menu_name} to display."
+        if all (option.strip() == "" for option in options):
+            return f"No {menu_name} to display."
 
         display_str = ""  # Accumulate the formatted list into a single string
 

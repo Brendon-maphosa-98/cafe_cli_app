@@ -260,7 +260,7 @@ def test_empty_options_with_custom_menu_name():
 def test_options_contain_only_whitespace_strings():
     # arrange
     options = ["   ", "     "]
-    expected_output = "No options to display."
+    expected_output = "No products to display."
     menu_name = "products"
 
     # act
@@ -361,7 +361,16 @@ def test_reserve_zero_for_last_with_whitespace_and_mixed_values():
 # edge cases
 
 def test_numbered_display_with_very_long_option_strings():
-    pass
+    # arrange
+    options = ["a" * 1000, "b" * 2000, "c" * 3000]
+    expected_output = f"1. {("a" * 1000).title()}\n2. {("b" * 2000).title()}\n3. {("c" * 3000).title()}"
+    menu_name = "products"
+
+    # act
+    result = numbered_display(options, menu_name)
+    # assert
+    assert result == expected_output
+
 
 def test_numbered_display_with_empty_strings_in_options():
     pass
