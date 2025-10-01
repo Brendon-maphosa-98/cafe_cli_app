@@ -440,3 +440,7 @@ def test_option_contains_non_string_value_returns_error_message():
     # assert
     assert result.startswith("An error occurred while generating the list:")
     assert "object has no attribute 'strip'" in result
+
+
+# Tests for choice validator function
+
