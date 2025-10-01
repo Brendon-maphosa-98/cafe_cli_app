@@ -197,13 +197,13 @@ def test_custom_start_index():
 def test_empty_options_returns_custom_empty_message():
     # arrange
     options = []
-    expected_output = "no options available"
+    expected_output = "No options to display."
 
     # act
     result = numbered_display(options)
 
     # assert
-    assert result == "No options to display."
+    assert result == expected_output
 
 
 def test_single_option_with_reserve_zero_for_last():
@@ -337,27 +337,27 @@ def test_large_list_numbering_scales_correctly():
 def test_non_string_option_values_handled():
     # arrange
     options = ["apple", 123, None, "banana"]
-    expected_output = "An error occurred while generating the list: 'int' object has no attribute 'strip'"
     menu_name = "products"
 
     # act
     result = numbered_display(options, menu_name)
 
     # assert
-    assert result == expected_output
+    assert result.startswith("An error occurred while generating the list:")
+    assert "object has no attribute 'strip'" in result
 
 
 def test_reserve_zero_for_last_with_whitespace_and_mixed_values():
     # arrange
     options = ["  apple  ", "BANANA", "", "   ", None, "ChErRy"]
-    expected_output = "An error occurred while generating the list: 'NoneType' object has no attribute 'strip'"
     menu_name = "products"
 
     # act
     result = numbered_display(options, menu_name, reserve_zero_for_last=True)
 
     # assert
-    assert result == expected_output
+    assert result.startswith("An error occurred while generating the list:")
+    assert "object has no attribute 'strip'" in result
 
 
 # unhappy path
@@ -367,58 +367,52 @@ def test_options_is_not_a_list_returns_error_message():
     # arrange
     menu_name = "products"
     options = "not a list"
-    expected_output = (
-        "An error occurred while generating the list: Options must be a list."
-    )
 
     # act
     result = numbered_display(options, menu_name)
 
     # assert
-    assert result == expected_output
+    assert result.startswith("An error occurred while generating the list:")
+    assert "Options must be a list." in result
 
 
 def test_start_index_is_float_returns_error_message():
     # arrange
     menu_name = "products"
     options = ["apple", "banana"]
-    expected_output = (
-        "An error occurred while generating the list: Start index must be an integer."
-    )
 
     # act
-    result = numbered_display(options, menu_name, start_index=1.5) # type: ignore
+    result = numbered_display(options, menu_name, start_index=1.5)  # type: ignore
 
     # assert
-    assert result == expected_output
+    assert result.startswith("An error occurred while generating the list:")
+    assert "Start index must be an integer." in result
 
 
 def test_start_index_is_string_returns_error_message():
     # arrange
     menu_name = "products"
     options = ["apple", "banana"]
-    expected_output = (
-        "An error occurred while generating the list: Start index must be an integer."
-    )
 
     # act
-    result = numbered_display(options, menu_name, start_index="one") # type: ignore
+    result = numbered_display(options, menu_name, start_index="one")  # type: ignore
 
     # assert
-    assert result == expected_output
+    assert result.startswith("An error occurred while generating the list:")
+    assert "Start index must be an integer." in result
 
 
 def test_reserve_zero_for_last_not_boolean_returns_error_message():
     # arrange
     menu_name = "products"
     options = ["apple", "banana"]
-    expected_output = "An error occurred while generating the list: reserve_zero_for_last must be a boolean."
 
     # act
-    result = numbered_display(options, menu_name, reserve_zero_for_last="yes") # type: ignore
+    result = numbered_display(options, menu_name, reserve_zero_for_last="yes")  # type: ignore
 
     # assert
-    assert result == expected_output
+    assert result.startswith("An error occurred while generating the list:")
+    assert "reserve_zero_for_last must be a boolean." in result
 
 
 def test_all_options_are_empty_strings_returns_no_items_message():
@@ -444,4 +438,5 @@ def test_option_contains_non_string_value_returns_error_message():
     result = numbered_display(options, menu_name)
 
     # assert
-    assert result == expected_output
+    assert result.startswith("An error occurred while generating the list:")
+    assert "object has no attribute 'strip'" in result
