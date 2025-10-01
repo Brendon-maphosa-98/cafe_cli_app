@@ -1,5 +1,4 @@
-from src.utils.menu_utils.menu_choice_selection import menu_selection
-from src.utils.list_utils.list_choice_selection import list_view
+from src.utils.menu_utils.menu_choice_selection import *
 from src.utils.menu_modify_utils.menu_modification import user_prompt_for_new_item
 
 menu_name = "Couriers"
