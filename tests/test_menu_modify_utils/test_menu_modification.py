@@ -405,6 +405,7 @@ def test_does_not_add_duplicate_item():
     new_item = "Latte"
     list_to_modify = ["Latte"]
     outputs = []
+
     def fake_output(message):
         outputs.append(message)
 
@@ -412,8 +413,9 @@ def test_does_not_add_duplicate_item():
     add_new_item_to_list(menu_name, new_item, list_to_modify, output_fn=fake_output)
 
     # assert
-    assert list_to_modify.count(new_item) == 1, "Expected no duplicate items in the list"
+    assert (
+        list_to_modify.count(new_item) == 1
+    ), "Expected no duplicate items in the list"
     assert (
         outputs[-1] == f"{new_item} already exists in {menu_name} list."
     ), "Expected duplicate item message"
-
