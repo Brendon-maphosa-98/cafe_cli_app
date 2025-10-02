@@ -66,8 +66,15 @@ def list_selection_choice(
     options, prompt_message, allow_zero=False, start_index=1, menu_name="options"
 ):
     """
-    Display a menu of options, prompt the user for input,
-    validate the input, and return the selected option index as a string.
+    Display a menu of options, prompt the user for input, and validate the selection.
+    Continuously prompt the user until they provide valid input.
+    Return the user's valid selection as a string.
+    parameters:
+    options: list - the list of available options to display and select from. this will always be a list of strings. will always be provided by developer not user. will always be a list of items or a selection of menu items in the form of a list of strings.
+    prompt_message: str - the message to display when prompting the user for input. will always be provided by developer not user.
+    allow_zero: bool - if True, allows 0 as a valid input for going back or exiting. Default is False. will always be provided by developer not user.
+    start_index: int - the starting index for numbering the options. Default is 1. will always be provided by developer not user.
+    menu_name: str - the name of the menu for display purposes. Default is "options". will always be provided by developer not user.
     """
     function_loop = 0
     while function_loop == 0:
