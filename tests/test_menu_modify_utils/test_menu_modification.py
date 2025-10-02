@@ -1,5 +1,8 @@
-from src.utils.menu_modify_utils.menu_modification import user_prompt_for_new_item
-from src.utils.menu_modify_utils.menu_modification import add_new_item_to_list
+from src.utils.menu_modify_utils.menu_modification import (
+    user_prompt_for_new_item,
+    add_new_item_to_list,
+)
+
 
 """
 Comprehensive test suite for the menu_modification functions.
