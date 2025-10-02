@@ -1,6 +1,7 @@
-# functions to add new items to a list
+# functions modifying lists
 
 
+# helper function to prompt user for new item name
 def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print):
     """
     Prompt the user to enter a new item name.
@@ -44,6 +45,7 @@ def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print):
         )
         return None
 
+# function to add a new item to a list
 
 def add_new_item_to_list(menu_name, new_item, list_to_modify, output_fn=print):
     """
