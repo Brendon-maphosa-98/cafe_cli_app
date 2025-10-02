@@ -47,7 +47,9 @@ def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print):
         )
         return None
 
+
 # function to add a new item to a list
+
 
 def add_new_item_to_list(menu_name, new_item, list_to_modify, output_fn=print):
     """
@@ -78,7 +80,9 @@ def update_existing_item_in_list(list_to_modify, menu_name):
         print(f"The {menu_name} list is empty. Returning to {menu_name} menu.")
         return None
     selected_index = list_selection_choice(
-        list_to_modify, "Please select the number of the item you want to update: ", menu_name
+        list_to_modify,
+        "Please select the number of the item you want to update: ",
+        menu_name,
     )
     print(f"You have selected to update: {list_to_modify[selected_index]}")
     new_item_name = user_prompt_for_new_item(menu_name)
@@ -86,12 +90,17 @@ def update_existing_item_in_list(list_to_modify, menu_name):
         if new_item_name not in list_to_modify:
             old_item = list_to_modify[selected_index]
             list_to_modify[selected_index] = new_item_name
-            print(f"{old_item} has been updated to {new_item_name} in {menu_name} list.")
+            print(
+                f"{old_item} has been updated to {new_item_name} in {menu_name} list."
+            )
         else:
-            print(f"{new_item_name} already exists in {menu_name} list. No changes made.")
+            print(
+                f"{new_item_name} already exists in {menu_name} list. No changes made."
+            )
     else:
         print(f"No new name provided. No changes made to {menu_name} list.")
     return None
+
 
 # TO DO: Create tests for update_existing_item_in_list function
 # Tests should cover:
@@ -100,5 +109,3 @@ def update_existing_item_in_list(list_to_modify, menu_name):
 # - Trying to update an item to a name that already exists in the list
 # - Handling user cancellation during the update process
 # - Handling invalid inputs during the selection and renaming process
-    
-    
