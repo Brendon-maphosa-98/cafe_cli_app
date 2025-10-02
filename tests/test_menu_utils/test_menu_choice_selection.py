@@ -1,6 +1,7 @@
 from src.utils.menu_utils.menu_choice_selection import (
     numbered_display,
     choice_validator,
+    list_selection_choice,
 )
 
 # Tests for numbered_display function
@@ -435,3 +436,34 @@ def test_non_numeric_input_float_string():
 
     # assert
     assert result == "NOT_A_NUMBER"
+
+
+# integration test for list_selection_choice function
+
+import builtins
+
+
+def test_list_selection_choice_retries_until_valid(monkeypatch, capsys):
+    # arrange
+    options = ["apple", "banana", "cherry"]
+    prompt_message = "Select a fruit"
+
+    # Fake user inputs: first invalid ("x"), then out of range ("5"), then valid ("2")
+    fake_inputs = iter(["x", "5", "2"])
+
+    def fake_input(prompt):
+        return next(fake_inputs)
+
+    monkeypatch.setattr("builtins.input", fake_input)
+
+    # act
+    result = list_selection_choice(options, prompt_message)
+
+    # assert
+    assert result == "2"  # the valid input returned
+
+    # Capture printed output
+    captured = capsys.readouterr().out
+    assert "NOT_A_NUMBER" in captured  # came from first invalid input
+    assert "NOT_A_VALID_OPTION" in captured  # came from second invalid input
+    assert "1. Apple" in captured  # menu display was printed
