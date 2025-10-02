@@ -20,5 +20,3 @@ orders_menu_selection = list_selection_choice(
     f"Select an option from the {menu_name} menu:",
     allow_zero=True,
 )
-
-view_orders_list = numbered_display(list_of_orders, menu_name)
