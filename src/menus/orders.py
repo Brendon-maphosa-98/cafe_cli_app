@@ -1,7 +1,4 @@
-from src.utils.menu_utils.menu_choice_selection import (
-    list_selection_choice,
-    numbered_display,
-)
+from src.utils.menu_utils.menu_choice_selection import list_selection_choice
 
 menu_name = "Orders"
 
