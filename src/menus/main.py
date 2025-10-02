@@ -7,7 +7,7 @@ menu_name = "Main"
 main_menu_options = ["Orders Menu", "Products Menu", "Couriers Menu", "Exit"]
 
 main_menu_selection = list_selection_choice(
-    main_menu_options, f"Select an option from the {menu_name} menu:",
+    main_menu_options,
+    f"Select an option from the {menu_name} menu:",
     allow_zero=True,
 )
-

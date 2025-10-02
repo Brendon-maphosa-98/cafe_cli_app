@@ -1,5 +1,6 @@
 # function to handle choice (menu and lists) selection and validation
 
+
 def numbered_display(
     options, menu_name="options", start_index=1, reserve_zero_for_last=False
 ):
