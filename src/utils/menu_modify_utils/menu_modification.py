@@ -1,3 +1,5 @@
+from src.utils.menu_utils.menu_choice_selection import numbered_display
+
 # functions modifying lists
 
 
@@ -63,16 +65,20 @@ def add_new_item_to_list(menu_name, new_item, list_to_modify, output_fn=print):
 
 
 # function to update an existing item in a list
-def update_existing_item_in_list(menu_name, list_to_modify, output_fn=print):
+def update_existing_item_in_list(list_to_modify, menu_name):
     """
     Update an existing item in the specified list.
-    menu_name: str - the name of the menu (e.g., "items", "couriers")
-    list_to_modify: list - the list containing items to update
+    menu_name: str - the name of the menu (e.g., "Products", "Couriers"). will always be provided by developer not user.
+    list_to_modify: list - the list in which the item will be updated. will always be provided by developer not user.
+    first check if the list is empty, if it is empty, print a message and return to the menu.
+    Then display the list with index numbers starting from 1.
+    output_fn: print function, will always be provided by developer not user. will always be the built-in print function. will print the output to the console or terminal for the user to see.
     """
     if not list_to_modify:
-        output_fn(f"No items available to update in {menu_name} list.")
+        print(f"The {menu_name} list is empty. Returning to {menu_name} menu.")
         return None
-    try:
-        pass
-    except Exception as e:
-        pass
+    print(f"Select the {menu_name[:-1]} to update:")
+    numbered_display(list_to_modify)
+    # TO DO: add input validation to ensure user enters a valid number
+    
+    
