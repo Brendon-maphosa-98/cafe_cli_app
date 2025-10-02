@@ -383,3 +383,118 @@ def test_unexpected_exception_is_caught_and_returns_none():
 
 # ------ add_new_item_to_list ------
 
+# happy path
+
+def test_adds_unique_item_to_empty_list():
+    # arrange
+    menu_name = "Products"
+    new_item = "Latte"
+    lst = []
+    outputs = []
+    def fake_output(msg): outputs.append(msg)
+
+    # act
+    result = add_new_item_to_list(menu_name, new_item, lst, output_fn=fake_output)
+
+    # assert
+    assert result is None
+    assert lst == ["Latte"]
+    assert outputs[-1] == "Latte added successfully to Products list."
+
+
+def test_adds_unique_item_to_nonempty_list():
+    menu_name = "Products"
+    new_item = "Latte"
+    lst = ["Tea"]
+    outputs = []
+    def fake_output(msg): outputs.append(msg)
+
+    add_new_item_to_list(menu_name, new_item, lst, output_fn=fake_output)
+
+    assert lst == ["Tea", "Latte"]
+    assert outputs[-1] == "Latte added successfully to Products list."
+
+# edge cases
+
+def test_does_not_add_duplicate_item():
+    menu_name = "Products"
+    new_item = "Latte"
+    lst = ["Latte", "Tea"]
+    outputs = []
+    def fake_output(msg): outputs.append(msg)
+
+    add_new_item_to_list(menu_name, new_item, lst, output_fn=fake_output)
+
+    assert lst == ["Latte", "Tea"]
+    assert outputs[-1] == "Latte already exists in Products list."
+
+
+def test_case_sensitivity_treats_different_cases_as_unique():
+    menu_name = "Products"
+    lst = ["Latte"]
+    outputs = []
+    def fake_output(msg): outputs.append(msg)
+
+    add_new_item_to_list(menu_name, "latte", lst, output_fn=fake_output)
+
+    assert lst == ["Latte", "latte"]
+    assert outputs[-1] == "latte added successfully to Products list."
+
+
+def test_empty_string_as_item_is_added():
+    menu_name = "Products"
+    lst = []
+    outputs = []
+    def fake_output(msg): outputs.append(msg)
+
+    add_new_item_to_list(menu_name, "", lst, output_fn=fake_output)
+
+    assert lst == [""]
+    assert outputs[-1] == " added successfully to Products list."
+
+
+def test_whitespace_string_is_added():
+    menu_name = "Products"
+    lst = []
+    whitespace_item = "   "
+    outputs = []
+    def fake_output(msg): outputs.append(msg)
+
+    add_new_item_to_list(menu_name, whitespace_item, lst, output_fn=fake_output)
+
+    assert lst == ["   "]
+    assert outputs[-1] == f"{whitespace_item} added successfully to Products list."
+
+
+def test_works_with_empty_menu_name():
+    menu_name = ""
+    new_item = "Latte"
+    lst = []
+    outputs = []
+    def fake_output(msg): outputs.append(msg)
+
+    add_new_item_to_list(menu_name, new_item, lst, output_fn=fake_output)
+
+    assert lst == ["Latte"]
+    assert outputs[-1] == "Latte added successfully to  list."
+
+
+# unhappy path
+
+import pytest
+
+def test_list_to_modify_is_none_raises_typeerror():
+    menu_name = "Products"
+    new_item = "Latte"
+
+    with pytest.raises(TypeError):
+        add_new_item_to_list(menu_name, new_item, None)
+
+
+def test_list_to_modify_is_not_mutable_raises_attributeerror():
+    menu_name = "Products"
+    new_item = "Latte"
+    lst = ("Tea",)  # tuple is immutable
+
+    with pytest.raises(AttributeError):
+        add_new_item_to_list(menu_name, new_item, lst)
