@@ -49,10 +49,11 @@ def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print):
 
 def add_new_item_to_list(menu_name, new_item, list_to_modify, output_fn=print):
     """
-    Add a new item to the specified list and confirm the addition.
-    menu_name: str - the name of the menu (e.g., "items", "couriers")
-    new_item: str - the name of the new item to add
-    list_to_modify: list - the list to which the new item will be added
+    Add a new item to the specified list and confirm the addition if it doesn't already exist in the list.
+    menu_name: str - the name of the menu (e.g., "Products", "Couriers"). will always be provided by developer not user.
+    new_item: str - the name of the new item to add. will be provided by user. The parameter will always be a string and will be a global variable in the respective file where this function is called and that variable will always be assigned the return value of user_prompt_for_new_item function.
+    list_to_modify: list - the list to which the new item will be added to. will always be provided by developer not user.
+    output_fn: print function, will always be provided by developer not user. will always be the built-in print function. will print the output to the console or terminal for the user to see.
     """
     if new_item not in list_to_modify:
         list_to_modify.append(new_item)
