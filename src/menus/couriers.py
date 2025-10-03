@@ -1,6 +1,11 @@
 from src.utils.menu_utils.menu_choice_selection import list_selection_choice
 
-from src.utils.menu_modify_utils.menu_modification import user_prompt_for_new_item, add_new_item_to_list, update_existing_item_in_list
+from src.utils.menu_modify_utils.menu_modification import (
+    user_prompt_for_new_item,
+    add_new_item_to_list,
+    update_existing_item_in_list,
+    delete_item_from_list,
+)
 
 menu_name = "Couriers"
 
