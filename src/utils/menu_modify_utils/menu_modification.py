@@ -102,6 +102,7 @@ def update_existing_item_in_list(list_to_modify, menu_name, output_fn=print):
     new_item_name = user_prompt_for_new_item(menu_name)
     update_outcome = add_new_item_to_list(menu_name, new_item_name, list_to_modify)
     if update_outcome:
+        list_to_modify.pop(selected_index)
         return update_outcome
     else:
         output_fn(f"No changes made to {menu_name} list.")
