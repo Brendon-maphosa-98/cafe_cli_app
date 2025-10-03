@@ -68,9 +68,6 @@ def add_new_item_to_list(menu_name, new_item, list_to_modify, output_fn=print):
         return False
 
 
-# TO DO: Create tests for add_new_item_to_list function following addition of return statements in the if and else blocks
-
-
 # function to update an existing item in a list
 def update_existing_item_in_list(list_to_modify, menu_name, output_fn=print):
     """
@@ -116,5 +113,3 @@ def update_existing_item_in_list(list_to_modify, menu_name, output_fn=print):
         list_to_modify[int(selected_index)] = new_item_name  # type: ignore
         output_fn(f"{menu_name[:-1]} updated successfully to {new_item_name}.")
         return True
-
-
