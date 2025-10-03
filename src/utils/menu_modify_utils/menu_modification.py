@@ -113,3 +113,23 @@ def update_existing_item_in_list(list_to_modify, menu_name, output_fn=print):
         list_to_modify[int(selected_index)] = new_item_name  # type: ignore
         output_fn(f"{menu_name[:-1]} updated successfully to {new_item_name}.")
         return True
+
+# function to delete an item from a list
+def delete_item_from_list(list_to_modify, menu_name, output_fn=print):
+    """
+    Delete an item from the specified list after user selection.
+    menu_name: str - the name of the menu (e.g., "Products", "Couriers"). will always be provided by developer not user.
+    list_to_modify: list - the list from which an item will be deleted. will always be provided by developer not user.
+    output_fn: print function, will always be provided by developer not user. will always be the built-in print function. will print the output to the console or terminal for the user to see.
+    """
+    if not list_to_modify:
+        output_fn(f"The {menu_name} list is empty. Returning to {menu_name} menu.")
+        return False
+    selected_index = list_selection_choice(
+        list_to_modify,
+        "Please select the number of the item you want to delete: ",
+        menu_name,
+    )
+    item_to_delete = list_to_modify[int(selected_index)]  # type: ignore
+    list_to_modify.remove(item_to_delete)
+    output_fn(f"{item_to_delete} has been deleted from the {menu_name} list.")
