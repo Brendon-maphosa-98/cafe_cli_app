@@ -2,7 +2,8 @@ import pytest, sys
 from src.utils.menu_modify_utils.menu_modification import (
     user_prompt_for_new_item,
     add_new_item_to_list,
-    update_existing_item_in_list
+    update_existing_item_in_list,
+    delete_item_from_list,
 )
 
 
@@ -801,3 +802,5 @@ def test_output_fn_must_be_callable(monkeypatch):
         # Passing a non-callable as output_fn should break when the function tries to call it
         update_existing_item_in_list(items, menu_name, output_fn="not a function")  # type: ignore[arg-type]
 
+
+# TO DO - add tests for delete_item_from_list
