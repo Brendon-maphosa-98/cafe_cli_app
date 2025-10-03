@@ -62,9 +62,12 @@ def add_new_item_to_list(menu_name, new_item, list_to_modify, output_fn=print):
     if new_item not in list_to_modify:
         list_to_modify.append(new_item)
         output_fn(f"{new_item} added successfully to {menu_name} list.")
+        return True
     else:
         output_fn(f"{new_item} already exists in {menu_name} list.")
+        return False
 
+# TO DO: Create tests for add_new_item_to_list function following addition of return statements in the if and else blocks
 
 # function to update an existing item in a list
 def update_existing_item_in_list(list_to_modify, menu_name):
@@ -86,20 +89,14 @@ def update_existing_item_in_list(list_to_modify, menu_name):
     )
     print(f"You have selected to update: {list_to_modify[selected_index]}")
     new_item_name = user_prompt_for_new_item(menu_name)
-    if new_item_name:
-        if new_item_name not in list_to_modify:
-            old_item = list_to_modify[selected_index]
-            list_to_modify[selected_index] = new_item_name
-            print(
-                f"{old_item} has been updated to {new_item_name} in {menu_name} list."
-            )
-        else:
-            print(
-                f"{new_item_name} already exists in {menu_name} list. No changes made."
-            )
+    update_outcome = add_new_item_to_list(
+        menu_name, new_item_name, list_to_modify
+    )
+    if update_outcome:
+        return update_outcome
     else:
-        print(f"No new name provided. No changes made to {menu_name} list.")
-    return None
+        print(f"No changes made to {menu_name} list.")
+        return None
 
 
 # TO DO: Create tests for update_existing_item_in_list function
