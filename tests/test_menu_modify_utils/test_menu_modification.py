@@ -1,7 +1,8 @@
-import pytest
+import pytest, sys
 from src.utils.menu_modify_utils.menu_modification import (
     user_prompt_for_new_item,
     add_new_item_to_list,
+    update_existing_item_in_list
 )
 
 
@@ -545,3 +546,5 @@ def test_list_to_modify_is_not_mutable_raises_attributeerror():
     # act & assert
     with pytest.raises(AttributeError):
         add_new_item_to_list(menu_name, new_item, lst)
+
+
