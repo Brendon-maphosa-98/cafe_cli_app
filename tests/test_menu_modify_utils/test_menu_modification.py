@@ -548,3 +548,256 @@ def test_list_to_modify_is_not_mutable_raises_attributeerror():
         add_new_item_to_list(menu_name, new_item, lst)
 
 
+# ------ update_existing_item_in_list ------
+
+# utility to get the function's defining module for monkeypatching helpers
+def _func_module():
+    return sys.modules[update_existing_item_in_list.__module__]
+
+
+# ------------------------------
+# Happy path
+# ------------------------------
+
+def test_updates_middle_item_success(monkeypatch):
+    # Arrange
+    m = _func_module()
+    products = ["Tea", "Latte", "Mocha"]
+    menu_name = "Products"
+    outputs = []
+
+    def fake_output(msg):  # capture messages
+        outputs.append(msg)
+
+    def fake_list_selection_choice(options, prompt, menu_name_arg):
+        # select index 1 ("Latte")
+        assert options is products
+        assert menu_name_arg == menu_name
+        return 1  # as per docstring: returns int
+
+    def fake_user_prompt_for_new_item(menu_name_arg):
+        assert menu_name_arg == menu_name
+        return "Flat White"
+
+    monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
+    monkeypatch.setattr(m, "user_prompt_for_new_item", fake_user_prompt_for_new_item)
+
+    # Act
+    result = update_existing_item_in_list(products, menu_name, output_fn=fake_output)
+
+    # Assert
+    assert result is True
+    assert products == ["Tea", "Flat White", "Mocha"]
+    # selection message first:
+    assert outputs[0] == "You have selected to update: Latte"
+    # success message uses menu_name[:-1] ("Products" -> "Product")
+    assert outputs[1] == "Product updated successfully to Flat White."
+
+
+def test_updates_first_item_success_index_zero(monkeypatch):
+    # Arrange
+    m = _func_module()
+    items = ["Espresso", "Americano"]
+    menu_name = "Products"
+    outputs = []
+
+    def fake_output(msg): outputs.append(msg)
+    def fake_list_selection_choice(options, prompt, menu_name_arg): return 0
+    def fake_user_prompt_for_new_item(menu_name_arg): return "Ristretto"
+
+    monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
+    monkeypatch.setattr(m, "user_prompt_for_new_item", fake_user_prompt_for_new_item)
+
+    # Act
+    result = update_existing_item_in_list(items, menu_name, output_fn=fake_output)
+
+    # Assert
+    assert result is True
+    assert items == ["Ristretto", "Americano"]
+    assert outputs[0] == "You have selected to update: Espresso"
+    assert outputs[1] == "Product updated successfully to Ristretto."
+
+
+def test_updates_last_item_success(monkeypatch):
+    # Arrange
+    m = _func_module()
+    items = ["Espresso", "Americano", "Cortado"]
+    menu_name = "Products"
+    outputs = []
+
+    def fake_output(msg): outputs.append(msg)
+    def fake_list_selection_choice(options, prompt, menu_name_arg): return len(items) - 1
+    def fake_user_prompt_for_new_item(menu_name_arg): return "Macchiato"
+
+    monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
+    monkeypatch.setattr(m, "user_prompt_for_new_item", fake_user_prompt_for_new_item)
+
+    # Act
+    result = update_existing_item_in_list(items, menu_name, output_fn=fake_output)
+
+    # Assert
+    assert result is True
+    assert items == ["Espresso", "Americano", "Macchiato"]
+    assert outputs[0] == "You have selected to update: Cortado"
+    assert outputs[1] == "Product updated successfully to Macchiato."
+
+
+def test_allows_duplicate_values_on_update(monkeypatch):
+    # Arrange
+    m = _func_module()
+    items = ["Tea", "Latte"]
+    menu_name = "Products"
+    outputs = []
+
+    def fake_output(msg): outputs.append(msg)
+    def fake_list_selection_choice(options, prompt, menu_name_arg): return 1  # "Latte"
+    def fake_user_prompt_for_new_item(menu_name_arg): return "Tea"  # duplicate allowed
+
+    monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
+    monkeypatch.setattr(m, "user_prompt_for_new_item", fake_user_prompt_for_new_item)
+
+    # Act
+    result = update_existing_item_in_list(items, menu_name, output_fn=fake_output)
+
+    # Assert
+    assert result is True
+    assert items == ["Tea", "Tea"]
+    assert outputs[0] == "You have selected to update: Latte"
+    assert outputs[1] == "Product updated successfully to Tea."
+
+
+# ------------------------------
+# Edge cases
+# ------------------------------
+
+def test_empty_list_returns_false_and_message(monkeypatch):
+    # Arrange
+    m = _func_module()
+    items = []
+    menu_name = "Products"
+    outputs = []
+
+    def fake_output(msg): outputs.append(msg)
+
+    # (No helper calls expected; early return)
+    # Act
+    result = update_existing_item_in_list(items, menu_name, output_fn=fake_output)
+
+    # Assert
+    assert result is False
+    assert outputs == ["The Products list is empty. Returning to Products menu."]
+
+
+def test_user_cancels_after_selection_returns_none_no_mutation(monkeypatch):
+    # Arrange
+    m = _func_module()
+    items = ["Tea", "Latte"]
+    original = items.copy()
+    menu_name = "Products"
+    outputs = []
+
+    def fake_output(msg): outputs.append(msg)
+    def fake_list_selection_choice(options, prompt, menu_name_arg): return 0  # "Tea"
+    def fake_user_prompt_for_new_item(menu_name_arg): return None  # cancellation
+
+    monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
+    monkeypatch.setattr(m, "user_prompt_for_new_item", fake_user_prompt_for_new_item)
+
+    # Act
+    result = update_existing_item_in_list(items, menu_name, output_fn=fake_output)
+
+    # Assert
+    assert result is None
+    assert items == original  # no mutation
+    # Only the selection message should be emitted; no success message
+    assert outputs == ["You have selected to update: Tea"]
+
+
+def test_empty_menu_name_formats_messages(monkeypatch):
+    # Arrange
+    m = _func_module()
+    items = ["Tea"]
+    menu_name = ""  # edge: empty menu name
+    outputs = []
+
+    def fake_output(msg): outputs.append(msg)
+    def fake_list_selection_choice(options, prompt, menu_name_arg): return 0
+    def fake_user_prompt_for_new_item(menu_name_arg): return "Green Tea"
+
+    monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
+    monkeypatch.setattr(m, "user_prompt_for_new_item", fake_user_prompt_for_new_item)
+
+    # Act
+    result = update_existing_item_in_list(items, menu_name, output_fn=fake_output)
+
+    # Assert
+    assert result is True
+    assert items == ["Green Tea"]
+    assert outputs[0] == "You have selected to update: Tea"
+    # menu_name[:-1] when menu_name == "" gives "", so expect a leading space then "updated..."
+    assert outputs[1] == " updated successfully to Green Tea."
+
+
+def test_none_list_treated_as_empty_returns_false(monkeypatch):
+    # Arrange
+    # Although the docstring says a mutable sequence is expected, the implementation
+    # treats falsy `list_to_modify` as empty and returns False early.
+    m = _func_module()
+    items = None
+    menu_name = "Products"
+    outputs = []
+
+    def fake_output(msg): outputs.append(msg)
+
+    # Act
+    result = update_existing_item_in_list(items, menu_name, output_fn=fake_output)  # type: ignore[arg-type]
+
+    # Assert
+    assert result is False
+    assert outputs == ["The Products list is empty. Returning to Products menu."]
+
+
+# ------------------------------
+# Unhappy paths (type/contract violations)
+# ------------------------------
+
+def test_immutable_sequence_raises_typeerror_on_assignment(monkeypatch):
+    # Arrange
+    # Violates the "mutable sequence" assumption; tuple cannot be assigned to.
+    m = _func_module()
+    items = ("Tea", "Latte")  # tuple is immutable
+    menu_name = "Products"
+    outputs = []
+
+    def fake_output(msg): outputs.append(msg)
+    def fake_list_selection_choice(options, prompt, menu_name_arg): return 0
+    def fake_user_prompt_for_new_item(menu_name_arg): return "Green Tea"
+
+    monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
+    monkeypatch.setattr(m, "user_prompt_for_new_item", fake_user_prompt_for_new_item)
+
+    # Act & Assert
+    with pytest.raises(TypeError):
+        update_existing_item_in_list(items, menu_name, output_fn=fake_output)  # type: ignore[arg-type]
+
+    # The selection message is emitted before the failure occurs
+    assert outputs == ["You have selected to update: Tea"]
+
+
+def test_output_fn_must_be_callable(monkeypatch):
+    # Arrange
+    m = _func_module()
+    items = ["Tea"]
+    menu_name = "Products"
+
+    def fake_list_selection_choice(options, prompt, menu_name_arg): return 0
+    def fake_user_prompt_for_new_item(menu_name_arg): return "Herbal Tea"
+
+    monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
+    monkeypatch.setattr(m, "user_prompt_for_new_item", fake_user_prompt_for_new_item)
+
+    # Act & Assert
+    with pytest.raises(TypeError):
+        # Passing a non-callable as output_fn should break when the function tries to call it
+        update_existing_item_in_list(items, menu_name, output_fn="not a function")  # type: ignore[arg-type]
+
