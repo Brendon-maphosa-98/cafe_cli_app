@@ -70,7 +70,7 @@ def add_new_item_to_list(menu_name, new_item, list_to_modify, output_fn=print):
 # TO DO: Create tests for add_new_item_to_list function following addition of return statements in the if and else blocks
 
 # function to update an existing item in a list
-def update_existing_item_in_list(list_to_modify, menu_name):
+def update_existing_item_in_list(list_to_modify, menu_name, output_fn=print):
     """
     Update an existing item in the specified list.
     menu_name: str - the name of the menu (e.g., "Products", "Couriers"). will always be provided by developer not user.
@@ -80,14 +80,14 @@ def update_existing_item_in_list(list_to_modify, menu_name):
     output_fn: print function, will always be provided by developer not user. will always be the built-in print function. will print the output to the console or terminal for the user to see.
     """
     if not list_to_modify:
-        print(f"The {menu_name} list is empty. Returning to {menu_name} menu.")
+        output_fn(f"The {menu_name} list is empty. Returning to {menu_name} menu.")
         return None
     selected_index = list_selection_choice(
         list_to_modify,
         "Please select the number of the item you want to update: ",
         menu_name,
     )
-    print(f"You have selected to update: {list_to_modify[selected_index]}")
+    output_fn(f"You have selected to update: {list_to_modify[selected_index]}")
     new_item_name = user_prompt_for_new_item(menu_name)
     update_outcome = add_new_item_to_list(
         menu_name, new_item_name, list_to_modify
@@ -95,10 +95,10 @@ def update_existing_item_in_list(list_to_modify, menu_name):
     if update_outcome:
         return update_outcome
     else:
-        print(f"No changes made to {menu_name} list.")
+        output_fn(f"No changes made to {menu_name} list.")
         return None
 
-# TO DO: update docstring to reflect that output_fn is no longer a parameter and the other changes made to the function
+# TO DO: update docstring to reflect the changes made to the function
 
 # TO DO: Create tests for update_existing_item_in_list function
 # Tests should cover:
