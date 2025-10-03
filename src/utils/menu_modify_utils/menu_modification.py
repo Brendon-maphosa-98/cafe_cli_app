@@ -118,12 +118,3 @@ def update_existing_item_in_list(list_to_modify, menu_name, output_fn=print):
         return True
 
 
-# TO DO: update docstring to reflect the changes made to the function
-
-# TO DO: Create tests for update_existing_item_in_list function
-# Tests should cover:
-# - Updating an item in a non-empty list
-# - Attempting to update an item in an empty list
-# - Trying to update an item to a name that already exists in the list
-# - Handling user cancellation during the update process
-# - Handling invalid inputs during the selection and renaming process
