@@ -1,7 +1,7 @@
 from src.utils.menu_utils.menu_choice_selection import list_selection_choice
 
 
-from src.utils.menu_modify_utils.menu_modification import user_prompt_for_new_item
+from src.utils.menu_modify_utils.menu_modification import user_prompt_for_new_item, add_new_item_to_list, update_existing_item_in_list
 
 menu_name = "Products"
 
@@ -22,3 +22,7 @@ products_menu_selection = list_selection_choice(
 )
 
 new_product = user_prompt_for_new_item(menu_name)
+
+add_new_item = add_new_item_to_list(menu_name, new_product, list_of_products)
+
+update_product = update_existing_item_in_list(menu_name, list_of_products)
