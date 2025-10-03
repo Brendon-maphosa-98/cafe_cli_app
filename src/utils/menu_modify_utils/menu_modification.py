@@ -67,17 +67,28 @@ def add_new_item_to_list(menu_name, new_item, list_to_modify, output_fn=print):
         output_fn(f"{new_item} already exists in {menu_name} list.")
         return False
 
+
 # TO DO: Create tests for add_new_item_to_list function following addition of return statements in the if and else blocks
+
 
 # function to update an existing item in a list
 def update_existing_item_in_list(list_to_modify, menu_name, output_fn=print):
     """
-    Update an existing item in the specified list.
-    menu_name: str - the name of the menu (e.g., "Products", "Couriers"). will always be provided by developer not user.
-    list_to_modify: list - the list in which the item will be updated. will always be provided by developer not user.
-    first check if the list is empty, if it is empty, print a message and return to the menu.
-    Then display the list with index numbers starting from 1.
-    output_fn: print function, will always be provided by developer not user. will always be the built-in print function. will print the output to the console or terminal for the user to see.
+    Purpose: Update an existing item in the specified list.
+    Parameters:
+    - list_to_modify: list - the list containing items to be updated. will always be provided by developer not user.
+    - menu_name: str - the name of the menu (e.g., "Products", "Couriers"). will always be provided by developer not user.
+    - output_fn: print function - will always be the built-in print function. will print the output to the console or terminal for the user to see.
+    Returns:
+    - True if the item was successfully updated.
+    - False if the list is empty and no update can be made.
+    - None if no changes were made (e.g., user cancelled the operation or the new item already exists).
+    Note: This function relies on user input for selecting and renaming items.
+    Dependencies:
+    - list_selection_choice: Function to handle user selection from the list. it will take care of displaying the list and validating user input (which item they want to update) until it is a valid input using other helper functions from menu_choice_selection.py file.
+    so no invalid inputs can be expected here. it will return the index of the selected item as an integer.
+    - user_prompt_for_new_item: Function to prompt the user for a new item name to update the selected item. it will handle input validation, empty input, and cancellation. it will return the new item name or None if the operation is cancelled.
+    - add_new_item_to_list: Function to add the new item name from the user_prompt_for_new_item function to the list if it doesn't already exist in the list. it will return True if the item was added successfully, or False if the item already exists in the list.
     """
     if not list_to_modify:
         output_fn(f"The {menu_name} list is empty. Returning to {menu_name} menu.")
@@ -89,14 +100,13 @@ def update_existing_item_in_list(list_to_modify, menu_name, output_fn=print):
     )
     output_fn(f"You have selected to update: {list_to_modify[selected_index]}")
     new_item_name = user_prompt_for_new_item(menu_name)
-    update_outcome = add_new_item_to_list(
-        menu_name, new_item_name, list_to_modify
-    )
+    update_outcome = add_new_item_to_list(menu_name, new_item_name, list_to_modify)
     if update_outcome:
         return update_outcome
     else:
         output_fn(f"No changes made to {menu_name} list.")
         return None
+
 
 # TO DO: update docstring to reflect the changes made to the function
 
