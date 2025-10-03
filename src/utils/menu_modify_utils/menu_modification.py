@@ -81,7 +81,7 @@ def update_existing_item_in_list(list_to_modify, menu_name, output_fn=print):
     """
     if not list_to_modify:
         output_fn(f"The {menu_name} list is empty. Returning to {menu_name} menu.")
-        return None
+        return False
     selected_index = list_selection_choice(
         list_to_modify,
         "Please select the number of the item you want to update: ",
