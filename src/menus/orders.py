@@ -18,3 +18,5 @@ orders_menu_selection = list_selection_choice(
     f"Select an option from the {menu_name} menu:",
     allow_zero=True,
 )
+
+delete_order = delete_item_from_list(menu_name, list_of_orders)

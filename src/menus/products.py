@@ -31,3 +31,5 @@ new_product = user_prompt_for_new_item(menu_name)
 add_new_product = add_new_item_to_list(menu_name, new_product, list_of_products)
 
 update_product = update_existing_item_in_list(menu_name, list_of_products)
+
+delete_product = delete_item_from_list(menu_name, list_of_products)
