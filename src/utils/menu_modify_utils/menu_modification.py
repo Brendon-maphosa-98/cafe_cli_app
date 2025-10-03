@@ -74,21 +74,31 @@ def add_new_item_to_list(menu_name, new_item, list_to_modify, output_fn=print):
 # function to update an existing item in a list
 def update_existing_item_in_list(list_to_modify, menu_name, output_fn=print):
     """
-    Purpose: Update an existing item in the specified list.
-    Parameters:
-    - list_to_modify: list - the list containing items to be updated. will always be provided by developer not user.
-    - menu_name: str - the name of the menu (e.g., "Products", "Couriers"). will always be provided by developer not user.
-    - output_fn: print function - will always be the built-in print function. will print the output to the console or terminal for the user to see.
+    Interactively update an item in `list_to_modify`.
+
+    This function:
+      1) Prompts the user to select an existing item (via `list_selection_choice`),
+      2) Prompts for a new value (via `user_prompt_for_new_item`),
+      3) Updates the selected item in-place and reports status via `output_fn`.
+
+    Args:
+      list_to_modify: Mutable sequence of strings to be updated in place.
+      menu_name: Human-readable name of the list (e.g., "Products", "Couriers") used in prompts/messages.
+      output_fn: Callable used to emit user-facing messages (defaults to built-in `print`).
+
     Returns:
-    - True if the item was successfully updated.
-    - False if the list is empty and no update can be made.
-    - None if no changes were made (e.g., user cancelled the operation or the new item already exists).
-    Note: This function relies on user input for selecting and renaming items.
-    Dependencies:
-    - list_selection_choice: Function to handle user selection from the list. it will take care of displaying the list and validating user input (which item they want to update) until it is a valid input using other helper functions from menu_choice_selection.py file.
-    so no invalid inputs can be expected here. it will return the index of the selected item as an integer.
-    - user_prompt_for_new_item: Function to prompt the user for a new item name to update the selected item. it will handle input validation, empty input, and cancellation. it will return the new item name or None if the operation is cancelled.
-    - add_new_item_to_list: Function to add the new item name from the user_prompt_for_new_item function to the list if it doesn't already exist in the list. it will return True if the item was added successfully, or False if the item already exists in the list.
+      True: An item was successfully updated.
+      False: The list was empty; nothing was updated.
+      None: The user canceled during the new-value prompt (no changes applied).
+
+    Side Effects:
+      - Mutates `list_to_modify` in place when an update occurs.
+      - Emits messages through `output_fn`.
+      - Performs interactive prompts via helper functions.
+
+    Dependencies/Assumptions:
+      - `list_selection_choice(options, prompt, menu_name) -> int` returns a valid index for `list_to_modify`.
+      - `user_prompt_for_new_item(menu_name) -> str | None` returns the new value or `None` to cancel.
     """
     if not list_to_modify:
         output_fn(f"The {menu_name} list is empty. Returning to {menu_name} menu.")
@@ -98,17 +108,14 @@ def update_existing_item_in_list(list_to_modify, menu_name, output_fn=print):
         "Please select the number of the item you want to update: ",
         menu_name,
     )
-    output_fn(f"You have selected to update: {list_to_modify[selected_index]}")
+    output_fn(f"You have selected to update: {list_to_modify[int(selected_index)]}")  # type: ignore
     new_item_name = user_prompt_for_new_item(menu_name)
     if new_item_name is None:
         return new_item_name
-    update_outcome = add_new_item_to_list(menu_name, new_item_name, list_to_modify)
-    if update_outcome:
-        list_to_modify.pop(selected_index)
-        return update_outcome
     else:
-        output_fn(f"No changes made to {menu_name} list.")
-        return None
+        list_to_modify[int(selected_index)] = new_item_name  # type: ignore
+        output_fn(f"{menu_name[:-1]} updated successfully to {new_item_name}.")
+        return True
 
 
 # TO DO: update docstring to reflect the changes made to the function
