@@ -98,6 +98,7 @@ def update_existing_item_in_list(list_to_modify, menu_name):
         print(f"No changes made to {menu_name} list.")
         return None
 
+# TO DO: update docstring to reflect that output_fn is no longer a parameter and the other changes made to the function
 
 # TO DO: Create tests for update_existing_item_in_list function
 # Tests should cover:
