@@ -114,13 +114,40 @@ def update_existing_item_in_list(list_to_modify, menu_name, output_fn=print):
         output_fn(f"{menu_name[:-1]} updated successfully to {new_item_name}.")
         return True
 
+
 # function to delete an item from a list
 def delete_item_from_list(list_to_modify, menu_name, output_fn=print):
-    """
-    Delete an item from the specified list after user selection.
-    menu_name: str - the name of the menu (e.g., "Products", "Couriers"). will always be provided by developer not user.
-    list_to_modify: list - the list from which an item will be deleted. will always be provided by developer not user.
-    output_fn: print function, will always be provided by developer not user. will always be the built-in print function. will print the output to the console or terminal for the user to see.
+    """Delete an item from `list_to_modify` after user selection.
+
+    This function:
+      1) Prompts the user to select an existing item (via `list_selection_choice`),
+      2) Optionally cancels if no selection is made,
+      3) Deletes the selected item from the list,
+      4) Reports status via `output_fn`.
+
+    Args:
+      list_to_modify (list[str]): Mutable sequence of strings from which an item will be deleted.
+      menu_name (str): Human-readable name of the list (e.g., "Products", "Couriers") used in prompts/messages.
+      output_fn (Callable[[str], None], optional): Function used to emit user-facing messages.
+        Defaults to built-in `print`.
+
+    Returns:
+      bool | None:
+        True: An item was successfully deleted.
+        False: The list was empty; nothing was deleted.
+        None: The user canceled the operation (no changes applied).
+
+    Side Effects:
+      - Mutates `list_to_modify` in place by removing one element when deletion occurs.
+      - Emits messages through `output_fn`.
+      - Performs interactive prompts via helper functions.
+
+    Dependencies/Assumptions:
+      - `list_selection_choice(options, prompt, menu_name) -> int | None` returns either:
+          * a valid index into `list_to_modify` (0-based), or
+          * `None` to indicate user cancellation.
+      - The `list_to_modify` is a list of strings.
+      - The `menu_name` is a non-empty string that will always be provided by the developer, not the user and will be a plural noun (e.g., "Products", "Couriers","Orders").
     """
     if not list_to_modify:
         output_fn(f"The {menu_name} list is empty. Returning to {menu_name} menu.")
@@ -130,6 +157,10 @@ def delete_item_from_list(list_to_modify, menu_name, output_fn=print):
         "Please select the number of the item you want to delete: ",
         menu_name,
     )
-    item_to_delete = list_to_modify[int(selected_index)]  # type: ignore
-    list_to_modify.remove(item_to_delete)
-    output_fn(f"{item_to_delete} has been deleted from the {menu_name} list.")
+    if selected_index is None:
+        return selected_index
+    else:
+        output_fn(f"You have selected to delete: {list_to_modify[int(selected_index)]}")  # type: ignore
+        list_to_modify.pop(list_to_modify[int(selected_index)])  # type: ignore
+        output_fn(f"{menu_name[:-1]} deleted successfully.")
+        return True
