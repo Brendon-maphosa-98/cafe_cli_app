@@ -66,12 +66,25 @@ def numbered_display(
 
 def choice_validator(user_input, options, allow_zero=False):
     """
-    Validate user input against available options from a numbered list. this is used in conjunction with numbered_display.
-    user_input: str - the input provided by the user to validate. It will always be a string.
-    options: list - the list of available options to validate against. this will always be a list of strings. will always be provided by developer not user.will always be a list of items or a selection of menu items in the form of a list of strings.
+    Validate user input against a list of options.
+    parameters:
+    user_input: str - the input provided by the user to validate. will always be a variable containing a string provided by the user. The developer will provide the variable name but not the value.
+    options: list of strings or a dictionary of dictionaries. The items to be numbered and displayed.
+        - Lists will be menu options in the form of a list of strings or menu items in the form of a list of strings (each string being an item).
+        - Dictionaries will be key value pairs where the key is an order number and the value is a dictionary of order details.
     allow_zero: bool - if True, allows 0 as a valid input for going back or exiting. Default is False. will always be provided by developer not user.
-    Return the selected option index as an integer if valid,
-    or an appropriate error message string if invalid.
+    returns:
+    True if the input is valid (within range of options or 0 if allowed), otherwise returns an error message string.
+    raises:
+    ValueError: if the input cannot be converted to an integer.
+    Side Effects:
+    None (pure function).
+    Dependencies/Assumptions:
+    - `user_input` is always going to be a string provided by the user.
+    - `options` is always going to be a list of strings or a dictionary provided by the developer.
+    - `allow_zero` is always going to be a boolean provided by the developer.
+    Note: This function assumes that the options are presented to the user in a numbered format starting from 1,
+    with 0 optionally reserved for a 'back' or 'exit' option if `allow_zero` is True.
     """
     try:
         stringint = int(user_input)
