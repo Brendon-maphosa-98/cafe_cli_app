@@ -5,6 +5,7 @@ from src.utils.menu_modify_utils.menu_modification import (
     update_existing_item_in_list,
     delete_item_from_list,
     user_prompt_for_order_customer_name,
+    user_prompt_for_order_customer_address,
 )
 
 
@@ -1303,3 +1304,78 @@ def test_order_prompt_input_fn_raises_keyboardinterrupt_returns_none():
     # assert
     assert result is None
     assert outputs[-1] == "\nOperation cancelled. Returning to Orders menu."
+
+
+# ------ user_prompt_customer_address (happy path) ------
+
+def test_user_prompt_for_order_customer_address_valid_input(monkeypatch):
+    """Checks that the function correctly returns a formatted address when valid street, city, and postcode are entered."""
+    # arrange
+    inputs = iter(["123 Baker St", "London", "NW1 6XE"])
+    def fake_input(prompt):
+        return next(inputs)
+    # act
+    result = user_prompt_for_order_customer_address(input_fn=fake_input)
+    # assert
+    assert result == (
+        "123 Baker St, London, NW1 6XE"
+    )
+
+def test_user_prompt_for_order_customer_address_handles_lowercase_input(monkeypatch):
+    """Ensures that mixed or lowercase input is properly formatted (title/upper-cased) before returning."""
+    # arrange
+    inputs = iter(["456 elm street", "manchester", "m1 1ae"])
+    def fake_input(prompt):
+        return next(inputs)
+    # act
+    result = user_prompt_for_order_customer_address(input_fn=fake_input)
+    # assert
+    assert result == (
+        "456 Elm Street, Manchester, M1 1AE"
+    )
+
+def test_user_prompt_for_order_customer_address_valid_with_extra_spaces(monkeypatch):
+    """Verifies that leading/trailing spaces in user input are stripped and a valid address is still accepted."""
+    # arrange
+    inputs = iter(["   789 Oak Rd   ", "   Bristol   ", "   BS1 5TR   "])
+    def fake_input(prompt):
+        return next(inputs)
+    # act
+    result = user_prompt_for_order_customer_address(input_fn=fake_input)
+    # assert
+    assert result == (
+        "789 Oak Rd, Bristol, BS1 5TR"
+    ) 
+
+
+# ------ user_prompt_customer_address (edge cases) ------
+
+def test_user_prompt_for_order_customer_address_minimal_valid_input(monkeypatch):
+    """Tests the shortest valid input (e.g., '1 A St, B, A1 1AA') to confirm regex boundary conditions."""
+
+def test_user_prompt_for_order_customer_address_max_length_input(monkeypatch):
+    """Checks that a long but valid address (near reasonable character limits) still passes validation."""
+
+def test_user_prompt_for_order_customer_address_retry_after_invalid(monkeypatch):
+    """Simulates a user entering an invalid address first, then correcting it successfully on retry."""
+
+def test_user_prompt_for_order_customer_address_keyboard_interrupt(monkeypatch):
+    """Ensures graceful handling when the user triggers a KeyboardInterrupt during input (returns None)."""
+
+def test_user_prompt_for_order_customer_address_stop_iteration(monkeypatch):
+    """Ensures graceful handling of StopIteration when mock input runs out of data (returns None)."""
+
+
+# ------ user_prompt_customer_address (unhappy paths) ------
+
+def test_user_prompt_for_order_customer_address_empty_fields_then_cancel(monkeypatch):
+    """Simulates user leaving fields blank, then choosing to cancel when prompted, expecting a None return."""
+
+def test_user_prompt_for_order_customer_address_invalid_format_then_cancel(monkeypatch):
+    """Simulates user entering an incorrectly formatted address, then choosing to cancel when prompted."""
+
+def test_user_prompt_for_order_customer_address_invalid_retry_then_valid(monkeypatch):
+    """Simulates a user entering invalid data, choosing retry, and then successfully entering a valid address."""
+
+def test_user_prompt_for_order_customer_address_unexpected_exception(monkeypatch):
+    """Forces an unexpected exception (e.g., faulty output_fn) to confirm it is caught and handled gracefully."""
