@@ -103,16 +103,30 @@ def choice_validator(user_input, options, allow_zero=False):
 def list_selection_choice(
     options, prompt_message, allow_zero=False, start_index=1, menu_name="options"
 ):
+    # Ongoing update: update docstring to reflect that options can be a dictionary of orders
     """
-    Display a menu of options, prompt the user for input, and validate the selection.
-    Continuously prompt the user until they provide valid input.
-    Return the user's valid selection as a string.
-    parameters:
-    options: list - the list of available options to display and select from. this will always be a list of strings. will always be provided by developer not user. will always be a list of items or a selection of menu items in the form of a list of strings.
-    prompt_message: str - the message to display when prompting the user for input. will always be provided by developer not user.
-    allow_zero: bool - if True, allows 0 as a valid input for going back or exiting. Default is False. will always be provided by developer not user.
-    start_index: int - the starting index for numbering the options. Default is 1. will always be provided by developer not user.
-    menu_name: str - the name of the menu for display purposes. Default is "options". will always be provided by developer not user.
+    Display a numbered list of options and prompt the user to make a selection.
+    Parameters:
+      options: list of strings or a dictionary of dictionaries. The items to be numbered and displayed.
+        - Lists will be menu options in the form of a list of strings or menu items in the form of a list of strings (each string being an item).
+        - Dictionaries will be key value pairs where the key is an order number and the value is a dictionary of order details. The last order will NEVER be reserved for 0.
+      prompt_message: The message to display when prompting the user for input.
+      allow_zero: If True, allows 0 as a valid input for going back or exiting (default is False).
+      start_index: The starting index for numbering (default is 1).
+      menu_name: Name of the menu for display purposes (default is "options").
+    Returns:
+      The user's valid selection as a string.
+    Raises:
+      None (handles invalid input internally).
+    Side Effects:
+      - Prints the numbered list and prompts to the console.
+      - Prints error messages for invalid input.
+    Dependencies/Assumptions:
+      - `options` is always going to be a list of strings or a dictionary provided by the developer.
+      - `prompt_message` is always going to be a string provided by the developer.
+      - `allow_zero` is always going to be a boolean provided by the developer.
+      - `start_index` is always going to be an integer provided by the developer.
+      - `menu_name` is always going to be a string provided by the developer.
     """
     function_loop = 0
     while function_loop == 0:
