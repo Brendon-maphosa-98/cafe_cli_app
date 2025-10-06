@@ -46,6 +46,72 @@ def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print):
             f"\nAn unexpected error occurred: {e}. Returning to {menu_name} menu."
         )
         return None
+    
+# helper function to prompt user for order customer first and last name
+def user_prompt_for_order_customer_name(input_fn=input, output_fn=print):
+    """
+    This function:
+        1) Prompts the user to enter the first name and last name of the customer for the order.
+        2) Validates that both names are provided and not empty.
+        3) Validates that the names contain only alphabetic characters.
+    Returns:
+        A tuple containing the first name and last name as strings if valid input is provided.
+        None if the operation is cancelled or invalid input is given.
+    Args:
+        input_fn: Function to use for input (default is built-in input).
+        output_fn: Function to use for output (default is built-in print).
+    side effects:
+        Prompts the user for input and prints messages to the console.
+    dependencies/assumptions:
+        The function assumes that the input_fn and output_fn are callable and behave like the built-in input and print functions.
+    """
+    try:
+        while True:
+            first_name = (
+                input_fn("Enter the customer's first name: ").strip().title()
+            )
+            last_name = input_fn("Enter the customer's last name: ").strip().title()
+            inner_loop = 0
+            while inner_loop == 0:
+                if not first_name or not last_name:
+                    choice = input_fn(
+                        "First name and last name cannot be empty. Press 1 to try again or 2 to cancel: "
+                    )
+                    if choice == "2":
+                        output_fn(
+                            "Operation cancelled. Returning to Orders menu."
+                        )
+                        return None
+                    elif choice == "1":
+                        inner_loop = 1  # Break inner loop to re-prompt for input
+                    else:
+                        output_fn("Invalid choice.")
+                        inner_loop = 0  # Stay in the inner loop
+                elif not first_name.isalpha() or not last_name.isalpha():
+                    choice = input_fn(
+                        "Names must contain only alphabetic characters. Press 1 to try again or 2 to cancel: "
+                    )
+                    if choice == "2":
+                        output_fn(
+                            "Operation cancelled. Returning to Orders menu."
+                        )
+                        return None
+                    elif choice == "1":
+                        inner_loop = 1  # Break inner loop to re-prompt for input
+                    else:
+                        output_fn("Invalid choice.")
+                        inner_loop = 0  # Stay in the inner loop
+                else:
+                    return first_name, last_name
+    except KeyboardInterrupt:
+        output_fn("\nOperation cancelled. Returning to Orders menu.")
+        return None
+    except StopIteration:
+        output_fn("\nNo more input available. Returning to Orders menu.")
+        return None
+    except Exception as e:
+        output_fn(f"\nAn unexpected error occurred: {e}. Returning to Orders menu.")
+        return None
 
 
 # function to add a new item to a list
