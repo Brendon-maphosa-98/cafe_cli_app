@@ -547,6 +547,7 @@ def test_dict_input_out_of_range_returns_not_a_valid_option():
 
 import builtins
 
+
 # test that it retries until valid input is given for list_selection_choice with list of options
 def test_list_selection_choice_retries_until_valid(monkeypatch, capsys):
     # arrange
@@ -572,6 +573,7 @@ def test_list_selection_choice_retries_until_valid(monkeypatch, capsys):
     assert "NOT_A_NUMBER" in captured  # came from first invalid input
     assert "NOT_A_VALID_OPTION" in captured  # came from second invalid input
     assert "1. Apple" in captured  # menu display was printed
+
 
 # test that it retries until valid input is given for list_selection_choice with dict of orders
 def test_list_selection_choice_dict_retries_until_valid(monkeypatch, capsys):
@@ -601,5 +603,3 @@ def test_list_selection_choice_dict_retries_until_valid(monkeypatch, capsys):
     assert "NOT_A_NUMBER" in captured  # came from first invalid input
     assert "NOT_A_VALID_OPTION" in captured  # came from second invalid input
     assert "Order 1 - Item: Coffee" in captured  # menu display was printed
-
-

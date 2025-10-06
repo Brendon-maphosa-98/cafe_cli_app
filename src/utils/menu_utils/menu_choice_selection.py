@@ -34,23 +34,25 @@ def numbered_display(
             raise TypeError("reserve_zero_for_last must be a boolean.")
         if len(options) == 0:
             return f"No {menu_name} to display."
-        if isinstance(options,list) and all(option.strip() == "" for option in options):
+        if isinstance(options, list) and all(
+            option.strip() == "" for option in options
+        ):
             return f"No {menu_name} to display."
-        if isinstance(options,dict) and all(not value for value in options.values()):
+        if isinstance(options, dict) and all(not value for value in options.values()):
             return f"No {menu_name} to display."
 
         display_str = ""  # Accumulate the formatted list into a single string
 
         item_index = start_index
 
-        if isinstance(options,list):
+        if isinstance(options, list):
             for i, option in enumerate(options):
                 if reserve_zero_for_last and i == len(options) - 1:
                     display_str += f"\n0. {option.strip()}"
                 else:
                     display_str += f"{item_index}. {option.strip()}\n"
                     item_index += 1
-        elif isinstance(options,dict):
+        elif isinstance(options, dict):
             for key, value in options.items():
                 display_str += f"Order {key} - "
                 order_details = []

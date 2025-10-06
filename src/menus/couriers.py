@@ -1,4 +1,7 @@
-from src.utils.menu_utils.menu_choice_selection import list_selection_choice,numbered_display
+from src.utils.menu_utils.menu_choice_selection import (
+    list_selection_choice,
+    numbered_display,
+)
 
 from src.utils.menu_modify_utils.menu_modification import (
     user_prompt_for_new_item,

@@ -843,8 +843,6 @@ def test_output_fn_must_be_callable(monkeypatch):
         update_existing_item_in_list(items, menu_name, output_fn="not a function")  # type: ignore[arg-type]
 
 
-# TO DO - add tests for delete_item_from_list
-
 # happy path
 
 
@@ -1065,8 +1063,10 @@ def test_delete_item_from_list_out_of_range_index():
 
     def fake_output(msg):
         outputs.append(msg)
+
     def fake_list_selection_choice(options, prompt, menu_name_arg):
         return 5  # out-of-range index
+
     m = _func_module()
     monkeypatch = pytest.MonkeyPatch()
     monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
