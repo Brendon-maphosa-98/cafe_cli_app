@@ -1,3 +1,5 @@
+import re
+
 from src.utils.menu_utils.menu_choice_selection import list_selection_choice
 
 # functions modifying lists
@@ -46,7 +48,8 @@ def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print):
             f"\nAn unexpected error occurred: {e}. Returning to {menu_name} menu."
         )
         return None
-    
+
+
 # helper function to prompt user for order customer first and last name
 def user_prompt_for_order_customer_name(input_fn=input, output_fn=print):
     """
@@ -67,34 +70,32 @@ def user_prompt_for_order_customer_name(input_fn=input, output_fn=print):
     """
     try:
         while True:
-            first_name = (
-                input_fn("Enter the customer's first name: ").strip().title()
-            )
+            first_name = input_fn("Enter the customer's first name: ").strip().title()
             last_name = input_fn("Enter the customer's last name: ").strip().title()
             inner_loop = 0
             while inner_loop == 0:
+                # Case: either name missing
                 if not first_name or not last_name:
                     choice = input_fn(
                         "First name and last name cannot be empty. Press 1 to try again or 2 to cancel: "
                     )
                     if choice == "2":
-                        output_fn(
-                            "Operation cancelled. Returning to Orders menu."
-                        )
+                        output_fn("Operation cancelled. Returning to Orders menu.")
                         return None
                     elif choice == "1":
                         inner_loop = 1  # Break inner loop to re-prompt for input
                     else:
                         output_fn("Invalid choice.")
                         inner_loop = 0  # Stay in the inner loop
-                elif not first_name.isalpha() or not last_name.isalpha():
+                # Case: invalid characters (now allow letters, hyphens and apostrophes)
+                elif not re.match(r"^[A-Za-z'-]+$", first_name) or not re.match(
+                    r"^[A-Za-z'-]+$", last_name
+                ):
                     choice = input_fn(
-                        "Names must contain only alphabetic characters. Press 1 to try again or 2 to cancel: "
+                        "Names must contain only alphabetic characters, hyphens or apostrophes. Press 1 to try again or 2 to cancel: "
                     )
                     if choice == "2":
-                        output_fn(
-                            "Operation cancelled. Returning to Orders menu."
-                        )
+                        output_fn("Operation cancelled. Returning to Orders menu.")
                         return None
                     elif choice == "1":
                         inner_loop = 1  # Break inner loop to re-prompt for input
@@ -230,6 +231,6 @@ def delete_item_from_list(list_to_modify, menu_name, output_fn=print):
         list_to_modify.pop(list_to_modify[int(selected_index)])  # type: ignore
         output_fn(f"{menu_name[:-1]} deleted successfully.")
         return True
-    
+
 
 # TO DO - create functions to modify orders lists (user prompt for new order, add new order to list, update existing order in list, delete order from list)

@@ -4,6 +4,7 @@ from src.utils.menu_modify_utils.menu_modification import (
     add_new_item_to_list,
     update_existing_item_in_list,
     delete_item_from_list,
+    user_prompt_for_order_customer_name,
 )
 
 
@@ -551,6 +552,7 @@ def test_list_to_modify_is_not_mutable_raises_attributeerror():
 
 # ------ update_existing_item_in_list ------
 
+
 # utility to get the function's defining module for monkeypatching helpers
 def _func_module():
     return sys.modules[update_existing_item_in_list.__module__]
@@ -559,6 +561,7 @@ def _func_module():
 # ------------------------------
 # Happy path
 # ------------------------------
+
 
 def test_updates_middle_item_success(monkeypatch):
     # Arrange
@@ -602,9 +605,14 @@ def test_updates_first_item_success_index_zero(monkeypatch):
     menu_name = "Products"
     outputs = []
 
-    def fake_output(msg): outputs.append(msg)
-    def fake_list_selection_choice(options, prompt, menu_name_arg): return 0
-    def fake_user_prompt_for_new_item(menu_name_arg): return "Ristretto"
+    def fake_output(msg):
+        outputs.append(msg)
+
+    def fake_list_selection_choice(options, prompt, menu_name_arg):
+        return 0
+
+    def fake_user_prompt_for_new_item(menu_name_arg):
+        return "Ristretto"
 
     monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
     monkeypatch.setattr(m, "user_prompt_for_new_item", fake_user_prompt_for_new_item)
@@ -626,9 +634,14 @@ def test_updates_last_item_success(monkeypatch):
     menu_name = "Products"
     outputs = []
 
-    def fake_output(msg): outputs.append(msg)
-    def fake_list_selection_choice(options, prompt, menu_name_arg): return len(items) - 1
-    def fake_user_prompt_for_new_item(menu_name_arg): return "Macchiato"
+    def fake_output(msg):
+        outputs.append(msg)
+
+    def fake_list_selection_choice(options, prompt, menu_name_arg):
+        return len(items) - 1
+
+    def fake_user_prompt_for_new_item(menu_name_arg):
+        return "Macchiato"
 
     monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
     monkeypatch.setattr(m, "user_prompt_for_new_item", fake_user_prompt_for_new_item)
@@ -650,9 +663,14 @@ def test_allows_duplicate_values_on_update(monkeypatch):
     menu_name = "Products"
     outputs = []
 
-    def fake_output(msg): outputs.append(msg)
-    def fake_list_selection_choice(options, prompt, menu_name_arg): return 1  # "Latte"
-    def fake_user_prompt_for_new_item(menu_name_arg): return "Tea"  # duplicate allowed
+    def fake_output(msg):
+        outputs.append(msg)
+
+    def fake_list_selection_choice(options, prompt, menu_name_arg):
+        return 1  # "Latte"
+
+    def fake_user_prompt_for_new_item(menu_name_arg):
+        return "Tea"  # duplicate allowed
 
     monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
     monkeypatch.setattr(m, "user_prompt_for_new_item", fake_user_prompt_for_new_item)
@@ -671,6 +689,7 @@ def test_allows_duplicate_values_on_update(monkeypatch):
 # Edge cases
 # ------------------------------
 
+
 def test_empty_list_returns_false_and_message(monkeypatch):
     # Arrange
     m = _func_module()
@@ -678,7 +697,8 @@ def test_empty_list_returns_false_and_message(monkeypatch):
     menu_name = "Products"
     outputs = []
 
-    def fake_output(msg): outputs.append(msg)
+    def fake_output(msg):
+        outputs.append(msg)
 
     # (No helper calls expected; early return)
     # Act
@@ -697,9 +717,14 @@ def test_user_cancels_after_selection_returns_none_no_mutation(monkeypatch):
     menu_name = "Products"
     outputs = []
 
-    def fake_output(msg): outputs.append(msg)
-    def fake_list_selection_choice(options, prompt, menu_name_arg): return 0  # "Tea"
-    def fake_user_prompt_for_new_item(menu_name_arg): return None  # cancellation
+    def fake_output(msg):
+        outputs.append(msg)
+
+    def fake_list_selection_choice(options, prompt, menu_name_arg):
+        return 0  # "Tea"
+
+    def fake_user_prompt_for_new_item(menu_name_arg):
+        return None  # cancellation
 
     monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
     monkeypatch.setattr(m, "user_prompt_for_new_item", fake_user_prompt_for_new_item)
@@ -721,9 +746,14 @@ def test_empty_menu_name_formats_messages(monkeypatch):
     menu_name = ""  # edge: empty menu name
     outputs = []
 
-    def fake_output(msg): outputs.append(msg)
-    def fake_list_selection_choice(options, prompt, menu_name_arg): return 0
-    def fake_user_prompt_for_new_item(menu_name_arg): return "Green Tea"
+    def fake_output(msg):
+        outputs.append(msg)
+
+    def fake_list_selection_choice(options, prompt, menu_name_arg):
+        return 0
+
+    def fake_user_prompt_for_new_item(menu_name_arg):
+        return "Green Tea"
 
     monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
     monkeypatch.setattr(m, "user_prompt_for_new_item", fake_user_prompt_for_new_item)
@@ -748,7 +778,8 @@ def test_none_list_treated_as_empty_returns_false(monkeypatch):
     menu_name = "Products"
     outputs = []
 
-    def fake_output(msg): outputs.append(msg)
+    def fake_output(msg):
+        outputs.append(msg)
 
     # Act
     result = update_existing_item_in_list(items, menu_name, output_fn=fake_output)  # type: ignore[arg-type]
@@ -762,6 +793,7 @@ def test_none_list_treated_as_empty_returns_false(monkeypatch):
 # Unhappy paths (type/contract violations)
 # ------------------------------
 
+
 def test_immutable_sequence_raises_typeerror_on_assignment(monkeypatch):
     # Arrange
     # Violates the "mutable sequence" assumption; tuple cannot be assigned to.
@@ -770,9 +802,14 @@ def test_immutable_sequence_raises_typeerror_on_assignment(monkeypatch):
     menu_name = "Products"
     outputs = []
 
-    def fake_output(msg): outputs.append(msg)
-    def fake_list_selection_choice(options, prompt, menu_name_arg): return 0
-    def fake_user_prompt_for_new_item(menu_name_arg): return "Green Tea"
+    def fake_output(msg):
+        outputs.append(msg)
+
+    def fake_list_selection_choice(options, prompt, menu_name_arg):
+        return 0
+
+    def fake_user_prompt_for_new_item(menu_name_arg):
+        return "Green Tea"
 
     monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
     monkeypatch.setattr(m, "user_prompt_for_new_item", fake_user_prompt_for_new_item)
@@ -791,8 +828,11 @@ def test_output_fn_must_be_callable(monkeypatch):
     items = ["Tea"]
     menu_name = "Products"
 
-    def fake_list_selection_choice(options, prompt, menu_name_arg): return 0
-    def fake_user_prompt_for_new_item(menu_name_arg): return "Herbal Tea"
+    def fake_list_selection_choice(options, prompt, menu_name_arg):
+        return 0
+
+    def fake_user_prompt_for_new_item(menu_name_arg):
+        return "Herbal Tea"
 
     monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
     monkeypatch.setattr(m, "user_prompt_for_new_item", fake_user_prompt_for_new_item)
@@ -804,3 +844,161 @@ def test_output_fn_must_be_callable(monkeypatch):
 
 
 # TO DO - add tests for delete_item_from_list
+
+
+# ------ user_prompt_for_order_customer_name (happy path) ------
+
+
+def test_user_prompt_for_order_customer_name_valid_immediate():
+    # arrange
+    inputs = iter(["john", "doe"])
+
+    def fake_input(prompt):
+        return next(inputs)
+
+    # act
+    result = user_prompt_for_order_customer_name(input_fn=fake_input)
+
+    # assert
+    assert result == (
+        "John",
+        "Doe",
+    ), "Expected ('John', 'Doe') for inputs 'john', 'doe'"
+
+
+def test_user_prompt_for_order_customer_name_whitespace_and_mixed_case():
+    # arrange
+    inputs = iter(["   aLiCe  ", "  bRoWn"])
+
+    def fake_input(prompt):
+        return next(inputs)
+
+    # act
+    result = user_prompt_for_order_customer_name(input_fn=fake_input)
+
+    # assert
+    assert result == (
+        "Alice",
+        "Brown",
+    ), "Expected ('Alice', 'Brown') after stripping and titling"
+
+
+def test_user_prompt_for_order_customer_name_single_letter_names():
+    # arrange
+    inputs = iter(["a", "b"])
+
+    def fake_input(prompt):
+        return next(inputs)
+
+    # act
+    result = user_prompt_for_order_customer_name(input_fn=fake_input)
+
+    # assert
+    assert result == ("A", "B"), "Expected ('A', 'B') for single-letter names"
+
+
+# ------ user_prompt_for_order_customer_name (edge cases) ------
+
+
+def test_user_cancels_during_empty_name_prompt():
+    # arrange
+    inputs = iter(["", "", "2"])  # first name blank, last name blank, then cancel
+
+    def fake_input(prompt):
+        return next(inputs)
+
+    outputs = []
+
+    def fake_output(msg):
+        outputs.append(msg)
+
+    # act
+    result = user_prompt_for_order_customer_name(
+        input_fn=fake_input, output_fn=fake_output
+    )
+
+    # assert
+    assert result is None
+    assert outputs[-1] == "Operation cancelled. Returning to Orders menu."
+
+
+def test_user_provides_hyphen_and_apostrophe_names():
+    # arrange - names with hyphen and apostrophe should be accepted
+    inputs = iter(["anne-marie", "o'neill"])
+
+    def fake_input(prompt):
+        return next(inputs)
+
+    # act
+    result = user_prompt_for_order_customer_name(input_fn=fake_input)
+
+    # assert
+    assert result == ("Anne-Marie", "O'Neill")
+
+
+# ------ user_prompt_for_order_customer_name (unhappy paths) ------
+
+
+def test_user_provides_invalid_characters_then_cancels():
+    # arrange
+    inputs = iter(["John3", "Doe", "2"])  # invalid first name then cancel
+
+    def fake_input(prompt):
+        return next(inputs)
+
+    outputs = []
+
+    def fake_output(msg):
+        outputs.append(msg)
+
+    # act
+    result = user_prompt_for_order_customer_name(
+        input_fn=fake_input, output_fn=fake_output
+    )
+
+    # assert
+    assert result is None
+    assert outputs[-1] == "Operation cancelled. Returning to Orders menu."
+
+
+def test_order_prompt_input_iterator_runs_out_returns_none():
+    # arrange
+    inputs = iter([])  # no inputs
+
+    def fake_input(prompt):
+        return next(inputs)
+
+    outputs = []
+
+    def fake_output(msg):
+        outputs.append(msg)
+
+    # act
+    result = user_prompt_for_order_customer_name(
+        input_fn=fake_input, output_fn=fake_output
+    )
+
+    # assert
+    assert result is None
+    assert outputs[-1] == "\nNo more input available. Returning to Orders menu."
+
+
+def test_order_prompt_input_fn_raises_keyboardinterrupt_returns_none():
+    # arrange
+
+    def fake_input(prompt):
+        raise KeyboardInterrupt()
+
+    outputs = []
+
+    def fake_output(msg):
+        outputs.append(msg)
+
+    # act
+    result = user_prompt_for_order_customer_name(
+        input_fn=fake_input, output_fn=fake_output
+    )
+
+    # assert
+    assert result is None
+    assert outputs[-1] == "\nOperation cancelled. Returning to Orders menu."
