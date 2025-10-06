@@ -94,11 +94,12 @@ def test_items_are_displayed_as_given():
     # assert
     assert result == expected_output
 
+
 def test_dictionary_orders_display():
     # arrange
     orders = {
         1: {"item": "coffee", "price": "$3.50", "status": "ready"},
-        2: {"item": "sandwich", "price": "$7.00", "status": "preparing"}
+        2: {"item": "sandwich", "price": "$7.00", "status": "preparing"},
     }
     expected_output = (
         "Order 1 - Item: Coffee, Price: $3.50, Status: Ready\n"
@@ -241,6 +242,7 @@ def test_reserve_zero_for_last_with_whitespace_and_mixed_values():
     assert result.startswith("An error occurred while generating the list:")
     assert "object has no attribute 'strip'" in result
 
+
 def test_empty_dictionary_returns_custom_empty_message():
     # arrange
     orders = {}
@@ -347,6 +349,7 @@ def test_option_contains_non_string_value_returns_error_message():
     assert result.startswith("An error occurred while generating the list:")
     assert "object has no attribute 'strip'" in result
 
+
 def test_options_is_not_list_or_dict_returns_error_message():
     # arrange
     menu_name = "products"
@@ -413,6 +416,19 @@ def test_valid_zero_when_allowed():
     assert result == True
 
 
+def test_valid_option_with_dict_by_count():
+    # arrange
+    user_input = "1"
+    # dict with two orders -> treated by validator based on count (len==2)
+    options = {10: {"item": "coffee"}, 20: {"item": "tea"}}
+
+    # act
+    result = choice_validator(user_input, options)
+
+    # assert
+    assert result is True
+
+
 # edge cases
 
 
@@ -426,6 +442,18 @@ def test_zero_not_allowed():
 
     # assert
     assert result == "NOT_A_VALID_OPTION"
+
+
+def test_zero_allowed_with_non_empty_dict():
+    # arrange
+    user_input = "0"
+    options = {1: {"item": "coffee"}}
+
+    # act
+    result = choice_validator(user_input, options, allow_zero=True)
+
+    # assert
+    assert result is True
 
 
 def test_empty_options_list_with_input_one():
@@ -501,6 +529,18 @@ def test_non_numeric_input_float_string():
 
     # assert
     assert result == "NOT_A_NUMBER"
+
+
+def test_dict_input_out_of_range_returns_not_a_valid_option():
+    # arrange
+    user_input = "3"
+    options = {1: {"item": "a"}, 2: {"item": "b"}}
+
+    # act
+    result = choice_validator(user_input, options)
+
+    # assert
+    assert result == "NOT_A_VALID_OPTION"
 
 
 # integration test for list_selection_choice function
