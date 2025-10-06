@@ -5,10 +5,23 @@ def numbered_display(
     options, menu_name="options", start_index=1, reserve_zero_for_last=False
 ):
     """
-    Build and return a string representation of a numbered list of options.
-    Each option is prefixed with its index in the list, starting from start_index.
-    If reserve_zero_for_last is True, the last option is assigned to 0.
-    If the options list is empty, return empty_messege or a default message.
+    Generate a numbered list string from `options` for display.
+    Parameters:
+      options: List of strings or a dictionary to be displayed as a numbered list.
+      reserve_zero_for_last: If True, the last item is numbered 0 (for 'back' option).
+      start_index: The starting index for numbering (default is 1).
+      menu_name: Name of the menu for display purposes (default is "options").
+    Returns:
+      A formatted string representing the numbered list, or a message if the list is empty.
+    Raises:
+      TypeError: If `options` is not a list or dictionary. and if `start_index` is not an integer.
+    Side Effects:
+      - None (pure function).
+    Dependencies/Assumptions:
+      - `options` is always going to be a list of strings or a dictionary provided by the developer.
+      - `start_index` is always going to be an integer provided by the developer.
+      - `reserve_zero_for_last` is always going to be a boolean provided by the developer.
+      - `menu_name` is always going to be a string provided by the developer.
     """
     try:
         if not isinstance(options, list):
