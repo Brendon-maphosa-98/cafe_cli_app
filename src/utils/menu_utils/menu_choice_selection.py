@@ -10,7 +10,7 @@ def numbered_display(
       options: list of strings or a dictionary of dictionaries. The items to be numbered and displayed.
         - Lists will be menu options in the form of a list of strings or menu items in the form of a list of strings (each string being an item).
         - Dictionaries will be key value pairs where the key is an order number and the value is a dictionary of order details. The last order will NEVER be reserved for 0.
-      reserve_zero_for_last: If True, the last item is numbered 0 (for 'back' option).
+      reserve_zero_for_last: If True, the last item is numbered 0 (for 'back' option). Note: This is only applicable for lists of menu options, not for dictionaries of orders or lists of items.
       start_index: The starting index for numbering (default is 1).
       menu_name: Name of the menu for display purposes (default is "options").
     Returns:
