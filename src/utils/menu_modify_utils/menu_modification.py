@@ -227,8 +227,8 @@ def delete_item_from_list(list_to_modify, menu_name, output_fn=print):
     if selected_index is None:
         return selected_index
     else:
-        output_fn(f"You have selected to delete: {list_to_modify[int(selected_index)]}")  # type: ignore
-        list_to_modify.pop(list_to_modify[int(selected_index)])  # type: ignore
+        output_fn(f"You have selected to delete: {list_to_modify[int(selected_index)]}") 
+        list_to_modify.pop(int(selected_index))  
         output_fn(f"{menu_name[:-1]} deleted successfully.")
         return True
 
