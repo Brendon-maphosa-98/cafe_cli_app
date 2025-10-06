@@ -34,7 +34,9 @@ def numbered_display(
             raise TypeError("reserve_zero_for_last must be a boolean.")
         if len(options) == 0:
             return f"No {menu_name} to display."
-        if all(option.strip() == "" for option in options):
+        if isinstance(options,list) and all(option.strip() == "" for option in options):
+            return f"No {menu_name} to display."
+        if isinstance(options,dict) and all(not value for value in options.values()):
             return f"No {menu_name} to display."
 
         display_str = ""  # Accumulate the formatted list into a single string

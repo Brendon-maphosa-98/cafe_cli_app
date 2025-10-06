@@ -94,6 +94,35 @@ def test_items_are_displayed_as_given():
     # assert
     assert result == expected_output
 
+def test_dictionary_orders_display():
+    # arrange
+    orders = {
+        1: {"item": "coffee", "price": "$3.50", "status": "ready"},
+        2: {"item": "sandwich", "price": "$7.00", "status": "preparing"}
+    }
+    expected_output = (
+        "Order 1 - Item: Coffee, Price: $3.50, Status: Ready\n"
+        "Order 2 - Item: Sandwich, Price: $7.00, Status: Preparing"
+    )
+
+    # act
+    result = numbered_display(orders, "orders")
+
+    # assert
+    assert result == expected_output
+
+
+def test_single_order_dictionary():
+    # arrange
+    orders = {1: {"item": "tea", "price": "$2.00"}}
+    expected_output = "Order 1 - Item: Tea, Price: $2.00"
+
+    # act
+    result = numbered_display(orders, "orders")
+
+    # assert
+    assert result == expected_output
+
 
 # edge cases
 
@@ -212,6 +241,30 @@ def test_reserve_zero_for_last_with_whitespace_and_mixed_values():
     assert result.startswith("An error occurred while generating the list:")
     assert "object has no attribute 'strip'" in result
 
+def test_empty_dictionary_returns_custom_empty_message():
+    # arrange
+    orders = {}
+    expected_output = "No orders to display."
+
+    # act
+    result = numbered_display(orders, "orders")
+
+    # assert
+    assert result == expected_output
+
+
+def test_dictionary_ignores_reserve_zero_for_last():
+    # arrange
+    orders = {1: {"item": "coffee", "price": "$3.50"}}
+    expected_output = "Order 1 - Item: Coffee, Price: $3.50"
+
+    # act
+    # reserve_zero_for_last should not change dictionary formatting
+    result = numbered_display(orders, "orders", reserve_zero_for_last=True)
+
+    # assert
+    assert result == expected_output
+
 
 # unhappy path
 
@@ -226,7 +279,7 @@ def test_options_is_not_a_list_returns_error_message():
 
     # assert
     assert result.startswith("An error occurred while generating the list:")
-    assert "Options must be a list." in result
+    assert "Options must be a list or a dictionary." in result
 
 
 def test_start_index_is_float_returns_error_message():
@@ -293,6 +346,18 @@ def test_option_contains_non_string_value_returns_error_message():
     # assert
     assert result.startswith("An error occurred while generating the list:")
     assert "object has no attribute 'strip'" in result
+
+def test_options_is_not_list_or_dict_returns_error_message():
+    # arrange
+    menu_name = "products"
+    options = 12345  # not a list or dict
+
+    # act
+    result = numbered_display(options, menu_name)
+
+    # assert
+    assert result.startswith("An error occurred while generating the list:")
+    assert "Options must be a list or a dictionary." in result
 
 
 # Tests for choice validator function
