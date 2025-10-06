@@ -103,7 +103,6 @@ def choice_validator(user_input, options, allow_zero=False):
 def list_selection_choice(
     options, prompt_message, allow_zero=False, start_index=1, menu_name="options"
 ):
-    # Ongoing update: update docstring to reflect that options can be a dictionary of orders
     """
     Display a numbered list of options and prompt the user to make a selection.
     Parameters:
