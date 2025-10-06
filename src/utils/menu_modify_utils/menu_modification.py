@@ -114,6 +114,72 @@ def user_prompt_for_order_customer_name(input_fn=input, output_fn=print):
         output_fn(f"\nAn unexpected error occurred: {e}. Returning to Orders menu.")
         return None
 
+# function to prompt user for customer address
+def user_prompt_for_order_customer_address(input_fn=input, output_fn=print):
+    """
+    This function:
+        1) Prompts the user to enter the address of the customer for the order.
+        2) Validates that the address is provided and not empty.
+        3: Uses regex to validate the address format and ensure it contains valid characters.
+    Returns:
+        The address as a string if valid input is provided.
+        None if the operation is cancelled or invalid input is given.
+    Args:
+        input_fn: Function to use for input (default is built-in input).
+        output_fn: Function to use for output (default is built-in print).
+    side effects:
+        Prompts the user for input and prints messages to the console.
+    dependencies/assumptions:
+        The function assumes that the input_fn and output_fn are callable and behave like the built-in input and print functions.
+    """
+    UK_address_pattern = re.compile(
+        r"^\d+\s[A-Za-z0-9\s,'-]+,\s[A-Za-z\s'-]+,\s[A-Z]{1,2}\d{1,2}\s?\d[A-Z]{2}$"
+    ) # Simplified UK address regex pattern. This pattern may not cover all valid UK addresses but serves as a basic validation.
+    try:
+        while True:
+            number_and_street = input_fn("Enter the customer's street address (e.g., '123 Main St'): ").strip().title()
+            city = input_fn("Enter the customer's city (e.g., 'London'): ").strip().title()
+            postcode = input_fn("Enter the customer's postcode (e.g., 'SW1A 1AA'): ").strip().upper()
+            address = f"{number_and_street}, {city}, {postcode}"
+            inner_loop = 0
+            while inner_loop == 0:
+                # Case: address missing
+                if not number_and_street or not city or not postcode:
+                    choice = input_fn(
+                        "Address fields cannot be empty. Press 1 to try again or 2 to cancel: "
+                    )
+                    if choice == "2":
+                        output_fn("Operation cancelled. Returning to Orders menu.")
+                        return None
+                    elif choice == "1":
+                        inner_loop = 1  # Break inner loop to re-prompt for input
+                    else:
+                        output_fn("Invalid choice.")
+                        inner_loop = 0  # Stay in the inner loop
+                # Case: invalid address format
+                elif not UK_address_pattern.match(address):
+                    choice = input_fn(
+                        "Address format is invalid. Ensure it includes street, city, and postcode, uses valid characters, is a UK address and follows the format '123 Main St, London, SW1A 1AA'.\n\n Press 1 to try again or 2 to cancel: "
+                    )
+                    if choice == "2":
+                        output_fn("Operation cancelled. Returning to Orders menu.")
+                        return None
+                    elif choice == "1":
+                        inner_loop = 1  # Break inner loop to re-prompt for input
+                    else:
+                        output_fn("Invalid choice.")
+                        inner_loop = 0  # Stay in the inner loop
+                else:
+                    return address
+    except KeyboardInterrupt:
+        output_fn("\nOperation cancelled. Returning to Orders menu.")
+        return None
+    except StopIteration:
+        output_fn("\nNo more input available. Returning to Orders menu.")
+        return None
+    except Exception as e:
+        output_fn(f"\nAn unexpected error occurred: {e}. Returning to Orders menu.")
+        return None
 
 # function to add a new item to a list
 
