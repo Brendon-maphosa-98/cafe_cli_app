@@ -7,7 +7,9 @@ def numbered_display(
     """
     Generate a numbered list string from `options` for display.
     Parameters:
-      options: List of strings or a dictionary to be displayed as a numbered list.
+      options: list of strings or a dictionary of dictionaries. The items to be numbered and displayed.
+        - Lists will be menu options in the form of a list of strings or menu items in the form of a list of strings (each string being an item).
+        - Dictionaries will be key value pairs where the key is an order number and the value is a dictionary of order details. The last order will NEVER be reserved for 0.
       reserve_zero_for_last: If True, the last item is numbered 0 (for 'back' option).
       start_index: The starting index for numbering (default is 1).
       menu_name: Name of the menu for display purposes (default is "options").
@@ -24,8 +26,8 @@ def numbered_display(
       - `menu_name` is always going to be a string provided by the developer.
     """
     try:
-        if not isinstance(options, list):
-            raise TypeError("Options must be a list.")
+        if not isinstance(options, (list, dict)):
+            raise TypeError("Options must be a list or a dictionary.")
         if isinstance(start_index, float) or not isinstance(start_index, int):
             raise TypeError("Start index must be an integer.")
         if not isinstance(reserve_zero_for_last, bool):
@@ -39,13 +41,20 @@ def numbered_display(
 
         item_index = start_index
 
-        for i, option in enumerate(options):
-            if reserve_zero_for_last and i == len(options) - 1:
-                display_str += f"\n0. {option.strip()}"
-            else:
-                display_str += f"{item_index}. {option.strip()}\n"
-                item_index += 1
-
+        if isinstance(options,list):
+            for i, option in enumerate(options):
+                if reserve_zero_for_last and i == len(options) - 1:
+                    display_str += f"\n0. {option.strip()}"
+                else:
+                    display_str += f"{item_index}. {option.strip()}\n"
+                    item_index += 1
+        elif isinstance(options,dict):
+            for key, value in options.items():
+                display_str += f"Order {key} - "
+                order_details = []
+                for detail_key, detail_value in value.items():
+                    order_details.append(f"{detail_key}: {detail_value}")
+                display_str += ", ".join(order_details) + "\n"
         return (
             display_str.strip().title()
         )  # Return the complete formatted list string without trailing newline
