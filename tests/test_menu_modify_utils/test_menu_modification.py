@@ -6,6 +6,7 @@ from src.utils.menu_modify_utils.menu_modification import (
     delete_item_from_list,
     user_prompt_for_order_customer_name,
     user_prompt_for_order_customer_address,
+    user_prompt_for_order_customer_phone,
 )
 
 
@@ -1593,3 +1594,265 @@ def test_user_prompt_for_order_customer_address_unexpected_exception():
         outputs[-1]
         == f"\nAn unexpected error occurred: Unexpected error. Returning to {menu_name} menu."
     )
+
+
+# ------ user_prompt_for_customer_phone_number (happy path) ------
+
+def test_user_prompt_for_order_customer_phone_valid_input():
+    """Tests that a correctly formatted number (e.g. '07123456789') is accepted and returned as-is.
+    Expected outcome: function returns '07123456789' without re-prompting.
+    """
+
+    # arrange
+    inputs = iter(["07123456789"])  # valid UK mobile number
+    def fake_input(prompt):
+        return next(inputs) 
+    # act
+    result = user_prompt_for_order_customer_phone(input_fn=fake_input)
+    # assert
+    assert result == "07123456789"
+
+def test_user_prompt_for_order_customer_phone_trims_spaces():
+    """Ensures that leading/trailing spaces around a valid number are stripped before validation.
+    Expected outcome: returns the cleaned number '07123456789'.
+    """
+    # arrange
+    inputs = iter(["  07123456789  "])  # valid number with spaces
+    def fake_input(prompt):
+        return next(inputs) 
+    # act
+    result = user_prompt_for_order_customer_phone(input_fn=fake_input)
+    # assert
+    assert result == "07123456789"
+
+def test_user_prompt_for_order_customer_phone_multiple_valid_attempts():
+    """Simulates user initially entering an invalid number, then a valid one after retry.
+    Expected outcome: returns the final valid number '07123456789' after one re-prompt.
+    """
+    # arrange
+    inputs = iter([
+        "12345",          # invalid (too short)
+        "1",              # choose to retry
+        "07123456789"    # valid on retry
+    ])
+    def fake_input(prompt):
+        return next(inputs) 
+
+    # act
+    result = user_prompt_for_order_customer_phone(
+        input_fn=fake_input
+    )
+    # assert
+    assert result == "07123456789"
+
+# ------ user_prompt_for_customer_phone_number (edge cases) ------
+
+def test_user_prompt_for_order_customer_phone_minimum_length():
+    """Validates that the function rejects numbers shorter than 11 digits and accepts exactly 11.
+    Expected outcome: 10-digit number rejected; 11-digit valid number accepted and returned.
+    """
+    # arrange
+    inputs = iter([
+        "0712345678",    # invalid (10 digits)
+        "1",             # choose to retry
+        "07123456789"   # valid (11 digits)
+    ])
+    def fake_input(prompt):
+        return next(inputs) 
+
+    # act
+    result = user_prompt_for_order_customer_phone(
+        input_fn=fake_input
+    )
+    # assert
+    assert result == "07123456789"
+
+def test_user_prompt_for_order_customer_phone_excess_length():
+    """Checks behaviour when user inputs a 12+ digit number (too long).
+    Expected outcome: invalid message displayed, user can retry or cancel.
+    """
+    # arrange
+    inputs = iter([
+        "071234567890",  # invalid (12 digits)
+        "1",             # choose to retry
+        "07123456789"   # valid (11 digits)
+    ])
+    def fake_input(prompt):
+        return next(inputs) 
+
+    # act
+    result = user_prompt_for_order_customer_phone(
+        input_fn=fake_input
+    )
+    # assert
+    assert result == "07123456789"
+
+
+def test_user_prompt_for_order_customer_phone_keyboard_interrupt():
+    """Simulates user pressing Ctrl+C during input.
+    Expected outcome: graceful exit with 'Operation cancelled...' message, returns None.
+    """
+    # arrange
+    def fake_input(prompt):
+        raise KeyboardInterrupt()
+
+    outputs = []
+
+    def fake_output(msg):
+        outputs.append(msg)
+
+    # act
+    result = user_prompt_for_order_customer_phone(
+        input_fn=fake_input, output_fn=fake_output
+    )
+
+    # assert
+    assert result is None
+    assert outputs[-1] == "\nOperation cancelled. Returning to Orders menu."
+
+def test_user_prompt_for_order_customer_phone_stop_iteration():
+    """Simulates StopIteration from input (e.g., test environment exhaustion).
+    Expected outcome: graceful handling with message and returns None.
+    """
+    # arrange
+    inputs = iter([])  # no inputs
+
+    def fake_input(prompt):
+        return next(inputs)
+
+    outputs = []
+
+    def fake_output(msg):
+        outputs.append(msg)
+
+    # act
+    result = user_prompt_for_order_customer_phone(
+        input_fn=fake_input, output_fn=fake_output
+    )
+
+    # assert
+    assert result is None
+    assert outputs[-1] == "\nNo more input available. Returning to Orders menu."
+
+def test_user_prompt_for_order_customer_phone_empty_input_then_valid():
+    """Simulates user first submitting an empty input, then retrying with a valid phone number.
+    Expected outcome: re-prompts once and returns valid number.
+    """
+    # arrange
+    inputs = iter([
+        "",               # empty input
+        "1",              # choose to retry
+        "07123456789"    # valid on retry
+    ])
+
+    def fake_input(prompt):
+        return next(inputs)
+
+
+    # act
+    result = user_prompt_for_order_customer_phone(
+        input_fn=fake_input
+    )
+
+    # assert
+    assert result == "07123456789"
+    
+
+# ------ user_prompt_for_customer_phone_number (unhappy paths) ------
+
+def test_user_prompt_for_order_customer_phone_empty_input_then_cancel():
+    """User leaves phone input blank and selects '2' to cancel at the retry prompt.
+    Expected outcome: function prints cancellation message and returns None.
+    """
+    # arrange
+    inputs = iter([
+        "",  # empty input
+        "2"  # choose to cancel
+    ])
+
+    def fake_input(prompt):
+        return next(inputs)
+    
+    outputs = []    
+    def fake_output(msg):
+        outputs.append(msg)
+    # act
+    result = user_prompt_for_order_customer_phone(
+        input_fn=fake_input, output_fn=fake_output
+    )
+    # assert
+    assert result is None
+    assert outputs[-1] == "Operation cancelled. Returning to Orders menu."
+
+def test_user_prompt_for_order_customer_phone_invalid_format_then_cancel():
+    """User enters invalid format (letters/symbols), then cancels when prompted.
+    Expected outcome: function returns None after printing cancellation message.
+    """
+    # arrange
+    inputs = iter([
+        "07abc456789",  # invalid format
+        "2"             # choose to cancel
+    ])
+
+    def fake_input(prompt):
+        return next(inputs)
+    
+    outputs = []    
+    def fake_output(msg):
+        outputs.append(msg)
+    # act
+    result = user_prompt_for_order_customer_phone(
+        input_fn=fake_input, output_fn=fake_output
+    )
+    # assert
+    assert result is None
+    assert outputs[-1] == "Operation cancelled. Returning to Orders menu."
+
+def test_user_prompt_for_order_customer_phone_invalid_choice_in_retry():
+    """Simulates user entering an invalid choice (not '1' or '2') when prompted to retry or cancel.
+    Expected outcome: function re-prompts until valid input or cancellation.
+    """
+    # arrange
+    inputs = iter([
+        "12345",  # invalid phone number
+        "3",      # invalid choice
+        "0",      # invalid choice
+        "1",      # finally choose to retry
+        "07123456789"  # valid phone number
+    ])
+
+    def fake_input(prompt):
+        return next(inputs)
+    
+    outputs = []    
+    def fake_output(msg):
+        outputs.append(msg)
+    # act
+    result = user_prompt_for_order_customer_phone(
+        input_fn=fake_input, output_fn=fake_output
+    )
+    # assert
+    assert result == "07123456789"
+    # Check that invalid choice messages were printed
+    assert any("Invalid choice" in msg for msg in outputs)
+
+def test_user_prompt_for_order_customer_phone_unexpected_exception():
+    """Forces an exception inside the function (e.g., output_fn raising error) to test fallback handling.
+    Expected outcome: exception caught, error message printed, and function returns None.
+    """
+    # arrange
+    menu_name = "Orders"
+
+    def fake_input(prompt):
+        return Exception # raises unexpected exception
+    
+    outputs = []
+    def safe_output(message):
+        outputs.append(message)
+    # act
+    result = user_prompt_for_order_customer_phone(
+        input_fn=fake_input, output_fn=safe_output
+    )
+    # assert
+    assert result is None
+    assert outputs[-1] == f"\nAn unexpected error occurred: type object 'Exception' has no attribute 'strip'. Returning to Orders menu."
