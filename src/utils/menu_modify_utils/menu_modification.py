@@ -114,7 +114,7 @@ def user_prompt_for_order_customer_name(input_fn=input, output_fn=print):
         output_fn(f"\nAn unexpected error occurred: {e}. Returning to Orders menu.")
         return None
 
-# function to prompt user for customer address
+# helper function to prompt user for customer address
 def user_prompt_for_order_customer_address(input_fn=input, output_fn=print):
     """
     This function:
@@ -171,6 +171,68 @@ def user_prompt_for_order_customer_address(input_fn=input, output_fn=print):
                         inner_loop = 0  # Stay in the inner loop
                 else:
                     return address
+    except KeyboardInterrupt:
+        output_fn("\nOperation cancelled. Returning to Orders menu.")
+        return None
+    except StopIteration:
+        output_fn("\nNo more input available. Returning to Orders menu.")
+        return None
+    except Exception as e:
+        output_fn(f"\nAn unexpected error occurred: {e}. Returning to Orders menu.")
+        return None
+
+# helper function to prompt user for customer phone number
+
+def user_prompt_for_order_customer_phone(input_fn=input, output_fn=print):
+    """
+    This function:
+        1) Prompts the user to enter the phone number of the customer for the order.
+        2) Validates that the phone number is provided and not empty.
+        3) Validates that the phone number contains only digits and is of a reasonable length (7 to 15 digits).
+    Returns:
+        The phone number as a string if valid input is provided.
+        None if the operation is cancelled or invalid input is given.
+    Args:
+        input_fn: Function to use for input (default is built-in input).
+        output_fn: Function to use for output (default is built-in print).
+    side effects:
+        Prompts the user for input and prints messages to the console
+    dependencies/assumptions:
+        The function assumes that the input_fn and output_fn are callable and behave like the built-in input and print functions.
+    """
+    Uk_phone_pattern = re.compile(r"^07\d{9}$") # UK mobile number regex pattern. This pattern may not cover all valid UK phone numbers but serves as a basic validation.
+    invalid_format_message = "Invalid phone number. Please ensure the number meets these rules:\nMust start with '07'\nMust be 11 digits long\nNo spaces, symbols, or letters\nExample of valid format: 07123456789"
+    try:
+        while True:
+            phone_number = input_fn("Enter the customer's phone number (digits only): ").strip()
+            inner_loop = 0
+            while inner_loop == 0:
+                # Case: phone number missing
+                if not phone_number:
+                    choice = input_fn(
+                        "Phone number cannot be empty. Press 1 to try again or 2 to cancel: "
+                    )
+                    if choice == "2":
+                        output_fn("Operation cancelled. Returning to Orders menu.")
+                        return None
+                    elif choice == "1":
+                        inner_loop = 1  # Break inner loop to re-prompt for input
+                    else:
+                        output_fn("Invalid choice.")
+                        inner_loop = 0  # Stay in the inner loop
+                # Case: invalid characters (now allow only digits, length between 7 and 15)
+                elif not re.match(Uk_phone_pattern, phone_number):
+                    choice = input_fn(f'{invalid_format_message}\n\nPress 1 to try again or 2 to cancel: ')
+                    if choice == "2":
+                        output_fn("Operation cancelled. Returning to Orders menu.")
+                        return None
+                    elif choice == "1":
+                        inner_loop = 1  # Break inner loop to re-prompt for input
+                    else:
+                        output_fn("Invalid choice.")
+                        inner_loop = 0  # Stay in the inner loop
+                else:
+                    return phone_number
     except KeyboardInterrupt:
         output_fn("\nOperation cancelled. Returning to Orders menu.")
         return None
