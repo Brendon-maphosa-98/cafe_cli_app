@@ -1308,74 +1308,288 @@ def test_order_prompt_input_fn_raises_keyboardinterrupt_returns_none():
 
 # ------ user_prompt_customer_address (happy path) ------
 
-def test_user_prompt_for_order_customer_address_valid_input(monkeypatch):
+
+def test_user_prompt_for_order_customer_address_valid_input():
     """Checks that the function correctly returns a formatted address when valid street, city, and postcode are entered."""
     # arrange
     inputs = iter(["123 Baker St", "London", "NW1 6XE"])
+
     def fake_input(prompt):
         return next(inputs)
+
     # act
     result = user_prompt_for_order_customer_address(input_fn=fake_input)
     # assert
-    assert result == (
-        "123 Baker St, London, NW1 6XE"
-    )
+    assert result == ("123 Baker St, London, NW1 6XE")
 
-def test_user_prompt_for_order_customer_address_handles_lowercase_input(monkeypatch):
+
+def test_user_prompt_for_order_customer_address_handles_lowercase_input():
     """Ensures that mixed or lowercase input is properly formatted (title/upper-cased) before returning."""
     # arrange
     inputs = iter(["456 elm street", "manchester", "m1 1ae"])
+
     def fake_input(prompt):
         return next(inputs)
+
     # act
     result = user_prompt_for_order_customer_address(input_fn=fake_input)
     # assert
-    assert result == (
-        "456 Elm Street, Manchester, M1 1AE"
-    )
+    assert result == ("456 Elm Street, Manchester, M1 1AE")
 
-def test_user_prompt_for_order_customer_address_valid_with_extra_spaces(monkeypatch):
+
+def test_user_prompt_for_order_customer_address_valid_with_extra_spaces():
     """Verifies that leading/trailing spaces in user input are stripped and a valid address is still accepted."""
     # arrange
     inputs = iter(["   789 Oak Rd   ", "   Bristol   ", "   BS1 5TR   "])
+
     def fake_input(prompt):
         return next(inputs)
+
     # act
     result = user_prompt_for_order_customer_address(input_fn=fake_input)
     # assert
-    assert result == (
-        "789 Oak Rd, Bristol, BS1 5TR"
-    ) 
+    assert result == ("789 Oak Rd, Bristol, BS1 5TR")
 
 
 # ------ user_prompt_customer_address (edge cases) ------
 
-def test_user_prompt_for_order_customer_address_minimal_valid_input(monkeypatch):
+
+def test_user_prompt_for_order_customer_address_minimal_valid_input():
     """Tests the shortest valid input (e.g., '1 A St, B, A1 1AA') to confirm regex boundary conditions."""
+    # arrange
+    inputs = iter(["1 A St", "B", "A1 1AA"])
 
-def test_user_prompt_for_order_customer_address_max_length_input(monkeypatch):
+    def fake_input(prompt):
+        return next(inputs)
+
+    # act
+    result = user_prompt_for_order_customer_address(input_fn=fake_input)
+    # assert
+    assert result == ("1 A St, B, A1 1AA")
+
+
+def test_user_prompt_for_order_customer_address_max_length_input():
     """Checks that a long but valid address (near reasonable character limits) still passes validation."""
+    # arrange
+    long_street = "12345 Long Street Name That Exceeds Normal Lengths"
+    long_city = "A Very Long City Name Indeed"
+    long_postcode = "AB12 3CD"
+    inputs = iter([long_street, long_city, long_postcode])
 
-def test_user_prompt_for_order_customer_address_retry_after_invalid(monkeypatch):
+    def fake_input(prompt):
+        return next(inputs)
+
+    # act
+    result = user_prompt_for_order_customer_address(input_fn=fake_input)
+    # assert
+    assert result == (f"{long_street}, {long_city}, {long_postcode}")
+
+
+def test_user_prompt_for_order_customer_address_retry_after_invalid():
     """Simulates a user entering an invalid address first, then correcting it successfully on retry."""
+    # arrange
+    # 3 invalid attempts, then retry input then valid inputs
+    inputs = iter(
+        [
+            "NoNumber St",  # invalid street
+            "City",  # valid city
+            "A1 1AA",  # valid postcode
+            "1",  # retry prompt
+            "123 Valid St",  # retry street
+            "Valid City",  # retry city
+            "B2 2BB",  # retry postcode
+        ]
+    )
 
-def test_user_prompt_for_order_customer_address_keyboard_interrupt(monkeypatch):
+    def fake_input(prompt):
+        return next(inputs)
+
+    # act
+    result = user_prompt_for_order_customer_address(input_fn=fake_input)
+    # assert
+    assert result == ("123 Valid St, Valid City, B2 2BB")
+
+
+def test_user_prompt_for_order_customer_address_keyboard_interrupt():
     """Ensures graceful handling when the user triggers a KeyboardInterrupt during input (returns None)."""
+    # arrange
+    menu_name = "Orders"
 
-def test_user_prompt_for_order_customer_address_stop_iteration(monkeypatch):
+    def fake_input(prompt):
+        raise KeyboardInterrupt()
+
+    outputs = []
+
+    def fake_output(message):
+        outputs.append(message)
+
+    # act
+    result = user_prompt_for_order_customer_address(
+        input_fn=fake_input, output_fn=fake_output
+    )
+
+    # assert
+    assert result is None, "Expected None on KeyboardInterrupt"
+    assert (
+        outputs[-1] == f"\nOperation cancelled. Returning to {menu_name} menu."
+    ), "Expected cancellation message"
+
+
+def test_user_prompt_for_order_customer_address_stop_iteration():
     """Ensures graceful handling of StopIteration when mock input runs out of data (returns None)."""
+    # arrange
+    menu_name = "Orders"
+    inputs = iter([])  # no inputs
+
+    def fake_input(prompt):
+        return next(inputs)
+
+    outputs = []
+
+    def fake_output(message):
+        outputs.append(message)
+
+    # act
+    result = user_prompt_for_order_customer_address(
+        input_fn=fake_input, output_fn=fake_output
+    )
+
+    # assert
+    assert result is None, "Expected None on StopIteration"
+    assert (
+        outputs[-1] == f"\nNo more input available. Returning to {menu_name} menu."
+    ), "Expected no more input message"
+
+
+def test_user_prompt_for_order_customer_address_empty_fields_then_cancel():
+    """Simulates user leaving fields blank, then choosing to cancel when prompted, expecting a None return."""
+    # arrange
+    menu_name = "Orders"
+    inputs = iter(
+        [
+            "",  # empty street
+            "",  # empty city
+            "",  # empty postcode
+            "2",  # choose to cancel
+        ]
+    )
+
+    def fake_input(prompt):
+        return next(inputs)
+
+    outputs = []
+
+    def fake_output(message):
+        outputs.append(message)
+
+    # act
+    result = user_prompt_for_order_customer_address(
+        input_fn=fake_input, output_fn=fake_output
+    )
+
+    # assert
+    assert result is None, "Expected None when user cancels after empty inputs"
+    assert (
+        outputs[-1] == f"Operation cancelled. Returning to {menu_name} menu."
+    ), "Expected cancellation message"
 
 
 # ------ user_prompt_customer_address (unhappy paths) ------
 
-def test_user_prompt_for_order_customer_address_empty_fields_then_cancel(monkeypatch):
-    """Simulates user leaving fields blank, then choosing to cancel when prompted, expecting a None return."""
 
-def test_user_prompt_for_order_customer_address_invalid_format_then_cancel(monkeypatch):
+def test_user_prompt_for_order_customer_address_invalid_format_then_cancel():
     """Simulates user entering an incorrectly formatted address, then choosing to cancel when prompted."""
+    # arrange
+    menu_name = "Orders"
+    inputs = iter(
+        [
+            "NoNumber St",  # invalid street
+            "City",  # valid city
+            "A1 1AA",  # valid postcode
+            "2",  # choose to cancel
+        ]
+    )
 
-def test_user_prompt_for_order_customer_address_invalid_retry_then_valid(monkeypatch):
+    def fake_input(prompt):
+        return next(inputs)
+
+    outputs = []
+
+    def fake_output(message):
+        outputs.append(message)
+
+    # act
+    result = user_prompt_for_order_customer_address(
+        input_fn=fake_input, output_fn=fake_output
+    )
+
+    # assert
+    assert result is None, "Expected None when user cancels after invalid input"
+    assert (
+        outputs[-1] == f"Operation cancelled. Returning to {menu_name} menu."
+    ), "Expected cancellation message"
+
+
+def test_user_prompt_for_order_customer_address_invalid_retry_then_valid():
     """Simulates a user entering invalid data, choosing retry, and then successfully entering a valid address."""
+    # arrange
+    inputs = iter(
+        [
+            "NoNumber St",  # invalid street
+            "City",  # valid city
+            "A1 1AA",  # valid postcode
+            "1",  # choose to retry
+            "123 Valid St",  # retry street
+            "Valid City",  # retry city
+            "B2 2BB",  # retry postcode
+        ]
+    )
 
-def test_user_prompt_for_order_customer_address_unexpected_exception(monkeypatch):
-    """Forces an unexpected exception (e.g., faulty output_fn) to confirm it is caught and handled gracefully."""
+    def fake_input(prompt):
+        return next(inputs)
+
+    outputs = []
+
+    def fake_output(message):
+        outputs.append(message)
+
+    # act
+    result = user_prompt_for_order_customer_address(
+        input_fn=fake_input, output_fn=fake_output
+    )
+
+    # assert
+    assert result == (
+        "123 Valid St, Valid City, B2 2BB"
+    ), "Expected valid address after retry"
+
+
+def test_user_prompt_for_order_customer_address_unexpected_exception():
+    """Forces an unexpected exception inside the function and confirms it is caught and handled gracefully.
+
+    The test simulates an internal exception (from the input function). The function should catch
+    the exception, call `output_fn` with an explanatory message, and return None.
+    """
+    # arrange
+    menu_name = "Orders"
+
+    def fake_input(prompt):
+        # Simulate an unexpected runtime error during input
+        raise ValueError("Unexpected error")
+
+    outputs = []
+
+    def safe_output(message):
+        outputs.append(message)
+
+    # act
+    result = user_prompt_for_order_customer_address(
+        input_fn=fake_input, output_fn=safe_output
+    )
+
+    # assert
+    assert result is None
+    assert (
+        outputs[-1]
+        == f"\nAn unexpected error occurred: Unexpected error. Returning to {menu_name} menu."
+    )
