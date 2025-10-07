@@ -145,4 +145,3 @@ def list_selection_choice(
             print(f"\n{selection_output}\n\n")
 
 
-# TO DO - create functions to view orders lists then either create new functions to validate and return the selected order index or modify the existing functions to handle orders lists

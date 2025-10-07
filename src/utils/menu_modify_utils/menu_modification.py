@@ -242,6 +242,88 @@ def user_prompt_for_order_customer_phone(input_fn=input, output_fn=print):
     except Exception as e:
         output_fn(f"\nAn unexpected error occurred: {e}. Returning to Orders menu.")
         return None
+    
+# helper function to prompt user to select an item/items from the products or couriers list to add to an order
+
+def user_prompt_for_items_selection(
+    options, prompt_message, allow_zero=False, start_index=1, menu_name="options", input_fn=input, output_fn=print
+):
+    """
+    Display a numbered list of options and prompt the user to make a selection.
+    Parameters:
+      options: list of strings or a dictionary of dictionaries. The items to be numbered and displayed.
+        - Lists will be menu options in the form of a list of strings or menu items in the form of a list of strings (each string being an item).
+        - Dictionaries will be key value pairs where the key is an order number and the value is a dictionary of order details. The last order will NEVER be reserved for 0.
+      prompt_message: The message to display when prompting the user for input.
+      allow_zero: If True, allows 0 as a valid input for going back or exiting (default is False).
+      start_index: The starting index for numbering (default is 1).
+      menu_name: Name of the menu for display purposes (default is "options").
+      input_fn: Function to use for input (default is built-in input).
+      output_fn: Function to use for output (default is built-in print).
+    Returns:
+      The user's valid selection as a string.
+      None if the operation is cancelled.
+    Raises:
+      None (handles invalid input internally).
+    Side Effects:
+      - Prints the numbered list and prompts to the console.
+      - Prints error messages for invalid input.
+      - Prompts the user for input and prints messages to the console.
+    Dependencies/Assumptions:
+      - `options` is always going to be a list of strings or a dictionary provided by the developer.
+      - `prompt_message` is always going to be a string provided by the developer.
+      - `allow_zero` is always going to be a boolean provided by the developer.
+      - `start_index` is always going to be an integer provided by the developer.
+      - `menu_name` is always going to be a string provided by the developer.
+      - `input_fn` and `output_fn` are callable and behave like the built-in input and print functions.
+      - `list_selection_choice(options, prompt, allow_zero, start_index, menu_name) -> str` returns a valid selection or None if cancelled.
+    """
+    function_loop = 0
+    compiled_products = []
+    while function_loop == 0:
+        selected_index = list_selection_choice(
+            options,
+            prompt_message,
+            allow_zero=allow_zero,
+            start_index=start_index,
+            menu_name=menu_name,
+        )
+        if selected_index is not None and menu_name == "Couriers":
+            function_loop = 1
+            return selected_index
+        elif selected_index is not None and menu_name == "Products":
+            more_item_question = input_fn(f'{options[int(selected_index)-1]} selected, would you like to select another product? press 1 for yes or 2 for no: ')
+            if more_item_question == "1":
+                compiled_products.append(selected_index)
+                function_loop = 0
+            elif more_item_question == "2":
+                compiled_products.append(selected_index)
+                function_loop = 1
+                return compiled_products
+        else:
+            error_next_step = input_fn(f"{selected_index}, please try again or press 0 to cancel.\n\n")
+            if error_next_step == "0":
+                output_fn(f"Operation cancelled. Returning to {menu_name} menu.")
+                return None
+            else:
+                function_loop = 0
+    ## REFACTOR NOTE: Go through all other functions in codebase and refactor for the following before continuing with the above function: 
+    # - change the data structure of products and couriers from list of strings to dictionaries of dictionaries wih index as key and dictionary as value with name and price keys for products and name and phone keys for couriers.
+    # - modify the functions that display the products and couriers lists to handle the new data structure
+    # - modify the functions that add, update, and delete products and couriers to handle the new data structure
+    # - modify the functions that prompt the user for input to handle the new data structure
+    # - modify the functions that validate user input to handle the new data structure
+    # - try to seperate the concerns of displaying the menu, getting user input, and validating the input into separate functions
+    # - consider using exceptions for control flow instead of return values like None for cancellations
+    # - ensure consistent handling of user cancellations across all functions
+    # - ensure consistent naming conventions for variables and functions across the codebase
+    # - ensure consistent return types (e.g., always return a list for multiple selections, even if it's a single item)
+    # - ensure consistent formatting and style across the codebase
+    # - add type hints for better clarity and maintainability
+    # - add more detailed docstrings for better understanding of function purposes and behaviors
+    # - when above is done modify the tests for the functions that were modified to ensure they still pass and cover edge cases and unhappy cases
+    # - then come back to this function and refactor it again if needed
+    # - finally, add tests for this function to ensure it works as expected and covers edge cases and unhappy cases.
 
 # function to add a new item to a list
 
@@ -361,4 +443,3 @@ def delete_item_from_list(list_to_modify, menu_name, output_fn=print):
         return True
 
 
-# TO DO - create functions to modify orders lists (user prompt for new order, add new order to list, update existing order in list, delete order from list)
