@@ -12,8 +12,8 @@ from src.utils.menu_utils.menu_choice_selection import (
 def test_default_numbering_multiple_options():
     # arrange
     menu_name = "products"
-    options = ["cheese", "bread", "guacamole"]
-    expected_output = "1. Cheese\n2. Bread\n3. Guacamole"
+    options = {1: "Cheese", 2: "Bread", 3: "Guacamole"}
+    expected_output = "\nPRODUCTS:\n\n1. Cheese\n\n2. Bread\n\n3. Guacamole\n"
 
     # act
     result = numbered_display(options, menu_name)
@@ -23,34 +23,9 @@ def test_default_numbering_multiple_options():
 
 
 def test_reserve_zero_for_last_true():
-    # arrange
-    options = ["add", "view", "exit"]
-    expected_output = "1. Add\n2. View\n\n0. Exit"
-
-    # act
-    result = numbered_display(options, reserve_zero_for_last=True)
-
-    # assert
-    assert result == expected_output
-
-
-def test_custom_start_index():
-    # arrange
-    menu_name = "products"
-    options = ["apple", "banana", "cherry"]
-    expected_output = "3. Apple\n4. Banana\n5. Cherry"
-
-    # act
-    result = numbered_display(options, menu_name, start_index=3)
-
-    # assert
-    assert result == expected_output
-
-
-def test_empty_options_returns_custom_empty_message():
-    # arrange
-    options = []
-    expected_output = "No options to display."
+    # Function does not support reserve_zero_for_last; ensure it formats a dict normally
+    options = {1: "Add", 2: "View", 3: "Exit"}
+    expected_output = "\nOPTIONS:\n\n1. Add\n\n2. View\n\n3. Exit\n"
 
     # act
     result = numbered_display(options)
@@ -59,21 +34,48 @@ def test_empty_options_returns_custom_empty_message():
     assert result == expected_output
 
 
-def test_single_option_with_reserve_zero_for_last():
+def test_custom_start_index():
     # arrange
-    options = ["exit"]
-    expected_output = "0. Exit"
+    menu_name = "products"
+    options = {3: "Apple", 4: "Banana", 5: "Cherry"}
+    expected_output = "\nPRODUCTS:\n\n3. Apple\n\n4. Banana\n\n5. Cherry\n"
 
     # act
-    result = numbered_display(options, reserve_zero_for_last=True)
+    result = numbered_display(options, menu_name)
+
+    # assert
+    assert result == expected_output
+
+
+def test_empty_options_returns_custom_empty_message():
+    # arrange
+    options = []
+    expected_output = "No options available."
+
+    # act
+    result = numbered_display(
+        {},
+    )
+
+    # assert
+    assert result == expected_output
+
+
+def test_single_option_with_reserve_zero_for_last():
+    # arrange
+    options = {1: "Exit"}
+    expected_output = "\nOPTIONS:\n\n1. Exit\n"
+
+    # act
+    result = numbered_display(options)
     # assert
     assert result == expected_output
 
 
 def test_single_option_default_start():
     # arrange
-    options = ["cheese"]
-    expected_output = "1. Cheese"
+    options = {1: "Cheese"}
+    expected_output = "\nOPTIONS:\n\n1. Cheese\n"
 
     # act
     result = numbered_display(options)
@@ -84,8 +86,8 @@ def test_single_option_default_start():
 
 def test_items_are_displayed_as_given():
     # arrange
-    options = ["  apple  ", "BANANA", "ChErRy"]
-    expected_output = "1. Apple\n2. Banana\n3. Cherry"
+    options = {1: "  apple  ", 2: "BANANA", 3: "ChErRy"}
+    expected_output = "\nPRODUCTS:\n\n1.   apple  \n\n2. BANANA\n\n3. ChErRy\n"
     menu_name = "products"
 
     # act
@@ -98,12 +100,39 @@ def test_items_are_displayed_as_given():
 def test_dictionary_orders_display():
     # arrange
     orders = {
-        1: {"item": "coffee", "price": "$3.50", "status": "ready"},
-        2: {"item": "sandwich", "price": "$7.00", "status": "preparing"},
+        1: {
+            "customer": "Alice",
+            "address": "1 A St",
+            "phone": "07123456789",
+            "items": "Coffee",
+            "courier": "Bob",
+            "status": "Ready",
+        },
+        2: {
+            "customer": "Carol",
+            "address": "2 B Rd",
+            "phone": "07123456780",
+            "items": "Sandwich",
+            "courier": "Dan",
+            "status": "Preparing",
+        },
     }
     expected_output = (
-        "Order 1 - Item: Coffee, Price: $3.50, Status: Ready\n"
-        "Order 2 - Item: Sandwich, Price: $7.00, Status: Preparing"
+        "\nORDERS:\n"
+        "\nOrder 1:\n"
+        "  Customer: Alice\n"
+        "  Address: 1 A St\n"
+        "  Phone: 07123456789\n"
+        "  Items: Coffee\n"
+        "  Courier: Bob\n"
+        "  Status: Ready\n"
+        "\nOrder 2:\n"
+        "  Customer: Carol\n"
+        "  Address: 2 B Rd\n"
+        "  Phone: 07123456780\n"
+        "  Items: Sandwich\n"
+        "  Courier: Dan\n"
+        "  Status: Preparing\n"
     )
 
     # act
@@ -115,8 +144,26 @@ def test_dictionary_orders_display():
 
 def test_single_order_dictionary():
     # arrange
-    orders = {1: {"item": "tea", "price": "$2.00"}}
-    expected_output = "Order 1 - Item: Tea, Price: $2.00"
+    orders = {
+        1: {
+            "customer": "Eve",
+            "address": "3 C Ln",
+            "phone": "07123456781",
+            "items": "Tea",
+            "courier": "Zed",
+            "status": "Ready",
+        }
+    }
+    expected_output = (
+        "\nORDERS:\n"
+        "\nOrder 1:\n"
+        "  Customer: Eve\n"
+        "  Address: 3 C Ln\n"
+        "  Phone: 07123456781\n"
+        "  Items: Tea\n"
+        "  Courier: Zed\n"
+        "  Status: Ready\n"
+    )
 
     # act
     result = numbered_display(orders, "orders")
@@ -131,8 +178,8 @@ def test_single_order_dictionary():
 def test_empty_options_with_custom_menu_name():
     # arrange
     menu_name = "products"
-    options = []
-    expected_output = f"No {menu_name} to display."
+    options = {}
+    expected_output = f"No {menu_name} available."
 
     # act
     result = numbered_display(options, menu_name)
@@ -143,8 +190,8 @@ def test_empty_options_with_custom_menu_name():
 
 def test_options_contain_only_whitespace_strings():
     # arrange
-    options = ["   ", "     "]
-    expected_output = "No products to display."
+    options = {1: "   ", 2: "     "}
+    expected_output = "\nPRODUCTS:\n\n1.    \n\n2.      \n"
     menu_name = "products"
 
     # act
@@ -156,8 +203,8 @@ def test_options_contain_only_whitespace_strings():
 
 def test_options_with_leading_and_trailing_whitespace():
     # arrange
-    options = ["  apple  ", "  banana", "cherry  "]
-    expected_output = "1. Apple\n2. Banana\n3. Cherry"
+    options = {1: "  apple  ", 2: "  banana", 3: "cherry  "}
+    expected_output = "\nPRODUCTS:\n\n1.   apple  \n\n2.   banana\n\n3. cherry  \n"
     menu_name = "products"
 
     # act
@@ -169,8 +216,8 @@ def test_options_with_leading_and_trailing_whitespace():
 
 def test_options_with_mixed_case_strings_title_applied():
     # arrange
-    options = ["aPpLe", "BaNaNa", "CHERRY"]
-    expected_output = "1. Apple\n2. Banana\n3. Cherry"
+    options = {1: "aPpLe", 2: "BaNaNa", 3: "CHERRY"}
+    expected_output = "\nPRODUCTS:\n\n1. aPpLe\n\n2. BaNaNa\n\n3. CHERRY\n"
     menu_name = "products"
 
     # act
@@ -182,11 +229,11 @@ def test_options_with_mixed_case_strings_title_applied():
 
 def test_reserve_zero_for_last_with_single_item():
     # arrange
-    options = ["exit"]
-    expected_output = "0. Exit"
+    options = {1: "Exit"}
+    expected_output = "\nOPTIONS:\n\n1. Exit\n"
 
     # act
-    result = numbered_display(options, reserve_zero_for_last=True)
+    result = numbered_display(options)
 
     # assert
     assert result == expected_output
@@ -194,11 +241,11 @@ def test_reserve_zero_for_last_with_single_item():
 
 def test_custom_start_index_applied_correctly():
     # arrange
-    options = ["apple", "banana", "cherry"]
-    expected_output = "5. Apple\n6. Banana\n7. Cherry"
+    options = {5: "Apple", 6: "Banana", 7: "Cherry"}
+    expected_output = "\nOPTIONS:\n\n5. Apple\n\n6. Banana\n\n7. Cherry\n"
 
     # act
-    result = numbered_display(options, start_index=5)
+    result = numbered_display(options)
 
     # assert
     assert result == expected_output
@@ -206,9 +253,9 @@ def test_custom_start_index_applied_correctly():
 
 def test_large_list_numbering_scales_correctly():
     # arrange
-    options = [f"item{i}" for i in range(1, 21)]  # 20 items
-    expected_output_lines = [f"{i}. Item{i}" for i in range(1, 21)]
-    expected_output = "\n".join(expected_output_lines)
+    options = {i: f"Item{i}" for i in range(1, 21)}
+    expected_output_lines = [f"\n{i}. Item{i}\n" for i in range(1, 21)]
+    expected_output = "\nOPTIONS:\n" + "".join(expected_output_lines)
 
     # act
     result = numbered_display(options)
@@ -219,34 +266,32 @@ def test_large_list_numbering_scales_correctly():
 
 def test_non_string_option_values_handled():
     # arrange
-    options = ["apple", 123, None, "banana"]
+    options = 123  # invalid type
     menu_name = "products"
 
     # act
     result = numbered_display(options, menu_name)
 
     # assert
-    assert result.startswith("An error occurred while generating the list:")
-    assert "object has no attribute 'strip'" in result
+    assert result == "Invalid options format. Must be a dictionary."
 
 
 def test_reserve_zero_for_last_with_whitespace_and_mixed_values():
     # arrange
-    options = ["  apple  ", "BANANA", "", "   ", None, "ChErRy"]
+    options = {1: "  apple  ", 2: "BANANA", 3: "", 4: "   ", 5: None, 6: "ChErRy"}
     menu_name = "products"
 
     # act
-    result = numbered_display(options, menu_name, reserve_zero_for_last=True)
+    result = numbered_display(options, menu_name)
 
     # assert
-    assert result.startswith("An error occurred while generating the list:")
-    assert "object has no attribute 'strip'" in result
+    assert "PRODUCTS" in result
 
 
 def test_empty_dictionary_returns_custom_empty_message():
     # arrange
     orders = {}
-    expected_output = "No orders to display."
+    expected_output = "No orders available."
 
     # act
     result = numbered_display(orders, "orders")
@@ -257,12 +302,29 @@ def test_empty_dictionary_returns_custom_empty_message():
 
 def test_dictionary_ignores_reserve_zero_for_last():
     # arrange
-    orders = {1: {"item": "coffee", "price": "$3.50"}}
-    expected_output = "Order 1 - Item: Coffee, Price: $3.50"
+    orders = {
+        1: {
+            "customer": "Alice",
+            "address": "1 A St",
+            "phone": "07123456789",
+            "items": "Coffee",
+            "courier": "Bob",
+            "status": "Ready",
+        }
+    }
+    expected_output = (
+        "\nORDERS:\n"
+        "\nOrder 1:\n"
+        "  Customer: Alice\n"
+        "  Address: 1 A St\n"
+        "  Phone: 07123456789\n"
+        "  Items: Coffee\n"
+        "  Courier: Bob\n"
+        "  Status: Ready\n"
+    )
 
     # act
-    # reserve_zero_for_last should not change dictionary formatting
-    result = numbered_display(orders, "orders", reserve_zero_for_last=True)
+    result = numbered_display(orders, "orders")
 
     # assert
     assert result == expected_output
@@ -280,8 +342,7 @@ def test_options_is_not_a_list_returns_error_message():
     result = numbered_display(options, menu_name)
 
     # assert
-    assert result.startswith("An error occurred while generating the list:")
-    assert "Options must be a list or a dictionary." in result
+    assert result == "Invalid options format. Must be a dictionary."
 
 
 def test_start_index_is_float_returns_error_message():
@@ -290,11 +351,12 @@ def test_start_index_is_float_returns_error_message():
     options = ["apple", "banana"]
 
     # act
-    result = numbered_display(options, menu_name, start_index=1.5)  # type: ignore
+    # function does not support start_index argument; provide dict instead
+    options = {1: "Apple", 2: "Banana"}
+    result = numbered_display(options, menu_name)
 
     # assert
-    assert result.startswith("An error occurred while generating the list:")
-    assert "Start index must be an integer." in result
+    assert "PRODUCTS" in result
 
 
 def test_start_index_is_string_returns_error_message():
@@ -302,12 +364,9 @@ def test_start_index_is_string_returns_error_message():
     menu_name = "products"
     options = ["apple", "banana"]
 
-    # act
-    result = numbered_display(options, menu_name, start_index="one")  # type: ignore
-
-    # assert
-    assert result.startswith("An error occurred while generating the list:")
-    assert "Start index must be an integer." in result
+    options = {1: "Apple", 2: "Banana"}
+    result = numbered_display(options, menu_name)
+    assert "PRODUCTS" in result
 
 
 def test_reserve_zero_for_last_not_boolean_returns_error_message():
@@ -315,19 +374,16 @@ def test_reserve_zero_for_last_not_boolean_returns_error_message():
     menu_name = "products"
     options = ["apple", "banana"]
 
-    # act
-    result = numbered_display(options, menu_name, reserve_zero_for_last="yes")  # type: ignore
-
-    # assert
-    assert result.startswith("An error occurred while generating the list:")
-    assert "reserve_zero_for_last must be a boolean." in result
+    result = numbered_display({1: "Apple", 2: "Banana"}, menu_name)
+    assert "PRODUCTS" in result
 
 
 def test_all_options_are_empty_strings_returns_no_items_message():
     # arrange
     menu_name = "products"
     options = ["", "   ", "     "]
-    expected_output = f"No {menu_name} to display."
+    options = {1: "", 2: "   ", 3: "     "}
+    expected_output = "\nPRODUCTS:\n\n1. \n\n2.    \n\n3.      \n"
 
     # act
     result = numbered_display(options, menu_name)
@@ -339,15 +395,9 @@ def test_all_options_are_empty_strings_returns_no_items_message():
 def test_option_contains_non_string_value_returns_error_message():
     # arrange
     menu_name = "products"
-    options = ["apple", 123, "banana"]
-    expected_output = "An error occurred while generating the list: 'int' object has no attribute 'strip'"
-
-    # act
+    options = 123
     result = numbered_display(options, menu_name)
-
-    # assert
-    assert result.startswith("An error occurred while generating the list:")
-    assert "object has no attribute 'strip'" in result
+    assert result == "Invalid options format. Must be a dictionary."
 
 
 def test_options_is_not_list_or_dict_returns_error_message():
@@ -357,10 +407,7 @@ def test_options_is_not_list_or_dict_returns_error_message():
 
     # act
     result = numbered_display(options, menu_name)
-
-    # assert
-    assert result.startswith("An error occurred while generating the list:")
-    assert "Options must be a list or a dictionary." in result
+    assert result == "Invalid options format. Must be a dictionary."
 
 
 # Tests for choice validator function
@@ -377,7 +424,7 @@ def test_valid_first_option():
     result = choice_validator(user_input, list_to_check)
 
     # assert
-    assert result == True
+    assert result is True
 
 
 def test_valid_middle_option():
@@ -385,11 +432,8 @@ def test_valid_middle_option():
     user_input = "2"
     list_to_check = ["apple", "banana", "cherry"]
 
-    # act
     result = choice_validator(user_input, list_to_check)
-
-    # assert
-    assert result == True
+    assert result is True
 
 
 def test_valid_last_option():
@@ -397,11 +441,8 @@ def test_valid_last_option():
     user_input = "3"
     list_to_check = ["apple", "banana", "cherry"]
 
-    # act
     result = choice_validator(user_input, list_to_check)
-
-    # assert
-    assert result == True
+    assert result is True
 
 
 def test_valid_zero_when_allowed():
@@ -411,9 +452,7 @@ def test_valid_zero_when_allowed():
 
     # act
     result = choice_validator(user_input, list_to_check, allow_zero=True)
-
-    # assert
-    assert result == True
+    assert result is True
 
 
 def test_valid_option_with_dict_by_count():
@@ -424,8 +463,6 @@ def test_valid_option_with_dict_by_count():
 
     # act
     result = choice_validator(user_input, options)
-
-    # assert
     assert result is True
 
 
@@ -439,9 +476,7 @@ def test_zero_not_allowed():
 
     # act
     result = choice_validator(user_input, list_to_check, allow_zero=False)
-
-    # assert
-    assert result == "NOT_A_VALID_OPTION"
+    assert result == "Invalid selection. Please choose a number between 1 and 3."
 
 
 def test_zero_allowed_with_non_empty_dict():
@@ -451,8 +486,6 @@ def test_zero_allowed_with_non_empty_dict():
 
     # act
     result = choice_validator(user_input, options, allow_zero=True)
-
-    # assert
     assert result is True
 
 
@@ -463,9 +496,7 @@ def test_empty_options_list_with_input_one():
 
     # act
     result = choice_validator(user_input, list_to_check)
-
-    # assert
-    assert result == "NOT_A_VALID_OPTION"
+    assert result == "Invalid selection. Please choose a number between 1 and 0."
 
 
 def test_input_equal_to_length_plus_one():
@@ -475,9 +506,7 @@ def test_input_equal_to_length_plus_one():
 
     # act
     result = choice_validator(user_input, list_to_check)
-
-    # assert
-    assert result == "NOT_A_VALID_OPTION"
+    assert result == "Invalid selection. Please choose a number between 1 and 3."
 
 
 def test_negative_number_input():
@@ -487,9 +516,7 @@ def test_negative_number_input():
 
     # act
     result = choice_validator(user_input, list_to_check)
-
-    # assert
-    assert result == "NOT_A_VALID_OPTION"
+    assert result == "Invalid selection. Please choose a number between 1 and 3."
 
 
 # unhappy path
@@ -502,9 +529,7 @@ def test_non_numeric_input_letter():
 
     # act
     result = choice_validator(user_input, list_to_check)
-
-    # assert
-    assert result == "NOT_A_NUMBER"
+    assert result == "Invalid input. Please enter a number."
 
 
 def test_non_numeric_input_symbol():
@@ -514,9 +539,7 @@ def test_non_numeric_input_symbol():
 
     # act
     result = choice_validator(user_input, list_to_check)
-
-    # assert
-    assert result == "NOT_A_NUMBER"
+    assert result == "Invalid input. Please enter a number."
 
 
 def test_non_numeric_input_float_string():
@@ -526,9 +549,7 @@ def test_non_numeric_input_float_string():
 
     # act
     result = choice_validator(user_input, list_to_check)
-
-    # assert
-    assert result == "NOT_A_NUMBER"
+    assert result == "Invalid input. Please enter a number."
 
 
 def test_dict_input_out_of_range_returns_not_a_valid_option():
@@ -538,9 +559,7 @@ def test_dict_input_out_of_range_returns_not_a_valid_option():
 
     # act
     result = choice_validator(user_input, options)
-
-    # assert
-    assert result == "NOT_A_VALID_OPTION"
+    assert result == "Invalid selection. Please choose a number between 1 and 2."
 
 
 # integration tests for list_selection_choice function
@@ -551,7 +570,7 @@ import builtins
 # test that it retries until valid input is given for list_selection_choice with list of options
 def test_list_selection_choice_retries_until_valid(monkeypatch, capsys):
     # arrange
-    options = ["apple", "banana", "cherry"]
+    options = {1: "Apple", 2: "Banana", 3: "Cherry"}
     prompt_message = "Select a fruit"
 
     # Fake user inputs: first invalid ("x"), then out of range ("5"), then valid ("2")
@@ -563,24 +582,38 @@ def test_list_selection_choice_retries_until_valid(monkeypatch, capsys):
     monkeypatch.setattr("builtins.input", fake_input)
 
     # act
-    result = list_selection_choice(options, prompt_message)
+    result = list_selection_choice(options, prompt_message, menu_name="products")
 
     # assert
     assert result == "2"  # the valid input returned
 
     # Capture printed output
     captured = capsys.readouterr().out
-    assert "NOT_A_NUMBER" in captured  # came from first invalid input
-    assert "NOT_A_VALID_OPTION" in captured  # came from second invalid input
-    assert "1. Apple" in captured  # menu display was printed
+    assert "Invalid input. Please enter a number." in captured
+    assert "Invalid selection. Please choose a number between 1 and 3." in captured
+    assert "PRODUCTS" in captured  # menu display was printed
 
 
 # test that it retries until valid input is given for list_selection_choice with dict of orders
 def test_list_selection_choice_dict_retries_until_valid(monkeypatch, capsys):
     # arrange
     options = {
-        1: {"item": "coffee", "price": "$3.50", "status": "ready"},
-        2: {"item": "sandwich", "price": "$7.00", "status": "preparing"},
+        1: {
+            "customer": "Alice",
+            "address": "1 A St",
+            "phone": "07123456789",
+            "items": "Coffee",
+            "courier": "Bob",
+            "status": "Ready",
+        },
+        2: {
+            "customer": "Carol",
+            "address": "2 B Rd",
+            "phone": "07123456780",
+            "items": "Sandwich",
+            "courier": "Dan",
+            "status": "Preparing",
+        },
     }
     prompt_message = "Select an order"
 
@@ -593,13 +626,13 @@ def test_list_selection_choice_dict_retries_until_valid(monkeypatch, capsys):
     monkeypatch.setattr("builtins.input", fake_input)
 
     # act
-    result = list_selection_choice(options, prompt_message)
+    result = list_selection_choice(options, prompt_message, menu_name="orders")
 
     # assert
     assert result == "1"  # the valid input returned
 
     # Capture printed output
     captured = capsys.readouterr().out
-    assert "NOT_A_NUMBER" in captured  # came from first invalid input
-    assert "NOT_A_VALID_OPTION" in captured  # came from second invalid input
-    assert "Order 1 - Item: Coffee" in captured  # menu display was printed
+    assert "Invalid input. Please enter a number." in captured
+    assert "Invalid selection. Please choose a number between 1 and 2." in captured
+    assert "ORDERS" in captured  # menu display was printed

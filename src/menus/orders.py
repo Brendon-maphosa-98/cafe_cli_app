@@ -5,13 +5,13 @@ from src.utils.menu_utils.menu_choice_selection import (
 
 menu_name = "Orders"
 
-orders_main_menu_options = [
-    "View Orders",
-    "Create New Order",
-    "Update Existing Order",
-    "Delete Order",
-    "Return to Main Menu",
-]
+orders_main_menu_options = {
+    1:"View Orders",
+    2:"Create New Order",
+    3:"Update Existing Order",
+    4:"Delete Order",
+    0:"Return to Main Menu",
+}
 
 dict_of_orders = {}
 

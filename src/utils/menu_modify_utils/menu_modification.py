@@ -114,6 +114,7 @@ def user_prompt_for_order_customer_name(input_fn=input, output_fn=print):
         output_fn(f"\nAn unexpected error occurred: {e}. Returning to Orders menu.")
         return None
 
+
 # helper function to prompt user for customer address
 def user_prompt_for_order_customer_address(input_fn=input, output_fn=print):
     """
@@ -134,12 +135,22 @@ def user_prompt_for_order_customer_address(input_fn=input, output_fn=print):
     """
     UK_address_pattern = re.compile(
         r"^\d+\s[A-Za-z0-9\s,'-]+,\s[A-Za-z\s'-]+,\s[A-Z]{1,2}\d{1,2}\s?\d[A-Z]{2}$"
-    ) # Simplified UK address regex pattern. This pattern may not cover all valid UK addresses but serves as a basic validation.
+    )  # Simplified UK address regex pattern. This pattern may not cover all valid UK addresses but serves as a basic validation.
     try:
         while True:
-            number_and_street = input_fn("Enter the customer's street address (e.g., '123 Main St'): ").strip().title()
-            city = input_fn("Enter the customer's city (e.g., 'London'): ").strip().title()
-            postcode = input_fn("Enter the customer's postcode (e.g., 'SW1A 1AA'): ").strip().upper()
+            number_and_street = (
+                input_fn("Enter the customer's street address (e.g., '123 Main St'): ")
+                .strip()
+                .title()
+            )
+            city = (
+                input_fn("Enter the customer's city (e.g., 'London'): ").strip().title()
+            )
+            postcode = (
+                input_fn("Enter the customer's postcode (e.g., 'SW1A 1AA'): ")
+                .strip()
+                .upper()
+            )
             address = f"{number_and_street}, {city}, {postcode}"
             inner_loop = 0
             while inner_loop == 0:
@@ -181,7 +192,9 @@ def user_prompt_for_order_customer_address(input_fn=input, output_fn=print):
         output_fn(f"\nAn unexpected error occurred: {e}. Returning to Orders menu.")
         return None
 
+
 # helper function to prompt user for customer phone number
+
 
 def user_prompt_for_order_customer_phone(input_fn=input, output_fn=print):
     """
@@ -200,11 +213,15 @@ def user_prompt_for_order_customer_phone(input_fn=input, output_fn=print):
     dependencies/assumptions:
         The function assumes that the input_fn and output_fn are callable and behave like the built-in input and print functions.
     """
-    Uk_phone_pattern = re.compile(r"^07\d{9}$") # UK mobile number regex pattern. This pattern may not cover all valid UK phone numbers but serves as a basic validation.
+    Uk_phone_pattern = re.compile(
+        r"^07\d{9}$"
+    )  # UK mobile number regex pattern. This pattern may not cover all valid UK phone numbers but serves as a basic validation.
     invalid_format_message = "Invalid phone number. Please ensure the number meets these rules:\nMust start with '07'\nMust be 11 digits long\nNo spaces, symbols, or letters\nExample of valid format: 07123456789"
     try:
         while True:
-            phone_number = input_fn("Enter the customer's phone number (digits only): ").strip()
+            phone_number = input_fn(
+                "Enter the customer's phone number (digits only): "
+            ).strip()
             inner_loop = 0
             while inner_loop == 0:
                 # Case: phone number missing
@@ -222,7 +239,9 @@ def user_prompt_for_order_customer_phone(input_fn=input, output_fn=print):
                         inner_loop = 0  # Stay in the inner loop
                 # Case: invalid characters (now allow only digits, length between 7 and 15)
                 elif not re.match(Uk_phone_pattern, phone_number):
-                    choice = input_fn(f'{invalid_format_message}\n\nPress 1 to try again or 2 to cancel: ')
+                    choice = input_fn(
+                        f"{invalid_format_message}\n\nPress 1 to try again or 2 to cancel: "
+                    )
                     if choice == "2":
                         output_fn("Operation cancelled. Returning to Orders menu.")
                         return None
@@ -242,11 +261,18 @@ def user_prompt_for_order_customer_phone(input_fn=input, output_fn=print):
     except Exception as e:
         output_fn(f"\nAn unexpected error occurred: {e}. Returning to Orders menu.")
         return None
-    
+
+
 # helper function to prompt user to select an item/items from the products or couriers list to add to an order
 
+
 def user_prompt_for_items_selection(
-    options, prompt_message, allow_zero=False, start_index=1, menu_name="options", input_fn=input, output_fn=print
+    options,
+    prompt_message,
+    allow_zero=False,
+    menu_name="options",
+    input_fn=input,
+    output_fn=print,
 ):
     """
     Display a numbered list of options and prompt the user to make a selection.
@@ -285,14 +311,15 @@ def user_prompt_for_items_selection(
             options,
             prompt_message,
             allow_zero=allow_zero,
-            start_index=start_index,
             menu_name=menu_name,
         )
         if selected_index is not None and menu_name == "Couriers":
             function_loop = 1
             return selected_index
         elif selected_index is not None and menu_name == "Products":
-            more_item_question = input_fn(f'{options[int(selected_index)-1]} selected, would you like to select another product? press 1 for yes or 2 for no: ')
+            more_item_question = input_fn(
+                f"{options[int(selected_index)-1]} selected, would you like to select another product? press 1 for yes or 2 for no: "
+            )
             if more_item_question == "1":
                 compiled_products.append(selected_index)
                 function_loop = 0
@@ -301,15 +328,15 @@ def user_prompt_for_items_selection(
                 function_loop = 1
                 return compiled_products
         else:
-            error_next_step = input_fn(f"{selected_index}, please try again or press 0 to cancel.\n\n")
+            error_next_step = input_fn(
+                f"{selected_index}, please try again or press 0 to cancel.\n\n"
+            )
             if error_next_step == "0":
                 output_fn(f"Operation cancelled. Returning to {menu_name} menu.")
                 return None
             else:
                 function_loop = 0
-    ## REFACTOR NOTE: Go through all other functions in codebase and refactor for the following before continuing with the above function: 
-    # - change the data structure of products and couriers from list of strings to dictionaries of dictionaries wih index as key and dictionary as value with name and price keys for products and name and phone keys for couriers.
-    # - modify the functions that display the products and couriers lists to handle the new data structure
+    ## REFACTOR NOTE: Go through all other functions in codebase and refactor for the following before continuing with the above function:
     # - modify the functions that add, update, and delete products and couriers to handle the new data structure
     # - modify the functions that prompt the user for input to handle the new data structure
     # - modify the functions that validate user input to handle the new data structure
@@ -325,40 +352,55 @@ def user_prompt_for_items_selection(
     # - then come back to this function and refactor it again if needed
     # - finally, add tests for this function to ensure it works as expected and covers edge cases and unhappy cases.
 
+
 # function to add a new item to a list
 
 
-def add_new_item_to_list(menu_name, new_item, list_to_modify, output_fn=print):
+def add_new_item_to_collection(new_item, dict_to_modify):
     """
-    Add a new item to the specified list and confirm the addition if it doesn't already exist in the list.
-    menu_name: str - the name of the menu (e.g., "Products", "Couriers"). will always be provided by developer not user.
-    new_item: str - the name of the new item to add. will be provided by user. The parameter will always be a string and will be a global variable in the respective file where this function is called and that variable will always be assigned the return value of user_prompt_for_new_item function.
-    list_to_modify: list - the list to which the new item will be added to. will always be provided by developer not user.
-    output_fn: print function, will always be provided by developer not user. will always be the built-in print function. will print the output to the console or terminal for the user to see.
+    This function:
+        1) Checks if `new_item` is already in `dict_to_modify`.
+        2) If not present, appends `new_item` to `dict_to_modify and returns True.
+        3) If already present, does not modify the list and returns False.
+    Args:
+      new_item: str - the item to be added to the list. will be a variable containing a string provided by the user via prompt outside this function and passed to this function by the developer.
+      dict_to_modify: dict - the dictionary to which the new item will be added. will be a variable containing a dictionary provided by the developer.
+    Returns:
+      True: The item was successfully added.
+      False: The item already exists in the list; no changes were made.
+    Side Effects:
+      - Mutates `dict_to_modify` in place if the item is added.
+    assumptions/Dependencies:
+      - `new_item` is a non-empty string provided by the user via prompt outside this function and passed to this function by the developer.
+      - `dict_to_modify` is a mutable dictionary provided by the developer.
     """
-    if new_item not in list_to_modify:
-        list_to_modify.append(new_item)
-        output_fn(f"{new_item} added successfully to {menu_name} list.")
-        return True
-    else:
-        output_fn(f"{new_item} already exists in {menu_name} list.")
+    try:
+        if new_item in dict_to_modify.values():
+            return False
+        else:
+            new_key = (
+                max(dict_to_modify.keys(), default=0) + 1
+            )  # Get next available key
+            dict_to_modify[new_key] = new_item
+            return True
+    except Exception as e:
+        print(f"An error occurred while adding the item: {e}. No changes made.")
         return False
 
 
 # function to update an existing item in a list
-def update_existing_item_in_list(list_to_modify, menu_name, output_fn=print):
+def update_existing_item_in_list(dict_to_modify, menu_name):
     """
-    Interactively update an item in `list_to_modify`.
+    Interactively update an item in `dict_to_modify`.
 
     This function:
       1) Prompts the user to select an existing item (via `list_selection_choice`),
       2) Prompts for a new value (via `user_prompt_for_new_item`),
-      3) Updates the selected item in-place and reports status via `output_fn`.
+      3) Updates the selected item in-place.
 
     Args:
-      list_to_modify: Mutable sequence of strings to be updated in place.
-      menu_name: Human-readable name of the list (e.g., "Products", "Couriers") used in prompts/messages.
-      output_fn: Callable used to emit user-facing messages (defaults to built-in `print`).
+      dict_to_modify: dict - dictionary of either products or couriers to be updated in place.
+      menu_name: Human-readable name of the contents of the dictionary ("Products", "Couriers").
 
     Returns:
       True: An item was successfully updated.
@@ -366,45 +408,42 @@ def update_existing_item_in_list(list_to_modify, menu_name, output_fn=print):
       None: The user canceled during the new-value prompt (no changes applied).
 
     Side Effects:
-      - Mutates `list_to_modify` in place when an update occurs.
-      - Emits messages through `output_fn`.
+      - Mutates `dict_to_modify` in place when an update occurs.
       - Performs interactive prompts via helper functions.
 
     Dependencies/Assumptions:
-      - `list_selection_choice(options, prompt, menu_name) -> int` returns a valid index for `list_to_modify`.
+      - `list_selection_choice(options, prompt, menu_name) -> int` returns a valid index for `dict_to_modify`.
       - `user_prompt_for_new_item(menu_name) -> str | None` returns the new value or `None` to cancel.
     """
-    if not list_to_modify:
-        output_fn(f"The {menu_name} list is empty. Returning to {menu_name} menu.")
+    if not dict_to_modify:
         return False
     selected_index = list_selection_choice(
-        list_to_modify,
+        dict_to_modify,
         "Please select the number of the item you want to update: ",
         menu_name,
     )
-    output_fn(f"You have selected to update: {list_to_modify[int(selected_index)]}")  # type: ignore
     new_item_name = user_prompt_for_new_item(menu_name)
     if new_item_name is None:
         return new_item_name
     else:
-        list_to_modify[int(selected_index)] = new_item_name  # type: ignore
-        output_fn(f"{menu_name[:-1]} updated successfully to {new_item_name}.")
+        # Update the selected item in the dictionary
+        dict_to_modify[int(selected_index)] = new_item_name  # type: ignore
         return True
 
 
 # function to delete an item from a list
-def delete_item_from_list(list_to_modify, menu_name, output_fn=print):
-    """Delete an item from `list_to_modify` after user selection.
+def delete_item_from_list(dict_to_modify, menu_name, output_fn=print):
+    """Delete an item from `dict_to_modify` after user selection.
 
     This function:
       1) Prompts the user to select an existing item (via `list_selection_choice`),
       2) Optionally cancels if no selection is made,
-      3) Deletes the selected item from the list,
+      3) Deletes the selected item from the dictionary.
       4) Reports status via `output_fn`.
 
     Args:
-      list_to_modify (list[str]): Mutable sequence of strings from which an item will be deleted.
-      menu_name (str): Human-readable name of the list (e.g., "Products", "Couriers") used in prompts/messages.
+      dict_to_modify: dict - dictionary of either products or couriers to be modified in place.
+      menu_name: Human-readable name of the contents of the dictionary ("Products", "Couriers").
       output_fn (Callable[[str], None], optional): Function used to emit user-facing messages.
         Defaults to built-in `print`.
 
@@ -415,31 +454,33 @@ def delete_item_from_list(list_to_modify, menu_name, output_fn=print):
         None: The user canceled the operation (no changes applied).
 
     Side Effects:
-      - Mutates `list_to_modify` in place by removing one element when deletion occurs.
+      - Mutates `dict_to_modify` in place by removing one element when deletion occurs.
       - Emits messages through `output_fn`.
       - Performs interactive prompts via helper functions.
 
     Dependencies/Assumptions:
       - `list_selection_choice(options, prompt, menu_name) -> int | None` returns either:
-          * a valid index into `list_to_modify` (0-based), or
+          * a valid index into `dict_to_modify` (0-based), or
           * `None` to indicate user cancellation.
-      - The `list_to_modify` is a list of strings.
-      - The `menu_name` is a non-empty string that will always be provided by the developer, not the user and will be a plural noun (e.g., "Products", "Couriers","Orders").
+      - The `dict_to_modify` is a mutable dictionary provided by the developer.
+      - The `menu_name` is a non-empty string that will always be provided by the developer, not the user and will be a plural noun (e.g., "Products", "Couriers").
     """
-    if not list_to_modify:
-        output_fn(f"The {menu_name} list is empty. Returning to {menu_name} menu.")
-        return False
-    selected_index = list_selection_choice(
-        list_to_modify,
-        "Please select the number of the item you want to delete: ",
-        menu_name,
-    )
-    if selected_index is None:
-        return selected_index
-    else:
-        output_fn(f"You have selected to delete: {list_to_modify[int(selected_index)]}")
-        list_to_modify.pop(int(selected_index))
-        output_fn(f"{menu_name[:-1]} deleted successfully.")
-        return True
-
-
+    try:
+        if not dict_to_modify:
+            output_fn(f"The {menu_name} list is empty. Nothing to delete.")
+            return False
+        selected_index = list_selection_choice(
+            dict_to_modify,
+            "Please select the number of the item you want to delete: ",
+            menu_name,
+        )
+        if selected_index is None:
+            output_fn(f"Operation cancelled. Returning to {menu_name} menu.")
+            return None
+        else:
+            deleted_item = dict_to_modify.pop(int(selected_index))
+            output_fn(f"{deleted_item} has been deleted from the {menu_name} list.")
+            return True
+    except Exception as e:
+        output_fn(f"An error occurred while deleting the item: {e}. No changes made.")
+        return None

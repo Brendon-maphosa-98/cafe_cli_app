@@ -4,7 +4,12 @@ from src.utils.menu_utils.menu_choice_selection import list_selection_choice
 
 menu_name = "Main"
 
-main_menu_options = ["Orders Menu", "Products Menu", "Couriers Menu", "Exit"]
+main_menu_options = {
+    1: "Orders Menu",
+    2: "Products Menu",
+    3: "Couriers Menu",
+    0: "Exit",
+}
 
 main_menu_selection = list_selection_choice(
     main_menu_options,

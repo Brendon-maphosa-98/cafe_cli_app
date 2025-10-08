@@ -2,68 +2,50 @@
 
 
 def numbered_display(
-    options, menu_name="options", start_index=1, reserve_zero_for_last=False
+    options,
+    menu_name="options",
 ):
     """
     Generate a numbered list string from `options` for display.
     Parameters:
-      options: list of strings or a dictionary of dictionaries. The items to be numbered and displayed.
-        - Lists will be menu options in the form of a list of strings or menu items in the form of a list of strings (each string being an item).
-        - Dictionaries will be key value pairs where the key is an order number and the value is a dictionary of order details. The last order will NEVER be reserved for 0.
-      reserve_zero_for_last: If True, the last item is numbered 0 (for 'back' option). Note: This is only applicable for lists of menu options, not for dictionaries of orders or lists of items.
-      start_index: The starting index for numbering (default is 1).
+      options: A dictionary. The items to be numbered and displayed.
+        - For products and couriers this will be a dictionary of items where the key is an item number and the value is the item name. will be provided by the developer.
+        - For orders this will be a dictionary of orders where the key is an order number and the value is a dictionary of order details. will be provided by the developer. The last order will NEVER be reserved for 0.
+        - For menu options this will be a dictionary of menu options where the key is an option number and the value is the option name. will be provided by the developer.
       menu_name: Name of the menu for display purposes (default is "options").
     Returns:
       A formatted string representing the numbered list, or a message if the list is empty.
     Raises:
-      TypeError: If `options` is not a list or dictionary. and if `start_index` is not an integer.
+        TypeError: if `options` is not a list or dictionary.
     Side Effects:
       - None (pure function).
     Dependencies/Assumptions:
-      - `options` is always going to be a list of strings or a dictionary provided by the developer.
-      - `start_index` is always going to be an integer provided by the developer.
-      - `reserve_zero_for_last` is always going to be a boolean provided by the developer.
+      - `options` is always going to be a dictionary provided by the developer.
       - `menu_name` is always going to be a string provided by the developer.
     """
     try:
-        if not isinstance(options, (list, dict)):
-            raise TypeError("Options must be a list or a dictionary.")
-        if isinstance(start_index, float) or not isinstance(start_index, int):
-            raise TypeError("Start index must be an integer.")
-        if not isinstance(reserve_zero_for_last, bool):
-            raise TypeError("reserve_zero_for_last must be a boolean.")
-        if len(options) == 0:
-            return f"No {menu_name} to display."
-        if isinstance(options, list) and all(
-            option.strip() == "" for option in options
-        ):
-            return f"No {menu_name} to display."
-        if isinstance(options, dict) and all(not value for value in options.values()):
-            return f"No {menu_name} to display."
-
-        display_str = ""  # Accumulate the formatted list into a single string
-
-        item_index = start_index
-
-        if isinstance(options, list):
-            for i, option in enumerate(options):
-                if reserve_zero_for_last and i == len(options) - 1:
-                    display_str += f"\n0. {option.strip()}"
-                else:
-                    display_str += f"{item_index}. {option.strip()}\n"
-                    item_index += 1
-        elif isinstance(options, dict):
+        if not options:
+            return f"No {menu_name} available."
+        display_string = f"\n{menu_name.upper()}:\n"
+        if menu_name == "orders":
             for key, value in options.items():
-                display_str += f"Order {key} - "
-                order_details = []
-                for detail_key, detail_value in value.items():
-                    order_details.append(f"{detail_key}: {detail_value}")
-                display_str += ", ".join(order_details) + "\n"
-        return (
-            display_str.strip().title()
-        )  # Return the complete formatted list string without trailing newline
+                display_string += (
+                    f"\nOrder {key}:\n"
+                    f"  Customer: {value['customer']}\n"
+                    f"  Address: {value['address']}\n"
+                    f"  Phone: {value['phone']}\n"
+                    f"  Items: {value['items']}\n"
+                    f"  Courier: {value['courier']}\n"
+                    f"  Status: {value['status']}\n"
+                )
+        else:
+            for key in options:
+                display_string += f"\n{key}. {options[key]}\n"
+        return display_string
+    except TypeError:
+        return "Invalid options format. Must be a dictionary."
     except Exception as e:
-        return f"An error occurred while generating the list: {e}"
+        return f"An unexpected error occurred: {e}"
 
 
 def choice_validator(user_input, options, allow_zero=False):
@@ -71,9 +53,10 @@ def choice_validator(user_input, options, allow_zero=False):
     Validate user input against a list of options.
     parameters:
     user_input: str - the input provided by the user to validate. will always be a variable containing a string provided by the user. The developer will provide the variable name but not the value.
-    options: list of strings or a dictionary of dictionaries. The items to be numbered and displayed.
-        - Lists will be menu options in the form of a list of strings or menu items in the form of a list of strings (each string being an item).
-        - Dictionaries will be key value pairs where the key is an order number and the value is a dictionary of order details.
+    options: A dictionary. The items to be numbered and displayed.
+        - For products and couriers this will be a dictionary of items where the key is an item number and the value is the item name. will be provided by the developer.
+        - For orders this will be a dictionary of orders where the key is an order number and the value is a dictionary of order details. will be provided by the developer. The last order will NEVER be reserved for 0.
+        - For menu options this will be a dictionary of menu options where the key is an option number and the value is the option name. will be provided by the developer.
     allow_zero: bool - if True, allows 0 as a valid input for going back or exiting. Default is False. will always be provided by developer not user.
     returns:
     True if the input is valid (within range of options or 0 if allowed), otherwise returns an error message string.
@@ -83,27 +66,31 @@ def choice_validator(user_input, options, allow_zero=False):
     None (pure function).
     Dependencies/Assumptions:
     - `user_input` is always going to be a string provided by the user.
-    - `options` is always going to be a list of strings or a dictionary provided by the developer.
+    - `options` is always going to be a dictionary provided by the developer.
     - `allow_zero` is always going to be a boolean provided by the developer.
     Note: This function assumes that the options are presented to the user in a numbered format starting from 1,
     with 0 optionally reserved for a 'back' or 'exit' option if `allow_zero` is True.
     """
     try:
-        stringint = int(user_input)
-        if allow_zero and stringint == 0 and len(options) != 0:
+        user_choice = int(user_input)
+        if allow_zero and user_choice == 0:
             return True
-        elif 1 <= stringint <= len(options):
+        elif 1 <= user_choice <= len(options):
             return True
         else:
-            return "NOT_A_VALID_OPTION"
+            return (
+                f"Invalid selection. Please choose a number between 1 and {len(options)}."
+                if not allow_zero
+                else f"Invalid selection. Please choose a number between 0 and {len(options)}."
+            )
     except ValueError:
-        return "NOT_A_NUMBER"
+        return "Invalid input. Please enter a number."
     except Exception as e:
         return f"An unexpected error occurred: {e}"
 
 
 def list_selection_choice(
-    options, prompt_message, allow_zero=False, start_index=1, menu_name="options"
+    options, prompt_message, allow_zero=False, menu_name="options"
 ):
     """
     Display a numbered list of options and prompt the user to make a selection.
@@ -131,11 +118,7 @@ def list_selection_choice(
     """
     function_loop = 0
     while function_loop == 0:
-        print(
-            numbered_display(
-                options, menu_name, start_index, reserve_zero_for_last=allow_zero
-            )
-        )
+        print(numbered_display(options, menu_name))
         user_input = input(f"\n{prompt_message}\n>>> ")
         selection_output = choice_validator(user_input, options, allow_zero=allow_zero)
         if selection_output == True:
@@ -143,5 +126,3 @@ def list_selection_choice(
             return user_input
         else:
             print(f"\n{selection_output}\n\n")
-
-

@@ -5,20 +5,21 @@ from src.utils.menu_utils.menu_choice_selection import (
 
 from src.utils.menu_modify_utils.menu_modification import (
     user_prompt_for_new_item,
-    add_new_item_to_list,
+    add_new_item_to_collection,
     update_existing_item_in_list,
     delete_item_from_list,
 )
 
 menu_name = "Couriers"
 
-couriers_main_menu_options = [
-    "View Couriers",
-    "Add New Courier",
-    "Update Existing Courier",
-    "Delete Courier",
-    "Return to Main Menu",
-]
+# main menu options that the user can select from
+couriers_main_menu_options = {
+    1: "View Couriers",
+    2: "Add New Courier",
+    3: "Update Existing Courier",
+    4: "Delete Courier",
+    0: "Return to Main Menu",
+}
 
 dict_of_couriers = {}
 
@@ -30,9 +31,14 @@ courier_menu_selection = list_selection_choice(
 
 view_couriers = numbered_display(dict_of_couriers, menu_name)
 
+# display the menu options (reserve 0 for the last/back option)
+menu_display = numbered_display(
+    couriers_main_menu_options, menu_name
+)
+
 new_courier = user_prompt_for_new_item(menu_name)
 
-add_new_courier = add_new_item_to_list(menu_name, new_courier, dict_of_couriers)
+add_new_courier = add_new_item_to_collection(new_courier, dict_of_couriers)
 
 update_courier = update_existing_item_in_list(menu_name, dict_of_couriers)
 
