@@ -337,9 +337,6 @@ def user_prompt_for_items_selection(
             else:
                 function_loop = 0
     ## REFACTOR NOTE: Go through all other functions in codebase and refactor for the following before continuing with the above function:
-    # - modify the functions that add, update, and delete products and couriers to handle the new data structure
-    # - modify the functions that prompt the user for input to handle the new data structure
-    # - modify the functions that validate user input to handle the new data structure
     # - try to seperate the concerns of displaying the menu, getting user input, and validating the input into separate functions
     # - consider using exceptions for control flow instead of return values like None for cancellations
     # - ensure consistent handling of user cancellations across all functions
