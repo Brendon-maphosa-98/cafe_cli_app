@@ -20,7 +20,7 @@ couriers_main_menu_options = [
     "Return to Main Menu",
 ]
 
-list_of_couriers = []
+dict_of_couriers = {}
 
 courier_menu_selection = list_selection_choice(
     couriers_main_menu_options,
@@ -28,12 +28,12 @@ courier_menu_selection = list_selection_choice(
     allow_zero=True,
 )
 
-view_couriers = numbered_display(list_of_couriers, menu_name)
+view_couriers = numbered_display(dict_of_couriers, menu_name)
 
 new_courier = user_prompt_for_new_item(menu_name)
 
-add_new_courier = add_new_item_to_list(menu_name, new_courier, list_of_couriers)
+add_new_courier = add_new_item_to_list(menu_name, new_courier, dict_of_couriers)
 
-update_courier = update_existing_item_in_list(menu_name, list_of_couriers)
+update_courier = update_existing_item_in_list(menu_name, dict_of_couriers)
 
-delete_courier = delete_item_from_list(menu_name, list_of_couriers)
+delete_courier = delete_item_from_list(menu_name, dict_of_couriers)
