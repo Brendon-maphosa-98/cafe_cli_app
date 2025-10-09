@@ -327,8 +327,6 @@ def user_prompt_for_items_selection(
             else:
                 function_loop = 0
     ## REFACTOR NOTE: Go through all other functions in codebase and refactor for the following before continuing with the above function:
-    # - consider using exceptions for control flow instead of return values like None for cancellations
-    # - ensure consistent handling of user cancellations across all functions
     # - ensure consistent naming conventions for variables and functions across the codebase
     # - ensure consistent return types (e.g., always return a list for multiple selections, even if it's a single item)
     # - ensure consistent formatting and style across the codebase
