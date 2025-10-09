@@ -1,4 +1,6 @@
-import pytest, sys
+import pytest
+import sys
+
 from src.utils.menu_modify_utils.menu_modification import (
     user_prompt_for_new_item,
     add_new_item_to_collection,
@@ -529,7 +531,9 @@ def _func_module():
 
 
 # ------------------------------
-# Happy path
+# ------------------------------
+# happy path
+# ------------------------------
 # ------------------------------
 
 
@@ -646,7 +650,9 @@ def test_allows_duplicate_values_on_update(monkeypatch):
 
 
 # ------------------------------
-# Edge cases
+# ------------------------------
+# edge cases
+# ------------------------------
 # ------------------------------
 
 

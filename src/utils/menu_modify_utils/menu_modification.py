@@ -2,10 +2,11 @@ import re
 
 from src.utils.menu_utils.menu_choice_selection import list_selection_choice
 
-# functions modifying lists
+# ------------------------------
+# Helper functions for menu modifications
+# ------------------------------
 
-
-# helper function to prompt user for new item name
+# Function to prompt user for a new item name (product or courier)
 def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print):
     """
     This function:
@@ -54,8 +55,7 @@ def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print):
             f"\nAn unexpected error occurred: {e}. Returning to {menu_name} menu."
         )
 
-
-# helper function to prompt user for order customer first and last name
+# functions to prompt user for order customer details (name, address, phone)
 def user_prompt_for_order_customer_name(input_fn=input, output_fn=print):
     """
     This function:
@@ -114,8 +114,7 @@ def user_prompt_for_order_customer_name(input_fn=input, output_fn=print):
     except Exception as e:
         output_fn(f"An unexpected error occurred: {e}. Returning to Orders menu.")
 
-
-# helper function to prompt user for customer address
+# function to prompt user for order customer address
 def user_prompt_for_order_customer_address(input_fn=input, output_fn=print):
     """
     This function:
@@ -189,10 +188,7 @@ def user_prompt_for_order_customer_address(input_fn=input, output_fn=print):
     except Exception as e:
         output_fn(f"An unexpected error occurred: {e}. Returning to Orders menu.")
 
-
-# helper function to prompt user for customer phone number
-
-
+# function to prompt user for order customer phone number
 def user_prompt_for_order_customer_phone(input_fn=input, output_fn=print):
     """
     This function:
@@ -255,9 +251,11 @@ def user_prompt_for_order_customer_phone(input_fn=input, output_fn=print):
         output_fn(f"\nAn unexpected error occurred: {e}. Returning to Orders menu.")
 
 
-# helper function to prompt user to select an item/items from the products or couriers list to add to an order
+# ------------------------------
+# Integrated functions to modify menus
+# ------------------------------
 
-
+# Function to prompt user to select from a list of options
 def user_prompt_for_items_selection(
     options,
     prompt_message,
@@ -326,19 +324,8 @@ def user_prompt_for_items_selection(
                 return None
             else:
                 is_running = True
-    ## REFACTOR NOTE: Go through all other functions in codebase and refactor for the following before continuing with the above function:
-    # - ensure consistent naming conventions for variables and functions across the codebase
-    # - ensure consistent formatting and style across the codebase
-    # - add type hints for better clarity and maintainability
-    # - add more detailed docstrings for better understanding of function purposes and behaviors
-    # - when above is done modify the tests for the functions that were modified to ensure they still pass and cover edge cases and unhappy cases
-    # - then come back to this function and refactor it again if needed
-    # - finally, add tests for this function to ensure it works as expected and covers edge cases and unhappy cases.
 
-
-# function to add a new item to a list
-
-
+# Function to add a new item to a list (products or couriers)
 def add_new_item_to_collection(new_item, dict_to_modify):
     """
     This function:
@@ -370,8 +357,7 @@ def add_new_item_to_collection(new_item, dict_to_modify):
         print(f"An error occurred while adding the item: {e}. No changes made.")
         return False
 
-
-# function to update an existing item in a list
+# Function to update an existing item in a list (products or couriers)
 def update_existing_item_in_list(dict_to_modify, menu_name):
     """
     Interactively update an item in `dict_to_modify`.
@@ -413,8 +399,7 @@ def update_existing_item_in_list(dict_to_modify, menu_name):
         dict_to_modify[int(selected_index)] = new_item_name  # type: ignore
         return True
 
-
-# function to delete an item from a list
+# Function to delete an item from a list (products or couriers)
 def delete_item_from_list(dict_to_modify, user_input, menu_name, output_fn=print):
     """Delete an item from `dict_to_modify` after user selection.
 

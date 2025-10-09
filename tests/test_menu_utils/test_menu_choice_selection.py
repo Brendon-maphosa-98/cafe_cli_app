@@ -6,7 +6,9 @@ from src.utils.menu_utils.menu_choice_selection import (
 
 # Tests for numbered_display function
 
+# ------------------------------
 # happy path
+# ------------------------------
 
 
 def test_default_numbering_multiple_options():
@@ -24,6 +26,7 @@ def test_default_numbering_multiple_options():
 
 def test_reserve_zero_for_last_true():
     # Function does not support reserve_zero_for_last; ensure it formats a dict normally
+    # arrange
     options = {1: "Add", 2: "View", 3: "Exit"}
     expected_output = "\nOPTIONS:\n\n1. Add\n\n2. View\n\n3. Exit\n"
 
@@ -172,7 +175,9 @@ def test_single_order_dictionary():
     assert result == expected_output
 
 
+# ------------------------------
 # edge cases
+# ------------------------------
 
 
 def test_empty_options_with_custom_menu_name():
@@ -330,7 +335,9 @@ def test_dictionary_ignores_reserve_zero_for_last():
     assert result == expected_output
 
 
+# ------------------------------
 # unhappy path
+# ------------------------------
 
 
 def test_options_is_not_a_list_returns_error_message():
@@ -412,7 +419,9 @@ def test_options_is_not_list_or_dict_returns_error_message():
 
 # Tests for choice validator function
 
+# ------------------------------
 # happy path
+# ------------------------------
 
 
 def test_valid_first_option():
@@ -469,7 +478,9 @@ def test_valid_option_with_dict_by_count():
     assert result is True
 
 
+# ------------------------------
 # edge cases
+# ------------------------------
 
 
 def test_zero_not_allowed():
@@ -527,7 +538,9 @@ def test_negative_number_input():
     assert result == "Invalid choice. Please select a valid option from the list."
 
 
+# ------------------------------
 # unhappy path
+# ------------------------------
 
 
 def test_non_numeric_input_letter():

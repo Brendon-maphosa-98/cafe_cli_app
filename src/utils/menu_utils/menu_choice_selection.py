@@ -1,6 +1,13 @@
-# function to handle choice (menu and lists) selection and validation
+# ------------------------------
+# functions to handle choice (menu and lists) selection and validation
+# ------------------------------
+
+# ------------------------------
+# Helper functions
+# ------------------------------
 
 
+# function to display a numbered list of options
 def numbered_display(
     options,
     menu_name="options",
@@ -54,6 +61,7 @@ def numbered_display(
         return f"An unexpected error occurred: {e}"
 
 
+# function to validate user choice input against available options
 def choice_validator(user_input, options):
     """
     This function:
@@ -85,6 +93,12 @@ def choice_validator(user_input, options):
         return "Invalid input. Please enter a number."
 
 
+# ------------------------------
+# integrated functions
+# ------------------------------
+
+
+# function to display a numbered list, validate user input, and return valid choice
 def list_selection_choice(options, user_input, menu_name="options"):
     """
     This function:
