@@ -1229,7 +1229,7 @@ def test_order_prompt_input_iterator_runs_out_returns_none():
 
     # assert
     assert result is None
-    assert outputs[-1] == "\nNo more input available. Returning to Orders menu."
+    assert outputs[-1] == "No more input available. Returning to Orders menu."
 
 
 def test_order_prompt_input_fn_raises_keyboardinterrupt_returns_none():
@@ -1250,7 +1250,7 @@ def test_order_prompt_input_fn_raises_keyboardinterrupt_returns_none():
 
     # assert
     assert result is None
-    assert outputs[-1] == "\nOperation cancelled. Returning to Orders menu."
+    assert outputs[-1] == "Operation cancelled. Returning to Orders menu."
 
 
 # ------ user_prompt_customer_address (happy path) ------

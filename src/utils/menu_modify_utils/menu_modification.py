@@ -91,8 +91,7 @@ def user_prompt_for_order_customer_name(input_fn=input, output_fn=print):
                         "First name and last name cannot be empty. Press 1 to try again or 2 to cancel: "
                     )
                     if choice == "2":
-                        output_fn("Operation cancelled. Returning to Orders menu.")
-                        return None
+                        raise KeyboardInterrupt
                     elif choice == "1":
                         inner_loop = 1  # Break inner loop to re-prompt for input
                     else:
@@ -106,8 +105,7 @@ def user_prompt_for_order_customer_name(input_fn=input, output_fn=print):
                         "Names must contain only alphabetic characters, hyphens or apostrophes. Press 1 to try again or 2 to cancel: "
                     )
                     if choice == "2":
-                        output_fn("Operation cancelled. Returning to Orders menu.")
-                        return None
+                        raise KeyboardInterrupt
                     elif choice == "1":
                         inner_loop = 1  # Break inner loop to re-prompt for input
                     else:
@@ -116,14 +114,11 @@ def user_prompt_for_order_customer_name(input_fn=input, output_fn=print):
                 else:
                     return first_name, last_name
     except KeyboardInterrupt:
-        output_fn("\nOperation cancelled. Returning to Orders menu.")
-        return None
+        output_fn("Operation cancelled. Returning to Orders menu.")
     except StopIteration:
-        output_fn("\nNo more input available. Returning to Orders menu.")
-        return None
+        output_fn("No more input available. Returning to Orders menu.")
     except Exception as e:
-        output_fn(f"\nAn unexpected error occurred: {e}. Returning to Orders menu.")
-        return None
+        output_fn(f"An unexpected error occurred: {e}. Returning to Orders menu.")
 
 
 # helper function to prompt user for customer address
