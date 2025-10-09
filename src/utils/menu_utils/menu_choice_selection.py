@@ -80,31 +80,31 @@ def choice_validator(user_input, options):
 
 
 def list_selection_choice(
-    options, prompt_message, allow_zero=False, menu_name="options"
+    options, prompt_message, menu_name="options"
 ):
     """
-    Display a numbered list of options and prompt the user to make a selection.
+    This function:
+    - Displays a numbered list of options to the user.
+    - Prompts the user to select an option by entering the corresponding number.
+    - Validates the user's input to ensure it corresponds to a valid option.
+    - Repeats the prompt until a valid selection is made.
     Parameters:
-      options: list of strings or a dictionary of dictionaries. The items to be numbered and displayed.
-        - Lists will be menu options in the form of a list of strings or menu items in the form of a list of strings (each string being an item).
-        - Dictionaries will be key value pairs where the key is an order number and the value is a dictionary of order details. The last order will NEVER be reserved for 0.
-      prompt_message: The message to display when prompting the user for input.
-      allow_zero: If True, allows 0 as a valid input for going back or exiting (default is False).
-      start_index: The starting index for numbering (default is 1).
+      options: A dictionary of options where keys are the option numbers (integers) and values are the option names (strings).
+      prompt_message: The message displayed to the user when prompting for input.
       menu_name: Name of the menu for display purposes (default is "options").
     Returns:
-      The user's valid selection as a string.
+      The valid user input as a string.
     Raises:
       None (handles invalid input internally).
     Side Effects:
-      - Prints the numbered list and prompts to the console.
-      - Prints error messages for invalid input.
+      - Prints the menu and error messages to the console.
+      - Waits for user input.
     Dependencies/Assumptions:
-      - `options` is always going to be a list of strings or a dictionary provided by the developer.
+      - `options` is always going to be a dictionary provided by the developer.
       - `prompt_message` is always going to be a string provided by the developer.
-      - `allow_zero` is always going to be a boolean provided by the developer.
-      - `start_index` is always going to be an integer provided by the developer.
       - `menu_name` is always going to be a string provided by the developer.
+      - The keys in `options` are always integers.
+      - The function relies on `numbered_display` and `choice_validator` functions.
     """
     function_loop = 0
     while function_loop == 0:

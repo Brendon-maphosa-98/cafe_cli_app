@@ -269,7 +269,6 @@ def user_prompt_for_order_customer_phone(input_fn=input, output_fn=print):
 def user_prompt_for_items_selection(
     options,
     prompt_message,
-    allow_zero=False,
     menu_name="options",
     input_fn=input,
     output_fn=print,
@@ -310,7 +309,6 @@ def user_prompt_for_items_selection(
         selected_index = list_selection_choice(
             options,
             prompt_message,
-            allow_zero=allow_zero,
             menu_name=menu_name,
         )
         if selected_index is not None and menu_name == "Couriers":
