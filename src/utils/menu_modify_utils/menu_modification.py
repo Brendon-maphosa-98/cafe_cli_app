@@ -8,9 +8,20 @@ from src.utils.menu_utils.menu_choice_selection import list_selection_choice
 # helper function to prompt user for new item name
 def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print):
     """
-    Prompt the user to enter a new item name.
-    Returns the entered item name as a string, or None if cancelled.
-    menu_name: str - the name of the menu (e.g., "items", "couriers")
+    This function:
+        1) Prompts the user to enter the name of a new item (product or courier).
+        2) Validates that the input is not empty.
+    Returns:
+        The name of the new item as a string if valid input is provided.
+        None if the operation is cancelled or invalid input is given.
+    Args:
+        menu_name: Name of the menu for display purposes (e.g., "Products", "Couriers").
+        input_fn: Function to use for input (default is built-in input).
+        output_fn: Function to use for output (default is built-in print).
+    side effects:
+        Prompts the user for input and prints messages to the console.
+    dependencies/assumptions:
+        The function assumes that the input_fn and output_fn are callable and behave like the built-in input and print functions.
     """
     try:
         while True:
