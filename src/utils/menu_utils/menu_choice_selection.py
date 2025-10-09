@@ -58,7 +58,8 @@ def choice_validator(user_input, options):
     Returns:
       True if the input is a valid choice, otherwise an error message string.
     Raises:
-      None (handles invalid input internally).
+      KeyError: if the input number is not a key in `options`.
+      ValueError: if the input cannot be converted to an integer.
     Side Effects:
       - None (pure function).
     Dependencies/Assumptions:
@@ -70,6 +71,8 @@ def choice_validator(user_input, options):
         choice = int(user_input)
         if choice in options.keys():
             return True
+        else:
+            raise KeyError
     except KeyError:
         return f"Invalid choice. Please select a valid option from the list."
     except ValueError:

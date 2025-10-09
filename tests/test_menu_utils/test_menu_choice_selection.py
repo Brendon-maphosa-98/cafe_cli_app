@@ -418,7 +418,8 @@ def test_options_is_not_list_or_dict_returns_error_message():
 def test_valid_first_option():
     # arrange
     user_input = "1"
-    list_to_check = ["apple", "banana", "cherry"]
+    # choice_validator now expects a dict of keys -> values
+    list_to_check = {1: "apple", 2: "banana", 3: "cherry"}
 
     # act
     result = choice_validator(user_input, list_to_check)
@@ -430,7 +431,7 @@ def test_valid_first_option():
 def test_valid_middle_option():
     # arrange
     user_input = "2"
-    list_to_check = ["apple", "banana", "cherry"]
+    list_to_check = {1: "apple", 2: "banana", 3: "cherry"}
 
     result = choice_validator(user_input, list_to_check)
     assert result is True
@@ -439,7 +440,7 @@ def test_valid_middle_option():
 def test_valid_last_option():
     # arrange
     user_input = "3"
-    list_to_check = ["apple", "banana", "cherry"]
+    list_to_check = {1: "apple", 2: "banana", 3: "cherry"}
 
     result = choice_validator(user_input, list_to_check)
     assert result is True
@@ -448,10 +449,11 @@ def test_valid_last_option():
 def test_valid_zero_when_allowed():
     # arrange
     user_input = "0"
-    list_to_check = ["apple", "banana", "cherry"]
+    # choice_validator no longer has allow_zero flag; validator accepts 0 if it's a key
+    list_to_check = {0: "Back", 1: "apple", 2: "banana", 3: "cherry"}
 
     # act
-    result = choice_validator(user_input, list_to_check, allow_zero=True)
+    result = choice_validator(user_input, list_to_check)
     assert result is True
 
 
@@ -459,10 +461,11 @@ def test_valid_option_with_dict_by_count():
     # arrange
     user_input = "1"
     # dict with two orders -> treated by validator based on count (len==2)
+    # With the new validator the keys themselves are validated, so use a matching key
     options = {10: {"item": "coffee"}, 20: {"item": "tea"}}
 
     # act
-    result = choice_validator(user_input, options)
+    result = choice_validator("10", options)
     assert result is True
 
 
@@ -472,51 +475,56 @@ def test_valid_option_with_dict_by_count():
 def test_zero_not_allowed():
     # arrange
     user_input = "0"
-    list_to_check = ["apple", "banana", "cherry"]
+    # since validator has no allow_zero flag, 0 is invalid when not present as a key
+    list_to_check = {1: "apple", 2: "banana", 3: "cherry"}
 
     # act
-    result = choice_validator(user_input, list_to_check, allow_zero=False)
-    assert result == "Invalid selection. Please choose a number between 1 and 3."
+    result = choice_validator(user_input, list_to_check)
+    # numeric but out of keys -> function returns None
+    assert result == "Invalid choice. Please select a valid option from the list."
 
 
 def test_zero_allowed_with_non_empty_dict():
     # arrange
     user_input = "0"
-    options = {1: {"item": "coffee"}}
+    # to allow 0 the options dict must contain 0 as a key
+    options = {0: {"item": "coffee"}}
 
     # act
-    result = choice_validator(user_input, options, allow_zero=True)
+    result = choice_validator(user_input, options)
     assert result is True
 
 
 def test_empty_options_list_with_input_one():
     # arrange
     user_input = "1"
-    list_to_check = []
+    # empty options are represented by an empty dict
+    list_to_check = {}
 
     # act
     result = choice_validator(user_input, list_to_check)
-    assert result == "Invalid selection. Please choose a number between 1 and 0."
+    # numeric but not present -> None
+    assert result == "Invalid choice. Please select a valid option from the list."
 
 
 def test_input_equal_to_length_plus_one():
     # arrange
-    list_to_check = ["apple", "banana", "cherry"]
+    list_to_check = {1: "apple", 2: "banana", 3: "cherry"}
     user_input = str(len(list_to_check) + 1)  # "4"
 
     # act
     result = choice_validator(user_input, list_to_check)
-    assert result == "Invalid selection. Please choose a number between 1 and 3."
+    assert result == "Invalid choice. Please select a valid option from the list."
 
 
 def test_negative_number_input():
     # arrange
     user_input = "-1"
-    list_to_check = ["apple", "banana", "cherry"]
+    list_to_check = {1: "apple", 2: "banana", 3: "cherry"}
 
     # act
     result = choice_validator(user_input, list_to_check)
-    assert result == "Invalid selection. Please choose a number between 1 and 3."
+    assert result == "Invalid choice. Please select a valid option from the list."
 
 
 # unhappy path
@@ -525,7 +533,7 @@ def test_negative_number_input():
 def test_non_numeric_input_letter():
     # arrange
     user_input = "a"
-    list_to_check = ["apple", "banana", "cherry"]
+    list_to_check = {1: "apple", 2: "banana", 3: "cherry"}
 
     # act
     result = choice_validator(user_input, list_to_check)
@@ -535,7 +543,7 @@ def test_non_numeric_input_letter():
 def test_non_numeric_input_symbol():
     # arrange
     user_input = "@"
-    list_to_check = ["apple", "banana", "cherry"]
+    list_to_check = {1: "apple", 2: "banana", 3: "cherry"}
 
     # act
     result = choice_validator(user_input, list_to_check)
@@ -545,7 +553,7 @@ def test_non_numeric_input_symbol():
 def test_non_numeric_input_float_string():
     # arrange
     user_input = "2.5"
-    list_to_check = ["apple", "banana", "cherry"]
+    list_to_check = {1: "apple", 2: "banana", 3: "cherry"}
 
     # act
     result = choice_validator(user_input, list_to_check)
@@ -556,10 +564,10 @@ def test_dict_input_out_of_range_returns_not_a_valid_option():
     # arrange
     user_input = "3"
     options = {1: {"item": "a"}, 2: {"item": "b"}}
-
     # act
     result = choice_validator(user_input, options)
-    assert result == "Invalid selection. Please choose a number between 1 and 2."
+    # numeric but not a key -> None
+    assert result == "Invalid choice. Please select a valid option from the list."
 
 
 # integration tests for list_selection_choice function
@@ -590,7 +598,7 @@ def test_list_selection_choice_retries_until_valid(monkeypatch, capsys):
     # Capture printed output
     captured = capsys.readouterr().out
     assert "Invalid input. Please enter a number." in captured
-    assert "Invalid selection. Please choose a number between 1 and 3." in captured
+    assert "Invalid choice. Please select a valid option from the list." in captured
     assert "PRODUCTS" in captured  # menu display was printed
 
 
@@ -634,5 +642,5 @@ def test_list_selection_choice_dict_retries_until_valid(monkeypatch, capsys):
     # Capture printed output
     captured = capsys.readouterr().out
     assert "Invalid input. Please enter a number." in captured
-    assert "Invalid selection. Please choose a number between 1 and 2." in captured
+    assert "Invalid choice. Please select a valid option from the list." in captured
     assert "ORDERS" in captured  # menu display was printed
