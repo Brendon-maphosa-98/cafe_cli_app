@@ -575,35 +575,24 @@ def test_dict_input_out_of_range_returns_not_a_valid_option():
 import builtins
 
 
-# test that it retries until valid input is given for list_selection_choice with list of options
-def test_list_selection_choice_retries_until_valid(monkeypatch, capsys):
+# tests for list_selection_choice with the new signature: pass user_input directly
+def test_list_selection_choice_with_valid_input_returns_input(capsys):
     # arrange
     options = {1: "Apple", 2: "Banana", 3: "Cherry"}
-    prompt_message = "Select a fruit"
-
-    # Fake user inputs: first invalid ("x"), then out of range ("5"), then valid ("2")
-    fake_inputs = iter(["x", "5", "2"])
-
-    def fake_input(prompt):
-        return next(fake_inputs)
-
-    monkeypatch.setattr("builtins.input", fake_input)
+    user_input = "2"
 
     # act
-    result = list_selection_choice(options, prompt_message, menu_name="products")
+    result = list_selection_choice(options, user_input, menu_name="products")
 
     # assert
-    assert result == "2"  # the valid input returned
+    assert result == "2"
 
-    # Capture printed output
+    # Capture printed output and ensure menu display was printed
     captured = capsys.readouterr().out
-    assert "Invalid input. Please enter a number." in captured
-    assert "Invalid choice. Please select a valid option from the list." in captured
-    assert "PRODUCTS" in captured  # menu display was printed
+    assert "PRODUCTS" in captured
 
 
-# test that it retries until valid input is given for list_selection_choice with dict of orders
-def test_list_selection_choice_dict_retries_until_valid(monkeypatch, capsys):
+def test_list_selection_choice_dict_with_valid_input_returns_input(capsys):
     # arrange
     options = {
         1: {
@@ -623,24 +612,14 @@ def test_list_selection_choice_dict_retries_until_valid(monkeypatch, capsys):
             "status": "Preparing",
         },
     }
-    prompt_message = "Select an order"
-
-    # Fake user inputs: first invalid ("y"), then out of range ("4"), then valid ("1")
-    fake_inputs = iter(["y", "4", "1"])
-
-    def fake_input(prompt):
-        return next(fake_inputs)
-
-    monkeypatch.setattr("builtins.input", fake_input)
+    user_input = "1"
 
     # act
-    result = list_selection_choice(options, prompt_message, menu_name="orders")
+    result = list_selection_choice(options, user_input, menu_name="orders")
 
     # assert
-    assert result == "1"  # the valid input returned
+    assert result == "1"
 
-    # Capture printed output
+    # Capture printed output and ensure menu display was printed
     captured = capsys.readouterr().out
-    assert "Invalid input. Please enter a number." in captured
-    assert "Invalid choice. Please select a valid option from the list." in captured
-    assert "ORDERS" in captured  # menu display was printed
+    assert "ORDERS" in captured

@@ -80,36 +80,32 @@ def choice_validator(user_input, options):
 
 
 def list_selection_choice(
-    options, prompt_message, menu_name="options"
+    options,user_input, menu_name="options"
 ):
     """
     This function:
-    - Displays a numbered list of options to the user.
-    - Prompts the user to select an option by entering the corresponding number.
-    - Validates the user's input to ensure it corresponds to a valid option.
-    - Repeats the prompt until a valid selection is made.
+    - Displays a numbered list of options.
+    - validates user input against the options.
+    - Returns the valid user input.
     Parameters:
-      options: A dictionary of options where keys are the option numbers (integers) and values are the option names (strings).
-      prompt_message: The message displayed to the user when prompting for input.
+      options: A dictionary of options where keys are the valid choices (integers) and values are the option names.
+      user_input: The input provided by the user (expected to be a variable containing a string that can be converted to an integer).
       menu_name: Name of the menu for display purposes (default is "options").
     Returns:
-      The valid user input as a string.
+      The valid user input (as a string) if it is a valid choice from the options, otherwise None.
     Raises:
-      None (handles invalid input internally).
+      None (handles exceptions internally).
     Side Effects:
-      - Prints the menu and error messages to the console.
-      - Waits for user input.
+      - Prints the numbered list and error messages to the console.
     Dependencies/Assumptions:
       - `options` is always going to be a dictionary provided by the developer.
-      - `prompt_message` is always going to be a string provided by the developer.
+      - `user_input` is always going to be a variable containing a string provided by the user. the variable is passed to the function by the developer.
       - `menu_name` is always going to be a string provided by the developer.
       - The keys in `options` are always integers.
-      - The function relies on `numbered_display` and `choice_validator` functions.
     """
     function_loop = 0
     while function_loop == 0:
         print(numbered_display(options, menu_name))
-        user_input = input(f"\n{prompt_message}\n>>> ")
         selection_output = choice_validator(user_input, options)
         if selection_output == True:
             function_loop = 1
