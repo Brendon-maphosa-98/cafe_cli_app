@@ -324,7 +324,9 @@ def user_prompt_for_items_selection(
                 return None
             else:
                 is_running = True
-#TODO: refactor: break into smaller functions for readability
+
+
+# TODO: refactor: break into smaller functions for readability
 
 # ------------------------------
 # Integrated functions to modify menus
