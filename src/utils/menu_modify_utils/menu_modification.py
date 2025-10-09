@@ -6,6 +6,7 @@ from src.utils.menu_utils.menu_choice_selection import list_selection_choice
 # Helper functions for menu modifications
 # ------------------------------
 
+
 # Function to prompt user for a new item name (product or courier)
 def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print):
     """
@@ -54,6 +55,7 @@ def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print):
         output_fn(
             f"\nAn unexpected error occurred: {e}. Returning to {menu_name} menu."
         )
+
 
 # functions to prompt user for order customer details (name, address, phone)
 def user_prompt_for_order_customer_name(input_fn=input, output_fn=print):
@@ -113,6 +115,7 @@ def user_prompt_for_order_customer_name(input_fn=input, output_fn=print):
         output_fn("No more input available. Returning to Orders menu.")
     except Exception as e:
         output_fn(f"An unexpected error occurred: {e}. Returning to Orders menu.")
+
 
 # function to prompt user for order customer address
 def user_prompt_for_order_customer_address(input_fn=input, output_fn=print):
@@ -188,6 +191,7 @@ def user_prompt_for_order_customer_address(input_fn=input, output_fn=print):
     except Exception as e:
         output_fn(f"An unexpected error occurred: {e}. Returning to Orders menu.")
 
+
 # function to prompt user for order customer phone number
 def user_prompt_for_order_customer_phone(input_fn=input, output_fn=print):
     """
@@ -250,10 +254,6 @@ def user_prompt_for_order_customer_phone(input_fn=input, output_fn=print):
     except Exception as e:
         output_fn(f"\nAn unexpected error occurred: {e}. Returning to Orders menu.")
 
-
-# ------------------------------
-# Integrated functions to modify menus
-# ------------------------------
 
 # Function to prompt user to select from a list of options
 def user_prompt_for_items_selection(
@@ -325,6 +325,12 @@ def user_prompt_for_items_selection(
             else:
                 is_running = True
 
+
+# ------------------------------
+# Integrated functions to modify menus
+# ------------------------------
+
+
 # Function to add a new item to a list (products or couriers)
 def add_new_item_to_collection(new_item, dict_to_modify):
     """
@@ -356,6 +362,7 @@ def add_new_item_to_collection(new_item, dict_to_modify):
     except Exception as e:
         print(f"An error occurred while adding the item: {e}. No changes made.")
         return False
+
 
 # Function to update an existing item in a list (products or couriers)
 def update_existing_item_in_list(dict_to_modify, menu_name):
@@ -398,6 +405,7 @@ def update_existing_item_in_list(dict_to_modify, menu_name):
         # Update the selected item in the dictionary
         dict_to_modify[int(selected_index)] = new_item_name  # type: ignore
         return True
+
 
 # Function to delete an item from a list (products or couriers)
 def delete_item_from_list(dict_to_modify, user_input, menu_name, output_fn=print):

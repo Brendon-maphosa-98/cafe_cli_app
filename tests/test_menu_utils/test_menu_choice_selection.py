@@ -71,6 +71,7 @@ def test_single_option_with_reserve_zero_for_last():
 
     # act
     result = numbered_display(options)
+
     # assert
     assert result == expected_output
 
@@ -442,7 +443,10 @@ def test_valid_middle_option():
     user_input = "2"
     list_to_check = {1: "apple", 2: "banana", 3: "cherry"}
 
+    # act
     result = choice_validator(user_input, list_to_check)
+
+    # assert
     assert result is True
 
 
@@ -451,7 +455,10 @@ def test_valid_last_option():
     user_input = "3"
     list_to_check = {1: "apple", 2: "banana", 3: "cherry"}
 
+    # act
     result = choice_validator(user_input, list_to_check)
+
+    # assert
     assert result is True
 
 
@@ -463,6 +470,8 @@ def test_valid_zero_when_allowed():
 
     # act
     result = choice_validator(user_input, list_to_check)
+
+    # assert
     assert result is True
 
 
@@ -475,6 +484,8 @@ def test_valid_option_with_dict_by_count():
 
     # act
     result = choice_validator("10", options)
+
+    # assert
     assert result is True
 
 
@@ -491,6 +502,8 @@ def test_zero_not_allowed():
 
     # act
     result = choice_validator(user_input, list_to_check)
+
+    # assert
     # numeric but out of keys -> function returns None
     assert result == "Invalid choice. Please select a valid option from the list."
 
@@ -503,6 +516,8 @@ def test_zero_allowed_with_non_empty_dict():
 
     # act
     result = choice_validator(user_input, options)
+
+    # assert
     assert result is True
 
 
@@ -514,6 +529,8 @@ def test_empty_options_list_with_input_one():
 
     # act
     result = choice_validator(user_input, list_to_check)
+
+    # assert
     # numeric but not present -> None
     assert result == "Invalid choice. Please select a valid option from the list."
 
@@ -525,6 +542,8 @@ def test_input_equal_to_length_plus_one():
 
     # act
     result = choice_validator(user_input, list_to_check)
+
+    # assert
     assert result == "Invalid choice. Please select a valid option from the list."
 
 
@@ -535,6 +554,8 @@ def test_negative_number_input():
 
     # act
     result = choice_validator(user_input, list_to_check)
+
+    # assert
     assert result == "Invalid choice. Please select a valid option from the list."
 
 
@@ -550,6 +571,8 @@ def test_non_numeric_input_letter():
 
     # act
     result = choice_validator(user_input, list_to_check)
+
+    # assert
     assert result == "Invalid input. Please enter a number."
 
 
@@ -560,6 +583,8 @@ def test_non_numeric_input_symbol():
 
     # act
     result = choice_validator(user_input, list_to_check)
+
+    # assert
     assert result == "Invalid input. Please enter a number."
 
 
@@ -570,6 +595,8 @@ def test_non_numeric_input_float_string():
 
     # act
     result = choice_validator(user_input, list_to_check)
+
+    # assert
     assert result == "Invalid input. Please enter a number."
 
 
@@ -577,8 +604,11 @@ def test_dict_input_out_of_range_returns_not_a_valid_option():
     # arrange
     user_input = "3"
     options = {1: {"item": "a"}, 2: {"item": "b"}}
+
     # act
     result = choice_validator(user_input, options)
+
+    # assert
     # numeric but not a key -> None
     assert result == "Invalid choice. Please select a valid option from the list."
 

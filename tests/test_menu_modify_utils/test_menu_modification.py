@@ -33,6 +33,7 @@ def test_user_enters_valid_item_immediately():
 
     # act
     result = user_prompt_for_new_item(menu_name, input_fn=fake_input)
+
     # assert
     assert result == "Latte", "Expected 'Latte' when user enters 'latte'"
 
@@ -47,6 +48,7 @@ def test_user_enters_item_with_whitespace():
 
     # act
     result = user_prompt_for_new_item(menu_name, input_fn=fake_input)
+
     # assert
     assert result == "Bread", "Expected 'Bread' when user enters '   bread   '"
 
@@ -61,6 +63,7 @@ def test_user_retries_after_blank_input_and_enters_valid_item():
 
     # act
     result = user_prompt_for_new_item(menu_name, input_fn=fake_input)
+
     # assert
     assert result == "Croissant", "Expected 'Croissant' after retrying with valid input"
 
@@ -75,6 +78,7 @@ def test_user_retries_after_invalid_choice_and_enters_valid_item():
 
     # act
     result = user_prompt_for_new_item(menu_name, input_fn=fake_input)
+
     # assert
     assert result == "Muffin", "Expected 'Muffin' after retrying with valid input"
 
@@ -96,6 +100,7 @@ def test_user_cancels_after_blank_input():
     result = user_prompt_for_new_item(
         menu_name, input_fn=fake_input, output_fn=fake_output
     )
+
     # assert
     assert result is None, "Expected None when user cancels operation"
     assert (
@@ -142,6 +147,7 @@ def test_user_repeatedly_enters_blank_then_valid_input():
 
     # act
     result = user_prompt_for_new_item(menu_name, input_fn=fake_input)
+
     # assert
     assert (
         result == "Espresso"
@@ -175,6 +181,7 @@ def test_user_enters_only_spaces_then_valid_input():
 
     # act
     result = user_prompt_for_new_item(menu_name, input_fn=fake_input)
+
     # assert
     assert (
         result == "Sandwich"
@@ -240,6 +247,7 @@ def test_user_prompt_with_empty_menu_name():
 
     # act
     result = user_prompt_for_new_item(menu_name, input_fn=fake_input)
+
     # assert
     assert result == "Item1", "Expected 'Item1' when user enters 'item1'"
 
@@ -856,6 +864,7 @@ def test_delete_item_from_list_deletes_first_item():
         dict_to_modify, user_input, menu_name, output_fn=fake_output
     )
     monkeypatch.undo()
+
     # assert
     assert result is True
     assert dict_to_modify == {2: "Latte", 3: "Mocha"}
@@ -884,6 +893,7 @@ def test_delete_item_from_list_deletes_last_item():
         dict_to_modify, user_input, menu_name, output_fn=fake_output
     )
     monkeypatch.undo()
+
     # assert
     assert result is True
     assert dict_to_modify == {1: "Tea", 2: "Latte"}
@@ -913,6 +923,7 @@ def test_delete_item_from_list_user_cancels():
         dict_to_modify, user_input, menu_name, output_fn=fake_output
     )
     monkeypatch.undo()
+
     # assert
     assert result is None
     assert dict_to_modify == original  # no mutation
@@ -943,6 +954,7 @@ def test_delete_item_from_list_with_single_item():
         dict_to_modify, user_input, menu_name, output_fn=fake_output
     )
     monkeypatch.undo()
+
     # assert
     assert result is True
     assert dict_to_modify == {}
@@ -992,6 +1004,7 @@ def test_delete_item_from_list_with_irregular_plural_menu_name():
         dict_to_modify, user_input, menu_name, output_fn=fake_output
     )
     monkeypatch.undo()
+
     # assert
     assert result is True
     assert dict_to_modify == {1: "Alice", 3: "Charlie"}
@@ -1020,6 +1033,7 @@ def test_delete_item_from_list_with_large_list():
         dict_to_modify, user_input, menu_name, output_fn=fake_output
     )
     monkeypatch.undo()
+
     # assert
     assert result is True
     assert len(dict_to_modify) == 999
@@ -1106,6 +1120,7 @@ def test_delete_item_from_list_with_empty_menu_name():
         dict_to_modify, user_input, menu_name, output_fn=fake_output
     )
     monkeypatch.undo()
+
     # assert
     assert result is True
     assert dict_to_modify == {2: "Latte"}
@@ -1139,6 +1154,7 @@ def test_delete_item_from_list_output_fn_raises_exception():
         dict_to_modify, user_input, menu_name, output_fn=fake_output
     )
     monkeypatch.undo()
+
     # assert - the function catches all exceptions and returns None
     assert result is None
 
@@ -1314,6 +1330,7 @@ def test_user_prompt_for_order_customer_address_valid_input():
 
     # act
     result = user_prompt_for_order_customer_address(input_fn=fake_input)
+
     # assert
     assert result == ("123 Baker St, London, NW1 6XE")
 
@@ -1328,6 +1345,7 @@ def test_user_prompt_for_order_customer_address_handles_lowercase_input():
 
     # act
     result = user_prompt_for_order_customer_address(input_fn=fake_input)
+
     # assert
     assert result == ("456 Elm Street, Manchester, M1 1AE")
 
@@ -1342,6 +1360,7 @@ def test_user_prompt_for_order_customer_address_valid_with_extra_spaces():
 
     # act
     result = user_prompt_for_order_customer_address(input_fn=fake_input)
+
     # assert
     assert result == ("789 Oak Rd, Bristol, BS1 5TR")
 
@@ -1359,6 +1378,7 @@ def test_user_prompt_for_order_customer_address_minimal_valid_input():
 
     # act
     result = user_prompt_for_order_customer_address(input_fn=fake_input)
+
     # assert
     assert result == ("1 A St, B, A1 1AA")
 
@@ -1376,6 +1396,7 @@ def test_user_prompt_for_order_customer_address_max_length_input():
 
     # act
     result = user_prompt_for_order_customer_address(input_fn=fake_input)
+
     # assert
     assert result == (f"{long_street}, {long_city}, {long_postcode}")
 
@@ -1401,6 +1422,7 @@ def test_user_prompt_for_order_customer_address_retry_after_invalid():
 
     # act
     result = user_prompt_for_order_customer_address(input_fn=fake_input)
+
     # assert
     assert result == ("123 Valid St, Valid City, B2 2BB")
 
@@ -1606,6 +1628,7 @@ def test_user_prompt_for_order_customer_phone_valid_input():
 
     # act
     result = user_prompt_for_order_customer_phone(input_fn=fake_input)
+
     # assert
     assert result == "07123456789"
 
@@ -1622,6 +1645,7 @@ def test_user_prompt_for_order_customer_phone_trims_spaces():
 
     # act
     result = user_prompt_for_order_customer_phone(input_fn=fake_input)
+
     # assert
     assert result == "07123456789"
 
@@ -1644,6 +1668,7 @@ def test_user_prompt_for_order_customer_phone_multiple_valid_attempts():
 
     # act
     result = user_prompt_for_order_customer_phone(input_fn=fake_input)
+
     # assert
     assert result == "07123456789"
 
@@ -1669,6 +1694,7 @@ def test_user_prompt_for_order_customer_phone_minimum_length():
 
     # act
     result = user_prompt_for_order_customer_phone(input_fn=fake_input)
+
     # assert
     assert result == "07123456789"
 
@@ -1691,6 +1717,7 @@ def test_user_prompt_for_order_customer_phone_excess_length():
 
     # act
     result = user_prompt_for_order_customer_phone(input_fn=fake_input)
+
     # assert
     assert result == "07123456789"
 
