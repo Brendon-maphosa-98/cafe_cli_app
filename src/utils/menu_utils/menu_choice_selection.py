@@ -13,9 +13,10 @@ def numbered_display(
       options: A dictionary of options where keys are the valid choices (integers) and values are the option names.
       menu_name: Name of the menu for display purposes (default is "options").
     Returns:
-      A formatted string displaying the options in a numbered list format or a message indicating no options are available.
+      A formatted string displaying the options in a numbered list format.
     Raises:
       TypeError: if `options` is not a dictionary.
+      ValueError: if `options` is empty.
       Exception: for any other unexpected errors.
     Side Effects:
       - None (pure function).
