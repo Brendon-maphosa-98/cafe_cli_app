@@ -346,7 +346,6 @@ def user_prompt_for_items_selection(
             else:
                 function_loop = 0
     ## REFACTOR NOTE: Go through all other functions in codebase and refactor for the following before continuing with the above function:
-    # - try to seperate the concerns of displaying the menu, getting user input, and validating the input into separate functions
     # - consider using exceptions for control flow instead of return values like None for cancellations
     # - ensure consistent handling of user cancellations across all functions
     # - ensure consistent naming conventions for variables and functions across the codebase

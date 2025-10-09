@@ -28,7 +28,7 @@ def numbered_display(
     """
     try:
         if not options:
-            return f"No {menu_name} available."
+            raise ValueError
         display_string = f"\n{menu_name.upper()}:\n"
         if menu_name == "orders":
             for key, value in options.items():
@@ -47,6 +47,8 @@ def numbered_display(
         return display_string
     except TypeError:
         return "Invalid options format. Must be a dictionary."
+    except ValueError:
+        return f"No {menu_name} available."
     except Exception as e:
         return f"An unexpected error occurred: {e}"
 
