@@ -48,45 +48,32 @@ def numbered_display(
         return f"An unexpected error occurred: {e}"
 
 
-def choice_validator(user_input, options, allow_zero=False):
+def choice_validator(user_input, options):
     """
-    Validate user input against a list of options.
-    parameters:
-    user_input: str - the input provided by the user to validate. will always be a variable containing a string provided by the user. The developer will provide the variable name but not the value.
-    options: A dictionary. The items to be numbered and displayed.
-        - For products and couriers this will be a dictionary of items where the key is an item number and the value is the item name. will be provided by the developer.
-        - For orders this will be a dictionary of orders where the key is an order number and the value is a dictionary of order details. will be provided by the developer. The last order will NEVER be reserved for 0.
-        - For menu options this will be a dictionary of menu options where the key is an option number and the value is the option name. will be provided by the developer.
-    allow_zero: bool - if True, allows 0 as a valid input for going back or exiting. Default is False. will always be provided by developer not user.
-    returns:
-    True if the input is valid (within range of options or 0 if allowed), otherwise returns an error message string.
-    raises:
-    ValueError: if the input cannot be converted to an integer.
+    This function:
+    - Validates if the user input is a valid choice from the provided options.
+    Parameters:
+      user_input: The input provided by the user (expected to be a string that can be converted to an integer).
+      options: A dictionary of valid options where keys are the valid choices (integers).
+    Returns:
+      True if the input is a valid choice, otherwise an error message string.
+    Raises:
+      None (handles invalid input internally).
     Side Effects:
-    None (pure function).
+      - None (pure function).
     Dependencies/Assumptions:
-    - `user_input` is always going to be a string provided by the user.
-    - `options` is always going to be a dictionary provided by the developer.
-    - `allow_zero` is always going to be a boolean provided by the developer.
-    Note: This function assumes that the options are presented to the user in a numbered format starting from 1,
-    with 0 optionally reserved for a 'back' or 'exit' option if `allow_zero` is True.
+      - `user_input` is always going to be a string provided by the user.
+      - `options` is always going to be a dictionary provided by the developer.
+      - `The keys in `options` are always integers.
     """
     try:
-        user_choice = int(user_input)
-        if allow_zero and user_choice == 0:
+        choice = int(user_input)
+        if choice in options.keys():
             return True
-        elif 1 <= user_choice <= len(options):
-            return True
-        else:
-            return (
-                f"Invalid selection. Please choose a number between 1 and {len(options)}."
-                if not allow_zero
-                else f"Invalid selection. Please choose a number between 0 and {len(options)}."
-            )
+    except KeyError:
+        return f"Invalid choice. Please select a valid option from the list."
     except ValueError:
         return "Invalid input. Please enter a number."
-    except Exception as e:
-        return f"An unexpected error occurred: {e}"
 
 
 def list_selection_choice(
@@ -120,7 +107,7 @@ def list_selection_choice(
     while function_loop == 0:
         print(numbered_display(options, menu_name))
         user_input = input(f"\n{prompt_message}\n>>> ")
-        selection_output = choice_validator(user_input, options, allow_zero=allow_zero)
+        selection_output = choice_validator(user_input, options)
         if selection_output == True:
             function_loop = 1
             return user_input
