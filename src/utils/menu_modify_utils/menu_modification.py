@@ -30,8 +30,8 @@ def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print):
                 .strip()
                 .title()
             )
-            inner_loop = 0
-            while inner_loop == 0:
+            is_valid_input = False
+            while not is_valid_input:
                 if not new_item:
                     choice = input_fn(
                         "No input provided. Press 1 to try again or 2 to cancel: "
@@ -39,10 +39,10 @@ def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print):
                     if choice == "2":
                         raise KeyboardInterrupt
                     elif choice == "1":
-                        inner_loop = 1  # Break inner loop to re-prompt for input
+                        is_valid_input = True  # Break inner loop to re-prompt for input
                     else:
                         output_fn("Invalid choice.")
-                        inner_loop = 0  # Stay in the inner loop
+                        is_valid_input = False  # Stay in the inner loop
                 else:
                     return new_item
     except KeyboardInterrupt:
@@ -77,8 +77,8 @@ def user_prompt_for_order_customer_name(input_fn=input, output_fn=print):
         while True:
             first_name = input_fn("Enter the customer's first name: ").strip().title()
             last_name = input_fn("Enter the customer's last name: ").strip().title()
-            inner_loop = 0
-            while inner_loop == 0:
+            is_valid_input = False
+            while not is_valid_input:
                 # Case: either name missing
                 if not first_name or not last_name:
                     choice = input_fn(
@@ -87,10 +87,10 @@ def user_prompt_for_order_customer_name(input_fn=input, output_fn=print):
                     if choice == "2":
                         raise KeyboardInterrupt
                     elif choice == "1":
-                        inner_loop = 1  # Break inner loop to re-prompt for input
+                        is_valid_input = True  # Break inner loop to re-prompt for input
                     else:
                         output_fn("Invalid choice.")
-                        inner_loop = 0  # Stay in the inner loop
+                        is_valid_input = False  # Stay in the inner loop
                 # Case: invalid characters (now allow letters, hyphens and apostrophes)
                 elif not re.match(r"^[A-Za-z'-]+$", first_name) or not re.match(
                     r"^[A-Za-z'-]+$", last_name
@@ -101,10 +101,10 @@ def user_prompt_for_order_customer_name(input_fn=input, output_fn=print):
                     if choice == "2":
                         raise KeyboardInterrupt
                     elif choice == "1":
-                        inner_loop = 1  # Break inner loop to re-prompt for input
+                        is_valid_input = True  # Break inner loop to re-prompt for input
                     else:
                         output_fn("Invalid choice.")
-                        inner_loop = 0  # Stay in the inner loop
+                        is_valid_input = False  # Stay in the inner loop
                 else:
                     return first_name, last_name
     except KeyboardInterrupt:
@@ -133,7 +133,7 @@ def user_prompt_for_order_customer_address(input_fn=input, output_fn=print):
     dependencies/assumptions:
         The function assumes that the input_fn and output_fn are callable and behave like the built-in input and print functions.
     """
-    UK_address_pattern = re.compile(
+    uk_address_pattern = re.compile(
         r"^\d+\s[A-Za-z0-9\s,'-]+,\s[A-Za-z\s'-]+,\s[A-Z]{1,2}\d{1,2}\s?\d[A-Z]{2}$"
     )  # Simplified UK address regex pattern. This pattern may not cover all valid UK addresses but serves as a basic validation.
     try:
@@ -152,8 +152,8 @@ def user_prompt_for_order_customer_address(input_fn=input, output_fn=print):
                 .upper()
             )
             address = f"{number_and_street}, {city}, {postcode}"
-            inner_loop = 0
-            while inner_loop == 0:
+            is_valid_input = False
+            while not is_valid_input:
                 # Case: address missing
                 if not number_and_street or not city or not postcode:
                     choice = input_fn(
@@ -162,22 +162,22 @@ def user_prompt_for_order_customer_address(input_fn=input, output_fn=print):
                     if choice == "2":
                         raise KeyboardInterrupt
                     elif choice == "1":
-                        inner_loop = 1  # Break inner loop to re-prompt for input
+                        is_valid_input = True  # Break inner loop to re-prompt for input
                     else:
                         output_fn("Invalid choice.")
-                        inner_loop = 0  # Stay in the inner loop
+                        is_valid_input = False  # Stay in the inner loop
                 # Case: invalid address format
-                elif not UK_address_pattern.match(address):
+                elif not uk_address_pattern.match(address):
                     choice = input_fn(
                         "Address format is invalid. Ensure it includes street, city, and postcode, uses valid characters, is a UK address and follows the format '123 Main St, London, SW1A 1AA'.\n\n Press 1 to try again or 2 to cancel: "
                     )
                     if choice == "2":
                         raise KeyboardInterrupt
                     elif choice == "1":
-                        inner_loop = 1  # Break inner loop to re-prompt for input
+                        is_valid_input = True  # Break inner loop to re-prompt for input
                     else:
                         output_fn("Invalid choice.")
-                        inner_loop = 0  # Stay in the inner loop
+                        is_valid_input = False  # Stay in the inner loop
                 else:
                     return address
     except KeyboardInterrupt:
@@ -210,7 +210,7 @@ def user_prompt_for_order_customer_phone(input_fn=input, output_fn=print):
     dependencies/assumptions:
         The function assumes that the input_fn and output_fn are callable and behave like the built-in input and print functions.
     """
-    Uk_phone_pattern = re.compile(
+    uk_phone_pattern = re.compile(
         r"^07\d{9}$"
     )  # UK mobile number regex pattern. This pattern may not cover all valid UK phone numbers but serves as a basic validation.
     invalid_format_message = "Invalid phone number. Please ensure the number meets these rules:\nMust start with '07'\nMust be 11 digits long\nNo spaces, symbols, or letters\nExample of valid format: 07123456789"
@@ -219,8 +219,8 @@ def user_prompt_for_order_customer_phone(input_fn=input, output_fn=print):
             phone_number = input_fn(
                 "Enter the customer's phone number (digits only): "
             ).strip()
-            inner_loop = 0
-            while inner_loop == 0:
+            is_valid_input = False
+            while not is_valid_input:
                 # Case: phone number missing
                 if not phone_number:
                     choice = input_fn(
@@ -229,22 +229,22 @@ def user_prompt_for_order_customer_phone(input_fn=input, output_fn=print):
                     if choice == "2":
                         raise KeyboardInterrupt
                     elif choice == "1":
-                        inner_loop = 1  # Break inner loop to re-prompt for input
+                        is_valid_input = True  # Break inner loop to re-prompt for input
                     else:
                         output_fn("Invalid choice.")
-                        inner_loop = 0  # Stay in the inner loop
+                        is_valid_input = False  # Stay in the inner loop
                 # Case: invalid characters (now allow only digits, length between 7 and 15)
-                elif not re.match(Uk_phone_pattern, phone_number):
+                elif not re.match(uk_phone_pattern, phone_number):
                     choice = input_fn(
                         f"{invalid_format_message}\n\nPress 1 to try again or 2 to cancel: "
                     )
                     if choice == "2":
                         raise KeyboardInterrupt
                     elif choice == "1":
-                        inner_loop = 1  # Break inner loop to re-prompt for input
+                        is_valid_input = True  # Break inner loop to re-prompt for input
                     else:
                         output_fn("Invalid choice.")
-                        inner_loop = 0  # Stay in the inner loop
+                        is_valid_input = False  # Stay in the inner loop
                 else:
                     return phone_number
     except KeyboardInterrupt:
@@ -295,40 +295,39 @@ def user_prompt_for_items_selection(
       - `input_fn` and `output_fn` are callable and behave like the built-in input and print functions.
       - `list_selection_choice(options, prompt, allow_zero, start_index, menu_name) -> str` returns a valid selection or None if cancelled.
     """
-    function_loop = 0
-    compiled_products = []
-    while function_loop == 0:
+    is_running = True
+    selected_products = []
+    while is_running:
         selected_index = list_selection_choice(
             options,
             prompt_message,
             menu_name=menu_name,
         )
         if selected_index is not None and menu_name == "Couriers":
-            function_loop = 1
+            is_running = False
             return selected_index
         elif selected_index is not None and menu_name == "Products":
-            more_item_question = input_fn(
+            add_more_items = input_fn(
                 f"{options[int(selected_index)-1]} selected, would you like to select another product? press 1 for yes or 2 for no: "
             )
-            if more_item_question == "1":
-                compiled_products.append(selected_index)
-                function_loop = 0
-            elif more_item_question == "2":
-                compiled_products.append(selected_index)
-                function_loop = 1
-                return compiled_products
+            if add_more_items == "1":
+                selected_products.append(selected_index)
+                is_running = True
+            elif add_more_items == "2":
+                selected_products.append(selected_index)
+                is_running = False
+                return selected_products
         else:
-            error_next_step = input_fn(
+            user_choice = input_fn(
                 f"{selected_index}, please try again or press 0 to cancel.\n\n"
             )
-            if error_next_step == "0":
+            if user_choice == "0":
                 output_fn(f"Operation cancelled. Returning to {menu_name} menu.")
                 return None
             else:
-                function_loop = 0
+                is_running = True
     ## REFACTOR NOTE: Go through all other functions in codebase and refactor for the following before continuing with the above function:
     # - ensure consistent naming conventions for variables and functions across the codebase
-    # - ensure consistent return types (e.g., always return a list for multiple selections, even if it's a single item)
     # - ensure consistent formatting and style across the codebase
     # - add type hints for better clarity and maintainability
     # - add more detailed docstrings for better understanding of function purposes and behaviors

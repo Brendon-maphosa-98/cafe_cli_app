@@ -85,9 +85,7 @@ def choice_validator(user_input, options):
         return "Invalid input. Please enter a number."
 
 
-def list_selection_choice(
-    options,user_input, menu_name="options"
-):
+def list_selection_choice(options, user_input, menu_name="options"):
     """
     This function:
     - Displays a numbered list of options.
@@ -111,15 +109,15 @@ def list_selection_choice(
     """
     # TODO: refactor to give user option to cancel selection and return to previous menu
     try:
-      function_loop = 0
-      while function_loop == 0:
-          print(numbered_display(options, menu_name))
-          selection_output = choice_validator(user_input, options)
-          if selection_output == True:
-              function_loop = 1
-              return user_input
-          else:
-              print(selection_output)
-              function_loop = 0
+        is_running = True
+        while is_running:
+            print(numbered_display(options, menu_name))
+            selection_output = choice_validator(user_input, options)
+            if selection_output == True:
+                is_running = False
+                return user_input
+            else:
+                print(selection_output)
+                is_running = True
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
