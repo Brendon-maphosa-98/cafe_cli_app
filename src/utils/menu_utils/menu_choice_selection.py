@@ -6,22 +6,25 @@ def numbered_display(
     menu_name="options",
 ):
     """
-    Generate a numbered list string from `options` for display.
+    This function:
+    - Takes a dictionary of options and a menu name as input.
+    - Returns a formatted string displaying the options in a numbered list format.
     Parameters:
-      options: A dictionary. The items to be numbered and displayed.
-        - For products and couriers this will be a dictionary of items where the key is an item number and the value is the item name. will be provided by the developer.
-        - For orders this will be a dictionary of orders where the key is an order number and the value is a dictionary of order details. will be provided by the developer. The last order will NEVER be reserved for 0.
-        - For menu options this will be a dictionary of menu options where the key is an option number and the value is the option name. will be provided by the developer.
+      options: A dictionary of options where keys are the valid choices (integers) and values are the option names.
       menu_name: Name of the menu for display purposes (default is "options").
     Returns:
-      A formatted string representing the numbered list, or a message if the list is empty.
+      A formatted string displaying the options in a numbered list format or a message indicating no options are available.
     Raises:
-        TypeError: if `options` is not a list or dictionary.
+      TypeError: if `options` is not a dictionary.
+      Exception: for any other unexpected errors.
     Side Effects:
       - None (pure function).
     Dependencies/Assumptions:
       - `options` is always going to be a dictionary provided by the developer.
       - `menu_name` is always going to be a string provided by the developer.
+      - The keys in `options` are always integers.
+      - If `menu_name` is "orders", the values in `options` are expected to be dictionaries with specific keys.
+      - If `menu_name` is not "orders", the values in `options` are expected to be strings.
     """
     try:
         if not options:
@@ -103,12 +106,15 @@ def list_selection_choice(
       - `menu_name` is always going to be a string provided by the developer.
       - The keys in `options` are always integers.
     """
-    function_loop = 0
-    while function_loop == 0:
-        print(numbered_display(options, menu_name))
-        selection_output = choice_validator(user_input, options)
-        if selection_output == True:
-            function_loop = 1
-            return user_input
-        else:
-            print(f"\n{selection_output}\n\n")
+    try:
+      function_loop = 0
+      while function_loop == 0:
+          print(numbered_display(options, menu_name))
+          selection_output = choice_validator(user_input, options)
+          if selection_output == True:
+              function_loop = 1
+              return user_input
+          else:
+              print(f"\n{selection_output}\n\n")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
