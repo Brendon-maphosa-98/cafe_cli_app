@@ -69,7 +69,7 @@ def choice_validator(user_input, options):
     Side Effects:
       - None (pure function).
     Dependencies/Assumptions:
-      - `user_input` is always going to be a string provided by the user.
+      - `user_input` is always going to be a string provided by the user that can be converted to an integer.
       - `options` is always going to be a dictionary provided by the developer.
       - `The keys in `options` are always integers.
     """
@@ -118,6 +118,7 @@ def list_selection_choice(
               function_loop = 1
               return user_input
           else:
-              print(f"\n{selection_output}\n\n")
+              print(selection_output)
+              function_loop = 0
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
