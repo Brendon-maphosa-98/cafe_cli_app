@@ -97,7 +97,7 @@ def test_user_cancels_after_blank_input():
     # assert
     assert result is None, "Expected None when user cancels operation"
     assert (
-        outputs[-1] == f"Operation cancelled. Returning to {menu_name} menu."
+        outputs[-1] == f"\nOperation cancelled. Returning to {menu_name} menu."
     ), "Expected cancellation message"
 
 
@@ -126,7 +126,7 @@ def test_user_repeatedly_enters_blank_then_cancels():
     # assert
     assert result is None, "Expected None when user cancels operation"
     assert (
-        outputs[-1] == f"Operation cancelled. Returning to {menu_name} menu."
+        outputs[-1] == f"\nOperation cancelled. Returning to {menu_name} menu."
     ), "Expected cancellation message"
 
 
@@ -263,7 +263,7 @@ def test_user_cancels_and_outputs_correct_message():
     # assert
     assert result is None, "Expected None when user cancels operation"
     assert (
-        outputs[-1] == f"Operation cancelled. Returning to {menu_name} menu."
+        outputs[-1] == f"\nOperation cancelled. Returning to {menu_name} menu."
     ), "Expected cancellation message"
 
 
@@ -801,26 +801,29 @@ def test_delete_item_from_list_deletes_middle_item():
     """Ensures an item in the middle of a non-empty list is correctly deleted and success messages are printed."""
     # arrange
     menu_name = "Products"
-    lst = ["Tea", "Latte", "Mocha"]
+    dict_to_modify = {1: "Tea", 2: "Latte", 3: "Mocha"}
+    user_input = "2"
     outputs = []
 
     def fake_output(msg):
         outputs.append(msg)
 
-    def fake_list_selection_choice(options, prompt, menu_name_arg):
-        return 1  # select "Latte"
+    def fake_list_selection_choice(options, user_input_arg, menu_name_arg):
+        return "2"  # select "Latte"
 
     m = _func_module()
     monkeypatch = pytest.MonkeyPatch()
     monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
     # act
 
-    result = delete_item_from_list(lst, menu_name, output_fn=fake_output)
+    result = delete_item_from_list(
+        dict_to_modify, user_input, menu_name, output_fn=fake_output
+    )
     monkeypatch.undo()
 
     # assert
     assert result is True
-    assert lst == ["Tea", "Mocha"]
+    assert dict_to_modify == {1: "Tea", 3: "Mocha"}
     # function prints a single confirmation message
     assert outputs[0] == "Latte has been deleted from the Products list."
 
@@ -829,24 +832,27 @@ def test_delete_item_from_list_deletes_first_item():
     """Ensures the first item in the list is correctly deleted and appropriate confirmation is shown."""
     # arrange
     menu_name = "Products"
-    lst = ["Tea", "Latte", "Mocha"]
+    dict_to_modify = {1: "Tea", 2: "Latte", 3: "Mocha"}
+    user_input = "1"
     outputs = []
 
     def fake_output(msg):
         outputs.append(msg)
 
-    def fake_list_selection_choice(options, prompt, menu_name_arg):
-        return 0  # select "Tea"
+    def fake_list_selection_choice(options, user_input_arg, menu_name_arg):
+        return "1"  # select "Tea"
 
     m = _func_module()
     monkeypatch = pytest.MonkeyPatch()
     monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
     # act
-    result = delete_item_from_list(lst, menu_name, output_fn=fake_output)
+    result = delete_item_from_list(
+        dict_to_modify, user_input, menu_name, output_fn=fake_output
+    )
     monkeypatch.undo()
     # assert
     assert result is True
-    assert lst == ["Latte", "Mocha"]
+    assert dict_to_modify == {2: "Latte", 3: "Mocha"}
     assert outputs[0] == "Tea has been deleted from the Products list."
 
 
@@ -854,24 +860,27 @@ def test_delete_item_from_list_deletes_last_item():
     """Ensures the last item in the list is correctly deleted and appropriate confirmation is shown."""
     # arrange
     menu_name = "Products"
-    lst = ["Tea", "Latte", "Mocha"]
+    dict_to_modify = {1: "Tea", 2: "Latte", 3: "Mocha"}
+    user_input = "3"
     outputs = []
 
     def fake_output(msg):
         outputs.append(msg)
 
-    def fake_list_selection_choice(options, prompt, menu_name_arg):
-        return 2  # select "Mocha"
+    def fake_list_selection_choice(options, user_input_arg, menu_name_arg):
+        return "3"  # select "Mocha"
 
     m = _func_module()
     monkeypatch = pytest.MonkeyPatch()
     monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
     # act
-    result = delete_item_from_list(lst, menu_name, output_fn=fake_output)
+    result = delete_item_from_list(
+        dict_to_modify, user_input, menu_name, output_fn=fake_output
+    )
     monkeypatch.undo()
     # assert
     assert result is True
-    assert lst == ["Tea", "Latte"]
+    assert dict_to_modify == {1: "Tea", 2: "Latte"}
     assert outputs[0] == "Mocha has been deleted from the Products list."
 
 
@@ -879,25 +888,28 @@ def test_delete_item_from_list_user_cancels():
     """Verifies that when the user cancels (None returned), no deletion occurs and the list remains unchanged."""
     # arrange
     menu_name = "Products"
-    lst = ["Tea", "Latte", "Mocha"]
-    original = lst.copy()
+    dict_to_modify = {1: "Tea", 2: "Latte", 3: "Mocha"}
+    original = dict_to_modify.copy()
+    user_input = "2"
     outputs = []
 
     def fake_output(msg):
         outputs.append(msg)
 
-    def fake_list_selection_choice(options, prompt, menu_name_arg):
+    def fake_list_selection_choice(options, user_input_arg, menu_name_arg):
         return None  # simulate user cancellation
 
     m = _func_module()
     monkeypatch = pytest.MonkeyPatch()
     monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
     # act
-    result = delete_item_from_list(lst, menu_name, output_fn=fake_output)
+    result = delete_item_from_list(
+        dict_to_modify, user_input, menu_name, output_fn=fake_output
+    )
     monkeypatch.undo()
     # assert
     assert result is None
-    assert lst == original  # no mutation
+    assert dict_to_modify == original  # no mutation
 
 
 # edge cases
@@ -907,24 +919,27 @@ def test_delete_item_from_list_with_single_item():
     """Checks deletion works correctly when the list contains only one element, leaving it empty afterwards."""
     # arrange
     menu_name = "Products"
-    lst = ["Tea"]
+    dict_to_modify = {1: "Tea"}
+    user_input = "1"
     outputs = []
 
     def fake_output(msg):
         outputs.append(msg)
 
-    def fake_list_selection_choice(options, prompt, menu_name_arg):
-        return 0  # select the only item "Tea"
+    def fake_list_selection_choice(options, user_input_arg, menu_name_arg):
+        return "1"  # select the only item "Tea"
 
     m = _func_module()
     monkeypatch = pytest.MonkeyPatch()
     monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
     # act
-    result = delete_item_from_list(lst, menu_name, output_fn=fake_output)
+    result = delete_item_from_list(
+        dict_to_modify, user_input, menu_name, output_fn=fake_output
+    )
     monkeypatch.undo()
     # assert
     assert result is True
-    assert lst == []
+    assert dict_to_modify == {}
     assert outputs[0] == "Tea has been deleted from the Products list."
 
 
@@ -932,7 +947,8 @@ def test_delete_item_from_list_with_empty_list():
     """Confirms function short-circuits gracefully when called with an empty list and returns False."""
     # arrange
     menu_name = "Products"
-    lst = []
+    dict_to_modify = {}
+    user_input = "1"
     outputs = []
 
     def fake_output(msg):
@@ -940,7 +956,9 @@ def test_delete_item_from_list_with_empty_list():
 
     m = _func_module()
     # act
-    result = delete_item_from_list(lst, menu_name, output_fn=fake_output)
+    result = delete_item_from_list(
+        dict_to_modify, user_input, menu_name, output_fn=fake_output
+    )
     # assert
     assert result is False
     assert outputs == ["The Products list is empty. Nothing to delete."]
@@ -950,24 +968,27 @@ def test_delete_item_from_list_with_irregular_plural_menu_name():
     """Validates behaviour when menu_name is an irregular plural (e.g. 'People'), ensuring function still operates."""
     # arrange
     menu_name = "Peoples"
-    lst = ["Alice", "Bob", "Charlie"]
+    dict_to_modify = {1: "Alice", 2: "Bob", 3: "Charlie"}
+    user_input = "2"
     outputs = []
 
     def fake_output(msg):
         outputs.append(msg)
 
-    def fake_list_selection_choice(options, prompt, menu_name_arg):
-        return 1  # select "Bob"
+    def fake_list_selection_choice(options, user_input_arg, menu_name_arg):
+        return "2"  # select "Bob"
 
     m = _func_module()
     monkeypatch = pytest.MonkeyPatch()
     monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
     # act
-    result = delete_item_from_list(lst, menu_name, output_fn=fake_output)
+    result = delete_item_from_list(
+        dict_to_modify, user_input, menu_name, output_fn=fake_output
+    )
     monkeypatch.undo()
     # assert
     assert result is True
-    assert lst == ["Alice", "Charlie"]
+    assert dict_to_modify == {1: "Alice", 3: "Charlie"}
     assert outputs[0] == "Bob has been deleted from the Peoples list."
 
 
@@ -975,25 +996,28 @@ def test_delete_item_from_list_with_large_list():
     """Ensures function handles deletion correctly in very large lists (e.g. 1000+ items) without performance issues."""
     # arrange
     menu_name = "Items"
-    lst = [f"Item{i}" for i in range(1000)]  # large list of 1000 items
+    dict_to_modify = {i: f"Item{i}" for i in range(1, 1001)}  # large dict of 1000 items
+    user_input = "500"
     outputs = []
 
     def fake_output(msg):
         outputs.append(msg)
 
-    def fake_list_selection_choice(options, prompt, menu_name_arg):
-        return 500  # select "Item500"
+    def fake_list_selection_choice(options, user_input_arg, menu_name_arg):
+        return "500"  # select "Item500"
 
     m = _func_module()
     monkeypatch = pytest.MonkeyPatch()
     monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
     # act
-    result = delete_item_from_list(lst, menu_name, output_fn=fake_output)
+    result = delete_item_from_list(
+        dict_to_modify, user_input, menu_name, output_fn=fake_output
+    )
     monkeypatch.undo()
     # assert
     assert result is True
-    assert len(lst) == 999
-    assert "Item500" not in lst
+    assert len(dict_to_modify) == 999
+    assert "Item500" not in dict_to_modify.values()
     assert outputs[0] == "Item500 has been deleted from the Items list."
 
 
@@ -1004,22 +1028,25 @@ def test_delete_item_from_list_out_of_range_index():
     """Checks function raises IndexError if list_selection_choice returns an invalid index beyond list bounds."""
     # arrange
     menu_name = "Products"
-    lst = ["Tea", "Latte", "Mocha"]
+    dict_to_modify = {1: "Tea", 2: "Latte", 3: "Mocha"}
+    user_input = "5"
     outputs = []
 
     def fake_output(msg):
         outputs.append(msg)
 
-    def fake_list_selection_choice(options, prompt, menu_name_arg):
-        return 5  # out-of-range index
+    def fake_list_selection_choice(options, user_input_arg, menu_name_arg):
+        return "5"  # out-of-range index
 
     m = _func_module()
     monkeypatch = pytest.MonkeyPatch()
     monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
     # act
-    result = delete_item_from_list(lst, menu_name, output_fn=fake_output)
+    result = delete_item_from_list(
+        dict_to_modify, user_input, menu_name, output_fn=fake_output
+    )
     monkeypatch.undo()
-    # function catches the IndexError and returns None while printing an error message
+    # function catches the KeyError and returns None while printing an error message
     assert result is None
     assert outputs[-1].startswith("An error occurred while deleting the item:")
 
@@ -1028,20 +1055,23 @@ def test_delete_item_from_list_non_integer_index():
     """Verifies ValueError is raised if list_selection_choice returns a non-integer value."""
     # arrange
     menu_name = "Products"
-    lst = ["Tea", "Latte", "Mocha"]
+    dict_to_modify = {1: "Tea", 2: "Latte", 3: "Mocha"}
+    user_input = "one"
     outputs = []
 
     def fake_output(msg):
         outputs.append(msg)
 
-    def fake_list_selection_choice(options, prompt, menu_name_arg):
+    def fake_list_selection_choice(options, user_input_arg, menu_name_arg):
         return "one"  # non-integer index
 
     m = _func_module()
     monkeypatch = pytest.MonkeyPatch()
     monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
     # act
-    result = delete_item_from_list(lst, menu_name, output_fn=fake_output)
+    result = delete_item_from_list(
+        dict_to_modify, user_input, menu_name, output_fn=fake_output
+    )
     monkeypatch.undo()
     # function catches the ValueError and returns None while printing an error message
     assert result is None
@@ -1052,47 +1082,59 @@ def test_delete_item_from_list_with_empty_menu_name():
     """Confirms function still executes but produces malformed messages when menu_name is an empty string."""
     # arrange
     menu_name = ""
-    lst = ["Tea", "Latte"]
+    dict_to_modify = {1: "Tea", 2: "Latte"}
+    user_input = "1"
     outputs = []
 
     def fake_output(msg):
         outputs.append(msg)
 
-    def fake_list_selection_choice(options, prompt, menu_name_arg):
-        return 0  # select "Tea"
+    def fake_list_selection_choice(options, user_input_arg, menu_name_arg):
+        return "1"  # select "Tea"
 
     m = _func_module()
     monkeypatch = pytest.MonkeyPatch()
     monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
     # act
-    result = delete_item_from_list(lst, menu_name, output_fn=fake_output)
+    result = delete_item_from_list(
+        dict_to_modify, user_input, menu_name, output_fn=fake_output
+    )
     monkeypatch.undo()
     # assert
     assert result is True
-    assert lst == ["Latte"]
+    assert dict_to_modify == {2: "Latte"}
     assert outputs[0] == "Tea has been deleted from the  list."
 
 
 def test_delete_item_from_list_output_fn_raises_exception():
-    """Ensures any exception raised by the provided output_fn is propagated and not swallowed."""
+    """Ensures any exception raised by the provided output_fn is caught and handled gracefully by the function."""
     # arrange
     menu_name = "Products"
-    lst = ["Tea", "Latte"]
+    dict_to_modify = {1: "Tea", 2: "Latte"}
+    user_input = "1"
+
+    outputs_called = []
 
     def fake_output(msg):
-        raise RuntimeError("Output function failed")
+        outputs_called.append(msg)
+        if (
+            "has been deleted" in msg
+        ):  # Only raise on the deletion message, not initial messages
+            raise RuntimeError("Output function failed")
 
-    def fake_list_selection_choice(options, prompt, menu_name_arg):
-        return 0  # select "Tea"
+    def fake_list_selection_choice(options, user_input_arg, menu_name_arg):
+        return "1"  # select "Tea"
 
     m = _func_module()
     monkeypatch = pytest.MonkeyPatch()
     monkeypatch.setattr(m, "list_selection_choice", fake_list_selection_choice)
-    # act & assert
-    with pytest.raises(RuntimeError) as exc_info:
-        delete_item_from_list(lst, menu_name, output_fn=fake_output)
+    # act - the function should catch the exception and return None
+    result = delete_item_from_list(
+        dict_to_modify, user_input, menu_name, output_fn=fake_output
+    )
     monkeypatch.undo()
-    assert str(exc_info.value) == "Output function failed"
+    # assert - the function catches all exceptions and returns None
+    assert result is None
 
 
 # ------ user_prompt_for_order_customer_name (happy path) ------
@@ -1378,7 +1420,7 @@ def test_user_prompt_for_order_customer_address_keyboard_interrupt():
     # assert
     assert result is None, "Expected None on KeyboardInterrupt"
     assert (
-        outputs[-1] == f"\nOperation cancelled. Returning to {menu_name} menu."
+        outputs[-1] == f"Operation cancelled. Returning to {menu_name} menu."
     ), "Expected cancellation message"
 
 
@@ -1404,7 +1446,7 @@ def test_user_prompt_for_order_customer_address_stop_iteration():
     # assert
     assert result is None, "Expected None on StopIteration"
     assert (
-        outputs[-1] == f"\nNo more input available. Returning to {menu_name} menu."
+        outputs[-1] == f"No more input available. Returning to {menu_name} menu."
     ), "Expected no more input message"
 
 
@@ -1538,7 +1580,7 @@ def test_user_prompt_for_order_customer_address_unexpected_exception():
     assert result is None
     assert (
         outputs[-1]
-        == f"\nAn unexpected error occurred: Unexpected error. Returning to {menu_name} menu."
+        == f"An unexpected error occurred: Unexpected error. Returning to {menu_name} menu."
     )
 
 
@@ -1739,7 +1781,7 @@ def test_user_prompt_for_order_customer_phone_empty_input_then_cancel():
     )
     # assert
     assert result is None
-    assert outputs[-1] == "Operation cancelled. Returning to Orders menu."
+    assert outputs[-1] == "\nOperation cancelled. Returning to Orders menu."
 
 
 def test_user_prompt_for_order_customer_phone_invalid_format_then_cancel():
@@ -1763,7 +1805,7 @@ def test_user_prompt_for_order_customer_phone_invalid_format_then_cancel():
     )
     # assert
     assert result is None
-    assert outputs[-1] == "Operation cancelled. Returning to Orders menu."
+    assert outputs[-1] == "\nOperation cancelled. Returning to Orders menu."
 
 
 def test_user_prompt_for_order_customer_phone_invalid_choice_in_retry():

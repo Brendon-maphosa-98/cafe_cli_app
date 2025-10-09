@@ -37,10 +37,7 @@ def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print):
                         "No input provided. Press 1 to try again or 2 to cancel: "
                     )
                     if choice == "2":
-                        output_fn(
-                            f"Operation cancelled. Returning to {menu_name} menu."
-                        )
-                        return None
+                        raise KeyboardInterrupt
                     elif choice == "1":
                         inner_loop = 1  # Break inner loop to re-prompt for input
                     else:
@@ -50,15 +47,12 @@ def user_prompt_for_new_item(menu_name, input_fn=input, output_fn=print):
                     return new_item
     except KeyboardInterrupt:
         output_fn(f"\nOperation cancelled. Returning to {menu_name} menu.")
-        return None
     except StopIteration:
         output_fn(f"\nNo more input available. Returning to {menu_name} menu.")
-        return None
     except Exception as e:
         output_fn(
             f"\nAn unexpected error occurred: {e}. Returning to {menu_name} menu."
         )
-        return None
 
 
 # helper function to prompt user for order customer first and last name
@@ -166,8 +160,7 @@ def user_prompt_for_order_customer_address(input_fn=input, output_fn=print):
                         "Address fields cannot be empty. Press 1 to try again or 2 to cancel: "
                     )
                     if choice == "2":
-                        output_fn("Operation cancelled. Returning to Orders menu.")
-                        return None
+                        raise KeyboardInterrupt
                     elif choice == "1":
                         inner_loop = 1  # Break inner loop to re-prompt for input
                     else:
@@ -179,8 +172,7 @@ def user_prompt_for_order_customer_address(input_fn=input, output_fn=print):
                         "Address format is invalid. Ensure it includes street, city, and postcode, uses valid characters, is a UK address and follows the format '123 Main St, London, SW1A 1AA'.\n\n Press 1 to try again or 2 to cancel: "
                     )
                     if choice == "2":
-                        output_fn("Operation cancelled. Returning to Orders menu.")
-                        return None
+                        raise KeyboardInterrupt
                     elif choice == "1":
                         inner_loop = 1  # Break inner loop to re-prompt for input
                     else:
@@ -189,14 +181,13 @@ def user_prompt_for_order_customer_address(input_fn=input, output_fn=print):
                 else:
                     return address
     except KeyboardInterrupt:
-        output_fn("\nOperation cancelled. Returning to Orders menu.")
-        return None
+        output_fn("Operation cancelled. Returning to Orders menu.")
+
     except StopIteration:
-        output_fn("\nNo more input available. Returning to Orders menu.")
-        return None
+        output_fn("No more input available. Returning to Orders menu.")
+
     except Exception as e:
-        output_fn(f"\nAn unexpected error occurred: {e}. Returning to Orders menu.")
-        return None
+        output_fn(f"An unexpected error occurred: {e}. Returning to Orders menu.")
 
 
 # helper function to prompt user for customer phone number
@@ -236,8 +227,7 @@ def user_prompt_for_order_customer_phone(input_fn=input, output_fn=print):
                         "Phone number cannot be empty. Press 1 to try again or 2 to cancel: "
                     )
                     if choice == "2":
-                        output_fn("Operation cancelled. Returning to Orders menu.")
-                        return None
+                        raise KeyboardInterrupt
                     elif choice == "1":
                         inner_loop = 1  # Break inner loop to re-prompt for input
                     else:
@@ -249,8 +239,7 @@ def user_prompt_for_order_customer_phone(input_fn=input, output_fn=print):
                         f"{invalid_format_message}\n\nPress 1 to try again or 2 to cancel: "
                     )
                     if choice == "2":
-                        output_fn("Operation cancelled. Returning to Orders menu.")
-                        return None
+                        raise KeyboardInterrupt
                     elif choice == "1":
                         inner_loop = 1  # Break inner loop to re-prompt for input
                     else:
@@ -260,13 +249,10 @@ def user_prompt_for_order_customer_phone(input_fn=input, output_fn=print):
                     return phone_number
     except KeyboardInterrupt:
         output_fn("\nOperation cancelled. Returning to Orders menu.")
-        return None
     except StopIteration:
         output_fn("\nNo more input available. Returning to Orders menu.")
-        return None
     except Exception as e:
         output_fn(f"\nAn unexpected error occurred: {e}. Returning to Orders menu.")
-        return None
 
 
 # helper function to prompt user to select an item/items from the products or couriers list to add to an order
@@ -432,7 +418,7 @@ def update_existing_item_in_list(dict_to_modify, menu_name):
 
 
 # function to delete an item from a list
-def delete_item_from_list(dict_to_modify, menu_name, output_fn=print):
+def delete_item_from_list(dict_to_modify, user_input, menu_name, output_fn=print):
     """Delete an item from `dict_to_modify` after user selection.
 
     This function:
@@ -471,16 +457,14 @@ def delete_item_from_list(dict_to_modify, menu_name, output_fn=print):
             return False
         selected_index = list_selection_choice(
             dict_to_modify,
-            "Please select the number of the item you want to delete: ",
+            user_input,
             menu_name,
         )
         if selected_index is None:
             output_fn(f"Operation cancelled. Returning to {menu_name} menu.")
-            return None
         else:
             deleted_item = dict_to_modify.pop(int(selected_index))
             output_fn(f"{deleted_item} has been deleted from the {menu_name} list.")
             return True
     except Exception as e:
         output_fn(f"An error occurred while deleting the item: {e}. No changes made.")
-        return None

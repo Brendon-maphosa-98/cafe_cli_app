@@ -109,6 +109,7 @@ def list_selection_choice(
       - `menu_name` is always going to be a string provided by the developer.
       - The keys in `options` are always integers.
     """
+    # TODO: refactor to give user option to cancel selection and return to previous menu
     try:
       function_loop = 0
       while function_loop == 0:
